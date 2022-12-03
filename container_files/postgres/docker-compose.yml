@@ -1,0 +1,17 @@
+version: '3'
+services:
+  mydb:
+    image: postgres  
+    environment: 
+      POSTGRES_DB: "PagHiper"
+      POSTGRES_HOST_AUTH_METHOD: "trust" #is not recomended to production
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: "PagHiper"
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+volumes:
+  db-data:
+    driver: local
