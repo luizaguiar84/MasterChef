@@ -17,11 +17,6 @@
 
   <ItemGroup>
     <PackageReference Include="jQuery.InputMask" Version="5.0.7" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.10" />
     <PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
@@ -29,15 +24,5 @@
     <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
   </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Views\Leads\Create.cshtml" />
-    <_ContentIncludedByDefault Remove="Views\Leads\Delete.cshtml" />
-    <_ContentIncludedByDefault Remove="Views\Leads\Details.cshtml" />
-    <_ContentIncludedByDefault Remove="Views\Leads\Edit.cshtml" />
-    <_ContentIncludedByDefault Remove="Views\Leads\Final.cshtml" />
-    <_ContentIncludedByDefault Remove="Views\Leads\Index.cshtml" />
-  </ItemGroup>
-
 
 </Project>
