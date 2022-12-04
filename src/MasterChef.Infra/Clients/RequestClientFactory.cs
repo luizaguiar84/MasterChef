@@ -4,11 +4,9 @@ namespace MasterChef.Application.Clients
 {
     class RequestClientFactory
     {
-        private const string PathApi = "https://api.paghiper.com/";
-
-        public static RestClient GetClient()
+        internal static RestClient GetClient()
         {
-            var client = new RestClient(PathApi);
+            var client = new RestClient();
             client.AddDefaultHeader("Accept", "Application/json");
             return client;
         }
