@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using System;
 using Serilog;
+using Serilog.Events;
 
 namespace MasterChef.Web
 {
@@ -9,7 +10,7 @@ namespace MasterChef.Web
 	{
 		public static void Main(string[] args)
 		{
-			Console.Title = "PagHiper";
+			Console.Title = "MasterChef";
 
 			CreateHostBuilder(args).Build().Run();
 
@@ -21,16 +22,23 @@ namespace MasterChef.Web
 				.ConfigureWebHostDefaults(webBuilder =>
 				{
 					webBuilder
-					.UseKestrel()
-					.UseIISIntegration()
-					.UseStartup<Startup>();
+						.UseKestrel()
+						.UseStartup<Startup>();
 				})
 				.UseSerilog()
-				.ConfigureLogging((hostingContext, logging) => {
-					Log.Logger = new LoggerConfiguration()
-						.ReadFrom.Configuration(hostingContext.Configuration)
-						.CreateLogger();
 
+		 .ConfigureLogging((hostingContext, logging) =>
+				{
+					Log.Logger = new LoggerConfiguration()
+						.WriteTo.Console(
+							outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u4}] [{HttpContextId}] {SourceContext} {Message}{NewLine}{Exception}"
+							)
+						.WriteTo.File(
+							path: "logs/log.txt", 
+							rollingInterval: RollingInterval.Day, 
+							outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u4}] [{HttpContextId}] {SourceContext} {Message}{NewLine}{Exception}"
+							)
+						.CreateLogger();
 				});
 	}
 }

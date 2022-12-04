@@ -1,6 +1,8 @@
+using MasterChef.Application.Interfaces;
+
 namespace MasterChef.Application.Services;
 
-public class RecipeService
+public class RecipeService : IRecipeService
 {
     
 }

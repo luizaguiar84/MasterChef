@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using MasterChef.Infra;
 using MasterChef.Infra.Context;
 
-namespace Paghiper.Infra.Sqlite.Context
+namespace MasterChef.Infra.Sqlite.Context
 {
-	public class SqliteCrudDbContext : CrudDbContext
+	public class SqliteContext : MasterChef.Infra.Context.Context
 	{
-		public SqliteCrudDbContext(DbContextOptions options) 
+		public SqliteContext(DbContextOptions options) 
 			: base(options) { }
 	}
 }

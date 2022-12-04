@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace MasterChef.Domain.Entities.Recipe;
 
-public partial class Recipe : BaseEntity
+public class Recipe : BaseEntity
 {
     public string Title { get; set; }
     public string Description { get; set; }

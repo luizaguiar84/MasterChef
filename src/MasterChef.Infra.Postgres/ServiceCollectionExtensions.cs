@@ -12,7 +12,7 @@ namespace MasterChef.Infra.Postgres
         public static IServiceCollection AddPostgresDependency(this IServiceCollection services,
             DatabaseConfiguration configuration)
         {
-            services.AddDbContext<CrudDbContext, PostgresCrudDbContext>(options =>
+            services.AddDbContext<Infra.Context.Context, PostgresContext>(options =>
             {
                 options.EnableSensitiveDataLogging();
                 //options.ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning));

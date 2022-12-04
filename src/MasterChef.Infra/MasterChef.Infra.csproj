@@ -28,4 +28,8 @@
     <ProjectReference Include="..\MasterChef.Dto\MasterChef.Dto.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Repositories\Interfaces" />
+  </ItemGroup>
+
 </Project>

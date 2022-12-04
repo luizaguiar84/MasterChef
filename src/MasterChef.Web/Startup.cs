@@ -8,7 +8,7 @@ using Microsoft.Extensions.Hosting;
 using MasterChef.Application;
 using MasterChef.Infra.MySql;
 using MasterChef.Infra.Postgres;
-using Paghiper.Infra.Sqlite;
+using MasterChef.Infra.Sqlite;
 
 namespace MasterChef.Web
 {
