@@ -14,17 +14,6 @@
     <ProjectReference Include="..\MasterChef.Dto\MasterChef.Dto.csproj" />
     <ProjectReference Include="..\MasterChef.Infra\MasterChef.Infra.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Extensions\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Remove="Extensions\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Extensions\**" />
-  </ItemGroup>
+  
 
 </Project>
