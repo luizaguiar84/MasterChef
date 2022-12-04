@@ -1,4 +1,3 @@
-using MasterChef.Application.Directors;
 using MasterChef.Application.Interfaces;
 using MasterChef.Application.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,10 +8,8 @@ namespace MasterChef.Application
     {
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
+            services.AddTransient<IRecipeService, RecipeService>();
             
-            services.AddTransient<ILeadAppService, LeadAppAppService>();
-            
-            services.AddTransient<ILeadCreator, LeadCreator>();
             return services;
         }
 

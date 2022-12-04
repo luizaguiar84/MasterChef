@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Paghiper.Infra.Sqlite.Context;
+using MasterChef.Infra.Sqlite.Context;
 
 namespace MasterChef.Infra.Sqlite.Migrations
 {
-    [DbContext(typeof(SqliteCrudDbContext))]
+    [DbContext(typeof(SqliteContext))]
     [Migration("20221204001723_Initial")]
     partial class Initial
     {

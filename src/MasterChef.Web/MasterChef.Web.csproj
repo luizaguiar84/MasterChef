@@ -26,8 +26,17 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.10" />
     <PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
     <PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
-    <PackageReference Include="Serilog.Sinks.ColoredConsole" Version="3.0.1" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Leads\Create.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Leads\Delete.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Leads\Details.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Leads\Edit.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Leads\Final.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Leads\Index.cshtml" />
   </ItemGroup>
 
 

@@ -13,7 +13,7 @@ namespace MasterChef.Infra
 			Task.Factory.StartNew(() =>
 			{
 				using var scope = provider.CreateScope();
-				using var context = scope.ServiceProvider.GetRequiredService<CrudDbContext>();
+				using var context = scope.ServiceProvider.GetRequiredService<Context.Context>();
 				context.Database.Migrate();
 			});
 		}

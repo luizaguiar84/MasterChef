@@ -3,11 +3,11 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Paghiper.Infra.Sqlite.Context;
+using MasterChef.Infra.Sqlite.Context;
 
 namespace MasterChef.Infra.Sqlite.Migrations
 {
-    [DbContext(typeof(SqliteCrudDbContext))]
+    [DbContext(typeof(SqliteContext))]
     partial class SqliteCrudDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

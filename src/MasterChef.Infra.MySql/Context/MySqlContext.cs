@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MasterChef.Infra.MySql.Context
 {
-	public class MySqlCrudDbContext : CrudDbContext
+	public class MySqlContext : Infra.Context.Context
 	{
-		public MySqlCrudDbContext(DbContextOptions options)
+		public MySqlContext(DbContextOptions options)
 			: base(options) { }
 	}
 }
