@@ -1,4 +1,4 @@
-namespace MasterChef.Domain.Entities.Recipe;
+namespace MasterChef.Domain.Entities;
 
 public class Tag : BaseEntity
 {

@@ -13,7 +13,7 @@ namespace MasterChef.Infra.Sqlite
 	{
 		public static IServiceCollection AddSqLiteDependency(this IServiceCollection services, DatabaseConfiguration configuration)
 		{
-			services.AddDbContext<MasterChef.Infra.Context.Context, SqliteContext>(options =>
+			services.AddDbContext<MasterChef.Infra.Context.DatabaseContext, SqliteContext>(options =>
 			{
 				options.EnableSensitiveDataLogging();
 				//options.ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning));

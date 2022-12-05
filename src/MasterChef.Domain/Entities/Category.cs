@@ -1,4 +1,5 @@
-namespace MasterChef.Domain.Entities.Category;
+
+namespace MasterChef.Domain.Entities;
 
 public class Category : BaseEntity
 {
