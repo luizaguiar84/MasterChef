@@ -10,7 +10,11 @@ namespace MasterChef.Domain.Entities
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int Id { get; set; }
 
-		public DateTimeOffset CreateDate { get; set; }
-		public DateTimeOffset LastChange { get; set; }
+        [Display(Name = "Data de Criação")]
+		
+        public DateTimeOffset CreateDate { get; set; }
+
+        [Display(Name = "Data de Atualização")]
+        public DateTimeOffset LastChange { get; set; }
 	}
 }

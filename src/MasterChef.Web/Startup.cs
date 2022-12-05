@@ -9,6 +9,7 @@ using MasterChef.Application;
 using MasterChef.Infra.MySql;
 using MasterChef.Infra.Postgres;
 using MasterChef.Infra.Sqlite;
+using MasterChef.Infra.Enums;
 
 namespace MasterChef.Web
 {

@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Extensions.Configuration;
+using MasterChef.Infra.Enums;
 
 namespace MasterChef.Infra
 {
@@ -43,12 +44,5 @@ namespace MasterChef.Infra
 			ConnectionString = configuration[$"ConnectionStrings:{ConnectionStringName}"];
 		}
 
-	}
-	public enum DatabaseType
-	{
-		Sqlite,
-		MySQL,
-		Postgres,
-		MySQLProd
-	}
+	}	
 }

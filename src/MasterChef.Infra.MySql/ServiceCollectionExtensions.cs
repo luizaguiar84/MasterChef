@@ -10,7 +10,7 @@ namespace MasterChef.Infra.MySql
 	{
 		public static IServiceCollection AddMySqlDependency(this IServiceCollection services, DatabaseConfiguration configuration)
 		{
-			services.AddDbContext<Infra.Context.Context, MySqlContext>(options =>
+			services.AddDbContext<Infra.Context.DatabaseContext, MySqlContext>(options =>
 			{
 				options.EnableSensitiveDataLogging();
 				//options.ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning));
