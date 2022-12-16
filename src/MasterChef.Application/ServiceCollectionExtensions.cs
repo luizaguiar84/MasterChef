@@ -10,6 +10,10 @@ namespace MasterChef.Application
         {
             services.AddTransient<IRecipeService, RecipeService>();
             
+            services.AddTransient<ITokenService, TokenService>();
+            
+            services.AddTransient<IUserService, UserService>();
+            
             return services;
         }
 
