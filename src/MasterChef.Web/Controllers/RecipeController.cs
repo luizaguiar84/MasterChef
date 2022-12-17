@@ -1,10 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System.Net;
-using System.Net.Http;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using MasterChef.Infra.Interfaces;
 using MasterChef.Web.Models;
@@ -55,14 +51,12 @@ namespace MasterChef.Web.Controllers
                 {
                     model.Picture = await SaveImage(model);
 
-                    var content = JsonConvert.SerializeObject(model);
-
-                    var response = await _requestClient.PostAsync($"{_connection}/{EndpointName}", content);
+                    var response = await _requestClient.PostAsync($"{_connection}/{EndpointName}", model);
 
                     if (response.IsSuccessful)
                     {
+                        var responseData = response.Content.FromJson<RecipeModel>();
 
-                        var responseData = JsonConvert.DeserializeObject<RecipeModel>(response.Content);
                         return RedirectToAction("Cadastro");
                     }
                 }
@@ -70,13 +64,12 @@ namespace MasterChef.Web.Controllers
                 {
                     model.Picture = await SaveImage(model);
 
-                    var content = JsonConvert.SerializeObject(model);
-
-                    var response = await _requestClient.PutAsync($"{_connection}/{EndpointName}", content);
+                    var response = await _requestClient.PutAsync($"{_connection}/{EndpointName}", model);
 
                     if (response.IsSuccessful)
                     {
-                        var responseData = JsonConvert.DeserializeObject<RecipeModel>(response.Content);
+                        var responseData = response.Content.FromJson<RecipeModel>();
+
                         return RedirectToAction("Cadastro");
                     }
                 }
@@ -114,9 +107,7 @@ namespace MasterChef.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Excluir(RecipeModel model)
         {
-            using var client = new HttpClient();
-
-            var response = await client.DeleteAsync($"{_connection}/{EndpointName}/{model.Id}");
+            var response = await _requestClient.DeleteAsync($"{_connection}/{EndpointName}/{model.Id}");
 
             if (response.IsSuccessStatusCode)
             {

@@ -1,23 +1,26 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System.Net;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
+using MasterChef.Infra.Interfaces;
 using MasterChef.Web.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using NuGet.Protocol;
 
 namespace MasterChef.Web.Controllers
 {
     public class IngredientController : Controller
     {
+        private readonly IRestRequestClient _requestClient;
         private readonly string _connection;
 
-        public IngredientController(IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
+        public IngredientController(
+            IWebHostEnvironment webHostEnvironment,
+            IConfiguration configuration,
+            IRestRequestClient requestClient)
         {
+            _requestClient = requestClient;
             _connection = configuration["apiUrl"] ?? "";
         }
 
@@ -27,16 +30,12 @@ namespace MasterChef.Web.Controllers
             IngredientModel model = new IngredientModel();
             ViewBag.ReceitaId = id;
             ViewBag.id = 0;
-            using var client = new HttpClient();
-            var response = await client.GetAsync($"{_connection}/Ingredient/{id}");
-            var responseString = await response.Content.ReadAsStringAsync();
-            if (response.StatusCode == HttpStatusCode.OK)
-            {
-                var responseData = JsonConvert.DeserializeObject<List<IngredientModel>>(responseString);
-                model.Ingredients = responseData ?? new List<IngredientModel>();
-                return View("Cadastro", model);
-            }
+
+            var response = await _requestClient.GetJsonAsync<List<IngredientModel>>($"{_connection}/Ingredient/{id}");
+            model.Ingredients = response ?? new List<IngredientModel>();
+
             return View("Cadastro", model);
+
         }
 
         [HttpPost]
@@ -45,33 +44,31 @@ namespace MasterChef.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                using (var client = new HttpClient())
-                {
-                    if (model.Id == 0)
-                    {
-                        var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
-                        var response = await client.PostAsync($"{_connection}/Ingredient", content);
-                        var responseString = await response.Content.ReadAsStringAsync();
-                        if (response.StatusCode == HttpStatusCode.OK)
-                        {
-                            var responseData = JsonConvert.DeserializeObject<IngredientModel>(responseString);
-                            return RedirectToAction($"BuscarPorReceitaId", new { id = responseData.RecipeId });
-                        }
-                    }
-                    else
-                    {
-                        var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
-                        var response = await client.PutAsync($"{_connection}/Ingredient", content);
-                        var responseString = await response.Content.ReadAsStringAsync();
-                        if (response.StatusCode == HttpStatusCode.OK)
-                        {
-                            var responseData = JsonConvert.DeserializeObject<IngredientModel>(responseString);
-                            return RedirectToAction($"BuscarPorReceitaId", new { id = responseData.RecipeId });
-                        }
-                    }
 
-                    return View();
+                if (model.Id == 0)
+                {
+                    var response = await _requestClient.PostAsync($"{_connection}/Ingredient", model);
+                    if (response.IsSuccessful)
+                    {
+                        var responseData = response.Content.FromJson<IngredientModel>();
+
+                        return RedirectToAction($"BuscarPorReceitaId", new { id = responseData.RecipeId });
+                    }
                 }
+                else
+                {
+                    var response = await _requestClient.PutAsync($"{_connection}/Ingredient", model);
+
+                    if (response.IsSuccessful)
+                    {
+                        var responseData = response.Content.FromJson<IngredientModel>();
+
+                        return RedirectToAction($"BuscarPorReceitaId", new { id = responseData.RecipeId });
+                    }
+                }
+
+                return View();
+
             }
             return RedirectToAction($"BuscarPorReceitaId", new { id = ViewBag.ReceitaId });
         }
@@ -81,26 +78,24 @@ namespace MasterChef.Web.Controllers
         {
             ViewBag.id = id;
 
-            using (var client = new HttpClient())
+
+            var response = await _requestClient.GetAsync($"{_connection}/Ingredient");
+
+            if (response.IsSuccessful)
             {
-                var response = await client.GetAsync($"{_connection}/Ingredient");
-                var responseString = await response.Content.ReadAsStringAsync();
+                var responseData = response.Content.FromJson<List<IngredientModel>>();
 
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
-                    var responseData = JsonConvert.DeserializeObject<List<IngredientModel>>(responseString);
-                    var dados = responseData.ToList().FirstOrDefault(x => x.Id == id) ?? new IngredientModel();
+                var dados = responseData.ToList().FirstOrDefault(x => x.Id == id) ?? new IngredientModel();
 
-                    var responseList = await client.GetAsync($"{_connection}/Ingredient/{dados.RecipeId}");
-                    var responseStringList = await responseList.Content.ReadAsStringAsync();
-                    var responseDataList = JsonConvert.DeserializeObject<List<IngredientModel>>(responseStringList);
-                    dados.Ingredients = responseDataList ?? new List<IngredientModel>();
+                var responseList = await _requestClient.GetJsonAsync<List<IngredientModel>>($"{_connection}/Ingredient/{dados.RecipeId}");
 
-                    ViewBag.ReceitaId = dados.RecipeId;
-                    return View("Cadastro", dados);
-                }
-                return RedirectToAction($"BuscarPorReceitaId", new { id = ViewBag.ReceitaId });
+                dados.Ingredients = responseList ?? new List<IngredientModel>();
+
+                ViewBag.ReceitaId = dados.RecipeId;
+                return View("Cadastro", dados);
             }
+            return RedirectToAction($"BuscarPorReceitaId", new { id = ViewBag.ReceitaId });
+
         }
 
         [HttpGet]
@@ -108,42 +103,39 @@ namespace MasterChef.Web.Controllers
         {
             ViewBag.id = id;
 
-            using (var client = new HttpClient())
+
+            var response = await _requestClient.GetAsync($"{_connection}/Ingredient");
+
+            if (response.IsSuccessful)
             {
-                var response = await client.GetAsync($"{_connection}/Ingredient");
-                var responseString = await response.Content.ReadAsStringAsync();
+                var responseData = response.Content.FromJson<List<IngredientModel>>();
 
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
-                    var responseData = JsonConvert.DeserializeObject<List<IngredientModel>>(responseString);
-                    var dados = responseData.ToList().FirstOrDefault(x => x.Id == id) ?? new IngredientModel();
+                var dados = responseData.ToList().FirstOrDefault(x => x.Id == id) ?? new IngredientModel();
 
-                    ViewBag.ReceitaId = dados.RecipeId;
-                    return Json(dados);
-                }
-                return Json(null);
+                ViewBag.ReceitaId = dados.RecipeId;
+                return Json(dados);
             }
+            return Json(null);
+
         }
 
 
         [HttpPost]
         public async Task<IActionResult> Excluir(IngredientModel model)
         {
-            using (var client = new HttpClient())
-            {
-                var response = await client.DeleteAsync($"{_connection}/Ingredient/{model.Id}");
-                var responseString = await response.Content.ReadAsStringAsync();
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
-                    var responseIngrediente = await client.GetAsync($"{_connection}/Ingredient");
-                    var responseStringIngrediente = await responseIngrediente.Content.ReadAsStringAsync();
-                    var responseDataIngrediente = JsonConvert.DeserializeObject<List<IngredientModel>>(responseStringIngrediente);
-                    var dados = responseDataIngrediente.ToList().FirstOrDefault() ?? new IngredientModel();
 
-                    return RedirectToAction($"BuscarPorReceitaId", new { id = dados.RecipeId });
-                }
-                return Json(null);
+            var response = await _requestClient.DeleteAsync($"{_connection}/Ingredient/{model.Id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseIngrediente = await _requestClient.GetJsonAsync<List<IngredientModel>>($"{_connection}/Ingredient");
+
+                var dados = responseIngrediente.ToList().FirstOrDefault() ?? new IngredientModel();
+
+                return RedirectToAction($"BuscarPorReceitaId", new { id = dados.RecipeId });
             }
+            return Json(null);
+
         }
     }
 }
