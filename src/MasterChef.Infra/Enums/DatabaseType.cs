@@ -11,6 +11,7 @@ namespace MasterChef.Infra.Enums
         Sqlite,
         MySQL,
         Postgres,
+        SqlServer,
         MySQLProd
     }
 }

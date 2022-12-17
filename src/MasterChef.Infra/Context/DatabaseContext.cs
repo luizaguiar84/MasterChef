@@ -4,17 +4,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MasterChef.Infra.Context
 {
-	public class DatabaseContext : DbContext
-	{
-		
-		public DbSet<Recipe> Recipes { get; set; }
-		public DbSet<Category> Categories { get; set; }
-		public DbSet<User> Users { get; set; }
-		
-		public DatabaseContext()
-		{ }
+    public class DatabaseContext : DbContext
+    {
 
-		public DatabaseContext(DbContextOptions options) : base(options)
-		{ }
-	}
+        public DbSet<Recipe> Recipes { get; set; }
+        public DbSet<Ingredient> Ingredients { get; set; }
+        public DbSet<User> Users { get; set; }
+
+        public DatabaseContext()
+        { }
+
+        public DatabaseContext(DbContextOptions options) : base(options)
+        { }
+        
+    }
 }

@@ -17,35 +17,15 @@ namespace MasterChef.Infra.Sqlite.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.1");
 
-            modelBuilder.Entity("MasterChef.Domain.Entities.Category", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTimeOffset>("CreateDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTimeOffset>("LastChange")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Categories");
-                });
-
             modelBuilder.Entity("MasterChef.Domain.Entities.Ingredient", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("Active")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTimeOffset>("CreateDate")
                         .HasColumnType("TEXT");
 
@@ -53,9 +33,6 @@ namespace MasterChef.Infra.Sqlite.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<DateTimeOffset>("LastChange")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("MeasurementUnit")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
@@ -64,14 +41,17 @@ namespace MasterChef.Infra.Sqlite.Migrations
                     b.Property<string>("Quantity")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("RecipeId")
+                    b.Property<int>("RecipeId")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("Weight")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("Ingredient");
+                    b.ToTable("Ingredients");
                 });
 
             modelBuilder.Entity("MasterChef.Domain.Entities.Recipe", b =>
@@ -80,7 +60,7 @@ namespace MasterChef.Infra.Sqlite.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("CategoryId")
+                    b.Property<bool>("Active")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTimeOffset>("CreateDate")
@@ -103,8 +83,6 @@ namespace MasterChef.Infra.Sqlite.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
-
                     b.ToTable("Recipes");
                 });
 
@@ -112,6 +90,9 @@ namespace MasterChef.Infra.Sqlite.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Active")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTimeOffset>("CreateDate")
@@ -139,6 +120,9 @@ namespace MasterChef.Infra.Sqlite.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("Active")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTimeOffset>("CreateDate")
                         .HasColumnType("TEXT");
 
@@ -148,7 +132,7 @@ namespace MasterChef.Infra.Sqlite.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("UserName")
+                    b.Property<string>("Username")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -160,16 +144,9 @@ namespace MasterChef.Infra.Sqlite.Migrations
                 {
                     b.HasOne("MasterChef.Domain.Entities.Recipe", null)
                         .WithMany("Ingredients")
-                        .HasForeignKey("RecipeId");
-                });
-
-            modelBuilder.Entity("MasterChef.Domain.Entities.Recipe", b =>
-                {
-                    b.HasOne("MasterChef.Domain.Entities.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId");
-
-                    b.Navigation("Category");
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MasterChef.Domain.Entities.Tag", b =>

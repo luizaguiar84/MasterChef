@@ -23,8 +23,9 @@ namespace MasterChef.Infra.MySql
 
 			});
 
+            services.BuildServiceProvider().MigrateDatabase();
 			
-			return services;
+            return services;
 		}
 	}
 }

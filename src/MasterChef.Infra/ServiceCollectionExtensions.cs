@@ -10,10 +10,11 @@ namespace MasterChef.Infra
 		{
 			// Registro dos repositórios
 			 services.AddTransient<IRecipeRepository, RecipeRepository>();
-			 
 			services.AddTransient<IUserRepository, UserRepository>();
-			
-			return services;
+			services.AddTransient<IIngredientRepository, IngredientRepository>();
+            services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+
+            return services;
 		}
     }
 }
