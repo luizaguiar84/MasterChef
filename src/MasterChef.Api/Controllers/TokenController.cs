@@ -23,9 +23,9 @@ namespace MasterChef.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(TokenInfo model)
         {
-            if (await IsValidUserAndPassword(model.UserName, model.Password))
+            if (await IsValidUserAndPassword(model.Username, model.Password))
             {
-                var token = _tokenService.GenerateToken(model.UserName);
+                var token = _tokenService.GenerateToken(model.Username);
 
                 return new OkObjectResult(new { token = token });
             }

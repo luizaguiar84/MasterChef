@@ -7,10 +7,10 @@ using MasterChef.Web.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using NuGet.Protocol;
+using RestSharp;
 
 namespace MasterChef.Web.Controllers
 {
-
     public class RecipeController : Controller
     {
         private readonly IRestRequestClient _requestClient;
@@ -44,39 +44,22 @@ namespace MasterChef.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Cadastro(RecipeModel model)
         {
+            if (!ModelState.IsValid)
+                return View("Cadastro", model);
 
-            if (ModelState.IsValid)
-            {
-                if (model.Id == 0)
-                {
-                    model.Picture = await SaveImage(model);
+            RestResponse response = null;
+            model.Picture = await SaveImage(model);
 
-                    var response = await _requestClient.PostAsync($"{_connection}/{EndpointName}", model);
+            if (model.Id == 0)
+                response = await _requestClient.PostAsync($"{_connection}/{EndpointName}", model);
+            else
+                response = await _requestClient.PutAsync($"{_connection}/{EndpointName}", model);
 
-                    if (response.IsSuccessful)
-                    {
-                        var responseData = response.Content.FromJson<RecipeModel>();
-
-                        return RedirectToAction("Cadastro");
-                    }
-                }
-                else
-                {
-                    model.Picture = await SaveImage(model);
-
-                    var response = await _requestClient.PutAsync($"{_connection}/{EndpointName}", model);
-
-                    if (response.IsSuccessful)
-                    {
-                        var responseData = response.Content.FromJson<RecipeModel>();
-
-                        return RedirectToAction("Cadastro");
-                    }
-                }
-
+            if (!response.IsSuccessful)
                 return View();
-            }
-            return View("Cadastro", model);
+
+            var responseData = response.Content.FromJson<RecipeModel>();
+            return RedirectToAction("Cadastro");
         }
 
         [HttpGet]
@@ -85,7 +68,8 @@ namespace MasterChef.Web.Controllers
             ViewBag.id = id;
 
             var responseData = await _requestClient.GetJsonAsync<RecipeModel>($"{_connection}/{EndpointName}/{id}");
-            var responseDataList = await _requestClient.GetJsonAsync<List<RecipeModel>>($"{_connection}/{EndpointName}");
+            var responseDataList =
+                await _requestClient.GetJsonAsync<List<RecipeModel>>($"{_connection}/{EndpointName}");
 
             responseData.Recipes = responseDataList ?? new List<RecipeModel>();
 
@@ -108,14 +92,8 @@ namespace MasterChef.Web.Controllers
         public async Task<IActionResult> Excluir(RecipeModel model)
         {
             var response = await _requestClient.DeleteAsync($"{_connection}/{EndpointName}/{model.Id}");
-
-            if (response.IsSuccessStatusCode)
-            {
-                return RedirectToAction("Cadastro");
-            }
-            return Json(null);
+            return RedirectToAction("Cadastro");
         }
-
 
 
         [NonAction]

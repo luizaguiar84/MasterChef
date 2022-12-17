@@ -1,4 +1,5 @@
-﻿using MasterChef.Infra.Clients;
+﻿using System;
+using MasterChef.Infra.Clients;
 using MasterChef.Infra.Interfaces;
 using MasterChef.Infra.Repositories;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +15,7 @@ namespace MasterChef.Infra
 			services.AddTransient<IUserRepository, UserRepository>();
 			services.AddTransient<IIngredientRepository, IngredientRepository>();
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             return services;
 		}

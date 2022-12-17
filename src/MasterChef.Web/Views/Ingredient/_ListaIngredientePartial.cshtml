@@ -25,14 +25,14 @@
                     <td>@item.CreateDate</td>
                     <td>
                         <a asp-controller="Ingredient" asp-action="Editar" asp-route-id="@item.Id"
-                   class="data-bs-toggle text-start" tooltip" data-bs-placement="top"
+                   class="data-bs-toggle text-start" tooltip data-bs-placement="top"
                    title="Editar"><i class="fa fa-pen"></i></a>
                     </td>
 
 
                     <td>
                         <a href="#" id="@item.Id" 
-                   class="data-bs-toggle text-start deletarIdIngrediente" tooltip" data-bs-placement="top"
+                   class="data-bs-toggle text-start deletarIdIngrediente" tooltip data-bs-placement="top"
                    title="Excluir">
                             <i class="fa fa-thumbs-down" aria-hidden="true"></i>
                         </a>

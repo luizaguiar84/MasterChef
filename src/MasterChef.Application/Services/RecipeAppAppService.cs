@@ -50,15 +50,7 @@ public class RecipeAppAppService : IRecipeAppService
     }
     public async Task<Recipe> Update(Recipe recipe)
     {
-        var response = await _recipeRepository.GetById(recipe.Id);
-
-        response.Title = recipe.Title;
-        response.Description = recipe.Description;
-        response.Picture = recipe.Picture;
-        response.LastChange = DateTime.Now;
-        response.WayOfPrepare = recipe.WayOfPrepare;
-        await _repository.Update(response);
-
+        await _repository.Update(recipe);
         return recipe;
     }
 
@@ -67,10 +59,9 @@ public class RecipeAppAppService : IRecipeAppService
         return await _recipeRepository.GetById(id);
     }
 
-    public async Task<List<Recipe>> GetAll()
+    public  List<Recipe> GetAll()
     {
-        var response = await _repository.GetAll();
-        return response.Where(x => x.Active).ToList();
+        return _repository.GetAll(l => l.Active);
     }
 
     public async Task<Recipe> Inactivate(int id)

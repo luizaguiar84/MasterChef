@@ -1,7 +1,6 @@
 using MasterChef.Application;
 using MasterChef.Infra;
 using MasterChef.Infra.Enums;
-using MasterChef.Infra.MySql;
 using MasterChef.Infra.Postgres;
 using MasterChef.Infra.Sqlite;
 using MasterChef.Domain;
@@ -19,19 +18,16 @@ builder.Services.AddServices();
 builder.Services.AddInfraDependency();
 builder.Services.AddDomainDependency();
 
-var DatabaseConfiguration = new DatabaseConfiguration(builder.Configuration, builder.Environment.IsProduction());
+var databaseConfiguration = new DatabaseConfiguration(builder.Configuration, builder.Environment.IsProduction());
 
-if (DatabaseConfiguration.DatabaseType == DatabaseType.MySQL)
-	builder.Services.AddMySqlDependency(DatabaseConfiguration);
+if (databaseConfiguration.DatabaseType == DatabaseType.Sqlite)
+	builder.Services.AddSqLiteDependency(databaseConfiguration);
 
-else if (DatabaseConfiguration.DatabaseType == DatabaseType.Sqlite)
-	builder.Services.AddSqLiteDependency(DatabaseConfiguration);
+else if (databaseConfiguration.DatabaseType == DatabaseType.Postgres)
+	builder.Services.AddPostgresDependency(databaseConfiguration);
 
-else if (DatabaseConfiguration.DatabaseType == DatabaseType.Postgres)
-	builder.Services.AddPostgresDependency(DatabaseConfiguration);
-
-else if (DatabaseConfiguration.DatabaseType == DatabaseType.SqlServer)
-	builder.Services.AddSqLServerDependency(DatabaseConfiguration);
+else if (databaseConfiguration.DatabaseType == DatabaseType.SqlServer)
+	builder.Services.AddSqLServerDependency(databaseConfiguration);
 
 else
 	throw new NotSupportedException("No database configuration found");

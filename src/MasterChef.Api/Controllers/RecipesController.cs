@@ -1,6 +1,7 @@
 ﻿using MasterChef.Application.Interfaces;
 using MasterChef.Domain.Entities;
 using MasterChef.Domain.Interface;
+using MasterChef.Infra.Helpers.ExtensionMethods;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MasterChef.Api.Controllers
@@ -22,12 +23,10 @@ namespace MasterChef.Api.Controllers
         [ProducesResponseType(typeof(Recipe), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(List<string>), StatusCodes.Status404NotFound)]
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public IActionResult Get()
         {
-
-            var response = await _recipeAppService.GetAll();
+            var response = _recipeAppService.GetAll();
             return Ok(response);
-
         }
 
 
@@ -37,13 +36,10 @@ namespace MasterChef.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> Get(int id)
         {
-
             var response = await _recipeAppService.GetById(id);
 
             if (response == null)
-            {
                 return NotFound("Nenhum item encontrado");
-            }
 
             return Ok(response);
 
@@ -55,14 +51,12 @@ namespace MasterChef.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(Recipe recipe)
         {
-            var dados = await _recipeAppService.Save(recipe);
+            var response = await _recipeAppService.Save(recipe);
             
-            if (_eventService.Event.EventsList.Any())
-            {
+            if (_eventService.Event.EventsList.HasItems())
                 return BadRequest(_eventService.Event.EventsList);
-            }
 
-            return Ok(dados);
+            return Ok(response);
         }
 
         [ProducesResponseType(typeof(Recipe), StatusCodes.Status200OK)]
@@ -70,12 +64,10 @@ namespace MasterChef.Api.Controllers
         [HttpPut]
         public async Task<IActionResult> Put(Recipe recipe)
         {
-
             var response = await _recipeAppService.Update(recipe);
-            if (_eventService.Event.EventsList.Any())
-            {
+            
+            if (_eventService.Event.EventsList.HasItems())
                 return BadRequest(_eventService.Event.EventsList);
-            }
 
             return Ok(response);
 
@@ -88,17 +80,12 @@ namespace MasterChef.Api.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
-
-            var dados = await _recipeAppService.Inactivate(id);
+            var response = await _recipeAppService.Inactivate(id);
             
-            if (_eventService.Event.EventsList.Any())
-            {
+            if (_eventService.Event.EventsList.HasItems())
                 return BadRequest(_eventService.Event.EventsList);
-            }
 
             return new StatusCodeResult(StatusCodes.Status204NoContent);
-
-
         }
     }
 }

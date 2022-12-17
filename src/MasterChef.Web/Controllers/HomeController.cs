@@ -30,7 +30,7 @@ namespace MasterChef.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<JsonResult> BuscarPorId(int id)
+        public async Task<JsonResult> GetById(int id)
         {
             var response = await _requestClient.GetJsonAsync<RecipeModel>($"{_connection}/Recipes/{id}");
             return Json(response);

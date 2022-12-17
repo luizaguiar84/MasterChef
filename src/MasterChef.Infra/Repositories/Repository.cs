@@ -19,15 +19,16 @@ namespace MasterChef.Infra.Repositories
             this._databaseContext = databaseContext;
             DbSet = databaseContext.Set<T>();
         }
+
         public async Task<T> Save(T entity)
         {
             var response = DbSet.Add(entity) as T;
             await _databaseContext.SaveChangesAsync();
             return response;
         }
+
         public async Task<T> Update(T entity)
         {
-
             var entry = _databaseContext.Entry(entity);
             DbSet.Attach(entity);
             entry.State = EntityState.Modified;
@@ -41,15 +42,18 @@ namespace MasterChef.Infra.Repositories
             return await DbSet.FindAsync(id);
         }
 
-        public async Task<List<T>> GetAll()
+        public async Task<List<T>> GetAll() =>
+            await DbSet.ToListAsync();
+
+        public List<T> GetAll(Func<T, bool> func)
         {
-            return await DbSet.ToListAsync();
+            return DbSet.Where(func).ToList();
         }
 
         public async Task<bool> Delete(int id)
         {
             var response = DbSet.Remove(await DbSet.FindAsync(id));
-            
+
             if (response != null)
             {
                 await _databaseContext.SaveChangesAsync();
@@ -59,5 +63,4 @@ namespace MasterChef.Infra.Repositories
             return false;
         }
     }
-
 }

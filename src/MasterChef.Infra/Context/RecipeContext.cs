@@ -20,7 +20,7 @@ namespace MasterChef.Infra.Context
                 x.Property(c => c.Title).HasColumnName("Title").HasColumnType("varchar").HasMaxLength(100).IsRequired();
                 x.Property(c => c.Description).HasColumnName("Description").HasColumnType("varchar").HasMaxLength(1000).IsRequired();
                 x.Property(c => c.WayOfPrepare).HasColumnName("WayOfPrepare").HasColumnType("varchar").HasMaxLength(5000).IsRequired();
-                x.Property(c => c.Picture).HasColumnName("Picture").HasMaxLength(250);
+                x.Property(c => c.Image).HasColumnName("Picture").HasMaxLength(250);
                 x.Property(c => c.CreateDate).HasColumnName("CreateDate").HasColumnType("DateTime");
                 x.Property(c => c.LastChange).HasColumnName("LastChange").HasColumnType("DateTime");
                 x.Property(c => c.Active).HasColumnName("Active").HasColumnType("Bit");

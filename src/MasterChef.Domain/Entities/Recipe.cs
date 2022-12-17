@@ -8,8 +8,9 @@ public class Recipe : BaseEntity
     [Display(Name = "Titulo")]
     public string Title { get; set; }
     
-    [Display(Name = "Descrição")]
+    [Display(Name = "DescriÃ§Ã£o")]
     public string Description { get; set; }
+    
     [Display(Name = "Modo de Preparo")]
     [DataType(DataType.MultilineText)]
     public string WayOfPrepare { get; set; }
@@ -17,9 +18,8 @@ public class Recipe : BaseEntity
     [Display(Name = "Ingredientes")]
     public ICollection<Ingredient> Ingredients { get; set; }
     
-  
     [Display(Name = "Imagem")]
-    public string Picture { get; set; }
+    public string Image { get; set; }
 
 }
 

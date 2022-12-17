@@ -13,5 +13,7 @@ namespace MasterChef.Infra.Interfaces
         Task<T> GetById(int id);
         Task<List<T>> GetAll();
         Task<bool> Delete(int id);
+        List<T> GetAll(Func<T, bool> func);
+
     }
 }

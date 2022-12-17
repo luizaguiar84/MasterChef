@@ -1,6 +1,7 @@
 ﻿using MasterChef.Application.Interfaces;
 using MasterChef.Domain.Entities;
 using MasterChef.Domain.Interface;
+using MasterChef.Infra.Helpers.ExtensionMethods;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MasterChef.Api.Controllers
@@ -61,7 +62,7 @@ namespace MasterChef.Api.Controllers
 
             var response = await _ingredientAppService.Save(Ingredient);
             
-            if (_eventService.Event.EventsList.Any())
+            if (_eventService.Event.EventsList.HasItems())
                 return BadRequest(_eventService.Event.EventsList);
 
             return Ok(response);
@@ -72,15 +73,14 @@ namespace MasterChef.Api.Controllers
         [ProducesResponseType(typeof(Ingredient), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(List<string>), StatusCodes.Status500InternalServerError)]
         [HttpPut]
-        public async Task<IActionResult> Put(Ingredient receita)
+        public async Task<IActionResult> Put(Ingredient ingredient)
         {
+            var response = await _ingredientAppService.Update(ingredient);
 
-            var dados = await _ingredientAppService.Update(receita);
-
-            if (_eventService.Event.EventsList.Any())
+            if (_eventService.Event.EventsList.HasItems())
                 return BadRequest(_eventService.Event.EventsList);
 
-            return Ok(dados);
+            return Ok(response);
 
         }
 
@@ -91,10 +91,9 @@ namespace MasterChef.Api.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-
             var response = await _ingredientAppService.Delete(id);
 
-            if (_eventService.Event.EventsList.Any())
+            if (_eventService.Event.EventsList.HasItems())
                 return BadRequest(_eventService.Event.EventsList);
 
             return Ok(response);

@@ -31,19 +31,7 @@ namespace MasterChef.Application.Services
         }
         public async Task<Ingredient> Update(Ingredient ingredient)
         {
-            var response = GetAll().Result.FirstOrDefault(x => x.Id == ingredient.Id);
-            
-            if (response == null) 
-                return response;
-
-            response.Description = ingredient.Description;
-            response.Name = ingredient.Name;
-            response.Weight = ingredient.Weight;
-            response.Quantity = ingredient.Quantity;
-            response.LastChange = ingredient.LastChange;
-
-            await _repository.Update(response);
-
+            var response = await _repository.Update(ingredient);
             return response;
         }
         public async Task<List<Ingredient>> GetByRecipeId(int recipeId)
