@@ -24,22 +24,22 @@
                     <td>@item.CreateDate</td>
                     <td>
                         <a asp-controller="Recipe" asp-action="Editar" asp-route-id="@item.Id"
-                   class="data-bs-toggle text-start" tooltip" data-bs-placement="top"
+                   class="data-bs-toggle text-start" tooltip data-bs-placement="top"
                    title="Editar"><i class="fa fa-pen"></i></a>
                     </td>
 
 
                     <td>
                         <a  href="#" id="@item.Id"
-                   class="data-bs-toggle text-start deletarId" tooltip" data-bs-placement="top"
+                   class="data-bs-toggle text-start deletarId" tooltip data-bs-placement="top"
                    title="Excluir">
                             <i class="fa fa-thumbs-down" aria-hidden="true"></i>
                         </a>
                     </td>
 
                     <td>
-                        <a href="~/Ingrediente/BuscarPorReceitaId/@item.Id?"
-                   class="data-bs-toggle text-start" tooltip" data-bs-placement="top"
+                        <a asp-controller="Ingredient" asp-action="BuscarPorReceitaId"
+                           asp-route-id="@item.Id" class="data-bs-toggle text-start" tooltip data-bs-placement="top"
                    title="Ingredientes">
                             <i class="fa fa-folder-open"></i>
                         </a>

@@ -20,7 +20,7 @@ namespace MasterChef.Web.Models
 
         public string? Picture { get; set; }
         public DateTime? CreateDate { get; set; }
-        public IEnumerable<IngredienteModel>? Ingredients { get; set; }
+        public IEnumerable<IngredientModel>? Ingredients { get; set; }
         public List<RecipeModel>? Recipes { get; set; }
 
         [Required(ErrorMessage = "Por favor selecione um Arquivo")]

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MasterChef.Web.Models.IngredienteModel>
+﻿@model IEnumerable<MasterChef.Web.Models.IngredientModel>
 
 @if (@Model.Count()> 0)
 {
@@ -6,7 +6,7 @@
     <table class="table">
         <thead>
             <tr>
-                <th scope="col">Nome</th>
+                <th scope="col">Name</th>
                 <th scope="col">Peso</th>
                 <th scope="col">Quantidade</th>
                 <th scope="col">Data de Cadastro</th>
@@ -19,19 +19,19 @@
         {
             <tbody>
                 <tr>
-                    <td>@item.Nome</td>
-                    <td>@item.peso</td>
-                    <td>@item.quantidade</td>
-                    <td>@item.dataCadastro</td>
+                    <td>@item.Name</td>
+                    <td>@item.Weight</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.CreateDate</td>
                     <td>
-                        <a asp-controller="Ingrediente" asp-action="Editar" asp-route-id="@item.id"
+                        <a asp-controller="Ingredient" asp-action="Editar" asp-route-id="@item.Id"
                    class="data-bs-toggle text-start" tooltip" data-bs-placement="top"
                    title="Editar"><i class="fa fa-pen"></i></a>
                     </td>
 
 
                     <td>
-                        <a href="#" id="@item.id" 
+                        <a href="#" id="@item.Id" 
                    class="data-bs-toggle text-start deletarIdIngrediente" tooltip" data-bs-placement="top"
                    title="Excluir">
                             <i class="fa fa-thumbs-down" aria-hidden="true"></i>
