@@ -1,7 +1,7 @@
-﻿@model MasterChef.Web.Models.IngredienteModel
+﻿@model MasterChef.Web.Models.IngredientModel
 
 
-<form asp-controller="Ingrediente" asp-action="Excluir" method="post">
+<form asp-controller="Ingredient" asp-action="Excluir" method="post">
 
     <div class="modal" tabindex="-1" id="modalExcluirIngrediente">
         <div class="modal-dialog">
@@ -12,7 +12,7 @@
                 </div>
                 <div class="modal-body">
                     <p id="idNomeIngrediente"></p>
-                    <input asp-for="@Model.id" type="hidden" id="hdIdExcluirIngrediente" />
+                    <input asp-for="@Model.Id" type="hidden" id="hdIdExcluirIngrediente" />
 
                 </div>
                 <div class="modal-footer">

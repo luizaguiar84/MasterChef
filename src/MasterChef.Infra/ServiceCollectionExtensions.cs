@@ -1,4 +1,5 @@
-﻿using MasterChef.Infra.Interfaces;
+﻿using MasterChef.Infra.Clients;
+using MasterChef.Infra.Interfaces;
 using MasterChef.Infra.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 

@@ -4,22 +4,31 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http;
-using System.Text;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using MasterChef.Infra.Interfaces;
 using MasterChef.Web.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using NuGet.Protocol;
 
 namespace MasterChef.Web.Controllers
 {
 
     public class RecipeController : Controller
     {
+        private readonly IRestRequestClient _requestClient;
 
         private readonly string _pathImage;
         private readonly string _connection;
-        public RecipeController(IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
+        private const string EndpointName = "Recipes";
+
+        public RecipeController(
+            IWebHostEnvironment webHostEnvironment,
+            IConfiguration configuration,
+            IRestRequestClient requestClient)
         {
+            _requestClient = requestClient;
             _pathImage = configuration["pathImagem"] ?? "";
             _connection = configuration["apiUrl"] ?? "";
         }
@@ -30,16 +39,9 @@ namespace MasterChef.Web.Controllers
             RecipeModel model = new RecipeModel();
             ViewBag.id = 0;
 
-            using var client = new HttpClient();
+            var response = await _requestClient.GetJsonAsync<List<RecipeModel>>($"{_connection}/{EndpointName}");
 
-            var response = await client.GetAsync($"{_connection}/Recipes");
-            var responseString = await response.Content.ReadAsStringAsync();
-
-            if (response.StatusCode != HttpStatusCode.OK)
-                return View();
-
-            var responseData = JsonConvert.DeserializeObject<List<RecipeModel>>(responseString);
-            model.Recipes = responseData;
+            model.Recipes = response;
             return View(model);
         }
 
@@ -49,29 +51,32 @@ namespace MasterChef.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                using var client = new HttpClient();
-
                 if (model.Id == 0)
                 {
                     model.Picture = await SaveImage(model);
-                    var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
-                    var response = await client.PostAsync($"{_connection}/Recipes", content);
-                    var responseString = await response.Content.ReadAsStringAsync();
-                    if (response.StatusCode == HttpStatusCode.OK)
+
+                    var content = JsonConvert.SerializeObject(model);
+
+                    var response = await _requestClient.PostAsync($"{_connection}/{EndpointName}", content);
+
+                    if (response.IsSuccessful)
                     {
-                        var responseData = JsonConvert.DeserializeObject<RecipeModel>(responseString);
+
+                        var responseData = JsonConvert.DeserializeObject<RecipeModel>(response.Content);
                         return RedirectToAction("Cadastro");
                     }
                 }
                 else
                 {
                     model.Picture = await SaveImage(model);
-                    var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
-                    var response = await client.PutAsync($"{_connection}/Recipes", content);
-                    var responseString = await response.Content.ReadAsStringAsync();
-                    if (response.StatusCode == HttpStatusCode.OK)
+
+                    var content = JsonConvert.SerializeObject(model);
+
+                    var response = await _requestClient.PutAsync($"{_connection}/{EndpointName}", content);
+
+                    if (response.IsSuccessful)
                     {
-                        var responseData = JsonConvert.DeserializeObject<RecipeModel>(responseString);
+                        var responseData = JsonConvert.DeserializeObject<RecipeModel>(response.Content);
                         return RedirectToAction("Cadastro");
                     }
                 }
@@ -85,37 +90,24 @@ namespace MasterChef.Web.Controllers
         public async Task<IActionResult> Editar(int id)
         {
             ViewBag.id = id;
-            using var client = new HttpClient();
 
-            var response = await client.GetAsync($"{_connection}/Receita/{id}");
-            var responseString = await response.Content.ReadAsStringAsync();
+            var responseData = await _requestClient.GetJsonAsync<RecipeModel>($"{_connection}/{EndpointName}/{id}");
+            var responseDataList = await _requestClient.GetJsonAsync<List<RecipeModel>>($"{_connection}/{EndpointName}");
 
-            if (response.StatusCode == HttpStatusCode.OK)
-            {
-                var responseList = await client.GetAsync($"{_connection}/Receita");
-                var responseStringList = await responseList.Content.ReadAsStringAsync();
-                var responseDataList = JsonConvert.DeserializeObject<List<RecipeModel>>(responseStringList);
+            responseData.Recipes = responseDataList ?? new List<RecipeModel>();
 
-                var responseData = JsonConvert.DeserializeObject<RecipeModel>(responseString);
-                responseData.Recipes = responseDataList ?? new List<RecipeModel>();
-                return View("Cadastro", responseData);
-            }
-            return View();
+            return View("Cadastro", responseData);
         }
 
 
         [HttpGet]
         public async Task<JsonResult> BuscarPorId(int id)
         {
-            using var client = new HttpClient();
+            var response = await _requestClient.GetJsonAsync<RecipeModel>($"{_connection}/{EndpointName}/{id}");
 
-            var response = await client.GetAsync($"{_connection}/Recipes/{id}");
-            var responseString = await response.Content.ReadAsStringAsync();
-            if (response.StatusCode == HttpStatusCode.OK)
-            {
-                var responseData = JsonConvert.DeserializeObject<RecipeModel>(responseString);
-                return Json(responseData);
-            }
+            if (response != null)
+                return Json(response);
+
             return Json(null);
         }
 
@@ -124,9 +116,9 @@ namespace MasterChef.Web.Controllers
         {
             using var client = new HttpClient();
 
-            var response = await client.DeleteAsync($"{_connection}/Recipes/{model.Id}");
-            var responseString = await response.Content.ReadAsStringAsync();
-            if (response.StatusCode == HttpStatusCode.OK)
+            var response = await client.DeleteAsync($"{_connection}/{EndpointName}/{model.Id}");
+
+            if (response.IsSuccessStatusCode)
             {
                 return RedirectToAction("Cadastro");
             }
@@ -136,7 +128,7 @@ namespace MasterChef.Web.Controllers
 
 
         [NonAction]
-        public async Task<string> SaveImage(RecipeModel model)
+        private async Task<string> SaveImage(RecipeModel model)
         {
             if (model.File == null)
                 return model.Picture ?? "";

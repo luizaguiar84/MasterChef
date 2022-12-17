@@ -1,6 +1,6 @@
 ﻿using RestSharp;
 
-namespace MasterChef.Application.Clients
+namespace MasterChef.Infra.Clients
 {
     class RequestClientFactory
     {

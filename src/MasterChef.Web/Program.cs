@@ -1,3 +1,5 @@
+using MasterChef.Infra.Clients;
+using MasterChef.Infra.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -7,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddTransient<IRestRequestClient, RestRequestClient>();
 
 var app = builder.Build();
 

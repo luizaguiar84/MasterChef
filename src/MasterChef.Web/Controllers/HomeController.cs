@@ -13,20 +13,18 @@ namespace  MasterChef.Web.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IConfiguration configuration;
-        private string conexao;
+        private readonly string _connection;
         public HomeController(ILogger<HomeController> logger, IConfiguration configuration)
         {
             _logger = logger;
-            this.configuration = configuration;
-            conexao = configuration["apiUrl"] ?? "";
+            _connection = configuration["apiUrl"] ?? "";
         }
 
         public async Task<IActionResult> Index()
         {
             using (var client = new HttpClient())
             {
-                var response = await client.GetAsync($"{conexao}/Recipe");
+                var response = await client.GetAsync($"{_connection}/Recipes");
                 var responseString = await response.Content.ReadAsStringAsync();
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
@@ -42,7 +40,7 @@ namespace  MasterChef.Web.Controllers
         {
             using (var client = new HttpClient())
             {
-                var response = await client.GetAsync($"{conexao}/Recipe/{id}");
+                var response = await client.GetAsync($"{_connection}/Recipes/{id}");
                 var responseString = await response.Content.ReadAsStringAsync();
                 if (response.StatusCode == HttpStatusCode.OK)
                 {

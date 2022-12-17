@@ -1,0 +1,58 @@
+﻿@model MasterChef.Web.Models.IngredientModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<h5>Cadastro</h5>
+
+
+<form asp-controller="Ingredient" asp-action="Cadastro" method="post" class="border" >
+
+    <input asp-for="@Model.RecipeId" type="hidden" id="hdReceitaId" value="@ViewBag.ReceitaId" />
+    <input asp-for="@Model.Id" type="hidden" id="hdIngredienteId" value="@ViewBag.id" />
+
+    <div class="container">
+        <div class="row g-2 align-items-center">
+            <div class="col-4">
+                <label asp-for="@Model.Name" class="form-label">Name</label>
+                <input asp-for="@Model.Name" type="text" class="form-control" id="txtNome">
+                <span asp-validation-for="@Model.Name" class="text-danger"></span>
+            </div>
+
+            <div class="col-4">
+                <label asp-for="@Model.Description" class="form-label">Descrição</label>
+                <input type="text" asp-for="@Model.Description" class="form-control" id="txtimagem">
+                <span asp-validation-for="@Model.Description" class="text-danger"></span>
+            </div>
+
+            <div class="col-4">
+                <label asp-for="@Model.Quantity" class="form-label">Quantidade</label>
+                <input type="number" asp-for="@Model.Quantity" class="form-control" id="txtdescicao">
+                <span asp-validation-for="@Model.Quantity" class="text-danger"></span>
+            </div>
+
+        </div>
+        <br />
+        <div class="row g-3 align-items-center">
+
+            <div class="col-4">
+                <label asp-for="@Model.Weight" class="form-label">Peso</label>
+                <input type="number" asp-for="@Model.Weight" class="form-control" id="txtdescicao">
+                <span asp-validation-for="@Model.Weight" class="text-danger"></span>
+            </div>
+
+        </div>
+        <br />
+        <div>
+            <button type="submit" class="btn btn-dark" id="btnSalvar">Salvar</button>
+        </div>
+    </div>
+
+</form>
+<br />
+<h5>Ingredientes</h5>
+<br />
+<partial name="_ListaIngredientePartial" view-data="ViewData" for="@Model.Ingredients"></partial>
+<partial name="_ExcluirIngredientePartial" model="new IngredientModel()" view-data="ViewData"></partial>
