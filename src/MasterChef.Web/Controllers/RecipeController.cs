@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -100,20 +101,25 @@ namespace MasterChef.Web.Controllers
         private async Task<string> SaveImage(RecipeModel model)
         {
             if (model.File == null)
-                return model.Image ?? "";
+            {
+                var random = new Random();
+                model.Image = $"imagem{random.Next(1, 10)}.jpg";
+            }
+            else
+                model.Image = model.File.FileName;
 
             var path = Path.Combine(Directory.GetCurrentDirectory(), _pathImage);
 
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
 
-            var fileInfo = new FileInfo(model.File.FileName);
-            model.Image = model.File.FileName;
-
             var fileNameWithPath = Path.Combine(path, model.Image);
 
-            await using var stream = new FileStream(fileNameWithPath, FileMode.Create);
-            await model.File.CopyToAsync(stream);
+            if (model.File != null)
+            {
+                await using var stream = new FileStream(fileNameWithPath, FileMode.Create);
+                await model.File.CopyToAsync(stream);
+            }
 
             return model.Image ?? "";
         }

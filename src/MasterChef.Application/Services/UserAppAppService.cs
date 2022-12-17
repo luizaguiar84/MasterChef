@@ -42,6 +42,11 @@ namespace MasterChef.Application.Services
         {
             var response = await _repository.GetByUserNameAndPassword(user);
 
+            //Como não temos dados no banco, vou gerar um user padrão para a api para testes
+            if (response == null)
+                if (user.Username == "api" && user.Password == "senha")
+                    return true;
+
             return response != null;
         }
     }

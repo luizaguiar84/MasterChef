@@ -3,6 +3,8 @@
 
 @if (Model != null)
 {
+    <br/>
+    <h2>Receitas</h2>
     <div class="container vitrine">
         <div class="row row-cols-1 row-cols-md-3 g-4">
             @foreach (var item in Model)
@@ -14,7 +16,7 @@
                             <h5 class="card-title">@Html.DisplayFor(modelItem => @item.Title)</h5>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
-                                    <a class="btn btn-dark idDetalhes" src="#" id="@item.Id">Abrir</a>
+                                    <a class="btn btn-dark idDetalhes" src="#" id="@item.Id">Ver detalhes</a>
                                 </div>
                             </div>
                         </div>

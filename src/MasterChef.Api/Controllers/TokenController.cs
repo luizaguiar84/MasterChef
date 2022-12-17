@@ -41,8 +41,6 @@ namespace MasterChef.Api.Controllers
                 Password = password
             };
             
-            //userAppService.CreateNewUser(user);
-
             return await _userAppService.IsValidUserAndPassword(user);
         }
     }

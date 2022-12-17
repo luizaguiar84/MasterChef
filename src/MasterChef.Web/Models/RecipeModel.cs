@@ -23,7 +23,6 @@ namespace MasterChef.Web.Models
         public IEnumerable<IngredientModel>? Ingredients { get; set; }
         public List<RecipeModel>? Recipes { get; set; }
 
-        [Required(ErrorMessage = "Por favor selecione um Arquivo")]
         public IFormFile File { get; set; }
     }
 }
