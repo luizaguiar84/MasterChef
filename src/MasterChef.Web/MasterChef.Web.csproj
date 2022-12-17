@@ -10,7 +10,6 @@
   <ItemGroup>
     <ProjectReference Include="..\MasterChef.Infra.Postgres\MasterChef.Infra.Postgres.csproj" />
     <ProjectReference Include="..\MasterChef.Application\MasterChef.Application.csproj" />
-    <ProjectReference Include="..\MasterChef.Infra.MySql\MasterChef.Infra.MySql.csproj" />
     <ProjectReference Include="..\MasterChef.Infra.Postgres\MasterChef.Infra.Postgres.csproj" />
     <ProjectReference Include="..\MasterChef.Infra.Sqlite\MasterChef.Infra.Sqlite.csproj" />
   </ItemGroup>

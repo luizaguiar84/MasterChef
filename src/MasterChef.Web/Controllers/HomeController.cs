@@ -5,6 +5,7 @@ using MasterChef.Infra.Interfaces;
 using MasterChef.Web.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using NuGet.Protocol;
 
 namespace MasterChef.Web.Controllers
 {
@@ -13,6 +14,7 @@ namespace MasterChef.Web.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IRestRequestClient _requestClient;
         private readonly string _connection;
+
         public HomeController(
             ILogger<HomeController> logger,
             IConfiguration configuration,
@@ -25,15 +27,25 @@ namespace MasterChef.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var response = await _requestClient.GetJsonAsync<List<RecipeModel>>($"{_connection}/Recipes");
-            return View(response);
+            var response = await _requestClient.GetAsync($"{_connection}/Recipes");
+
+            if (!response.IsSuccessful)
+                return View(new List<RecipeModel>());
+
+            var recipes = response.Content.FromJson<List<RecipeModel>>();
+            return View(recipes);
         }
 
         [HttpGet]
         public async Task<JsonResult> GetById(int id)
         {
-            var response = await _requestClient.GetJsonAsync<RecipeModel>($"{_connection}/Recipes/{id}");
-            return Json(response);
+            var response = await _requestClient.GetAsync($"{_connection}/Recipes/{id}");
+
+            if (!response.IsSuccessStatusCode)
+                return Json(null);
+
+            var recipe = response.Content.FromJson<RecipeModel>();
+            return Json(recipe);
         }
     }
 }
