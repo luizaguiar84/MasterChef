@@ -1,4 +1,3 @@
-using MasterChef.Infra.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -6,7 +5,7 @@ using Serilog;
 using System;
 using System.Reflection;
 using MasterChef.Infra;
-
+using MasterChef.Infra.Helpers.ExtensionMethods;
 
 var builder = WebApplication.CreateBuilder(args);
 

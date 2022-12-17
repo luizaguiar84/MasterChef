@@ -4,6 +4,7 @@ using MasterChef.Domain.Interface;
 using MasterChef.Infra.Helpers.ExtensionMethods;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ILogger = Serilog.ILogger;
 
 namespace MasterChef.Api.Controllers
 {
@@ -12,12 +13,15 @@ namespace MasterChef.Api.Controllers
     [Authorize]
     public class RecipesController : ControllerBase
     {
+        private readonly ILogger _logger;
         private readonly IRecipeAppService _recipeAppService;
         private readonly IEventService _eventService;
         public RecipesController(
+            ILogger logger,
             IRecipeAppService recipeAppService,
             IEventService eventService)
         {
+            _logger = logger;
             this._recipeAppService = recipeAppService;
             this._eventService = eventService;
         }
@@ -43,6 +47,7 @@ namespace MasterChef.Api.Controllers
             if (response == null)
                 return NotFound("Nenhum item encontrado");
 
+            _logger.Information("Recipe : {@response}", response);
             return Ok(response);
 
         }
@@ -54,10 +59,11 @@ namespace MasterChef.Api.Controllers
         public async Task<IActionResult> Post(Recipe recipe)
         {
             var response = await _recipeAppService.Save(recipe);
-            
+
             if (_eventService.Event.EventsList.HasItems())
                 return BadRequest(_eventService.Event.EventsList);
 
+            _logger.Information("Recipe : {@response}", response);
             return Ok(response);
         }
 
@@ -67,10 +73,11 @@ namespace MasterChef.Api.Controllers
         public async Task<IActionResult> Put(Recipe recipe)
         {
             var response = await _recipeAppService.Update(recipe);
-            
+
             if (_eventService.Event.EventsList.HasItems())
                 return BadRequest(_eventService.Event.EventsList);
 
+            _logger.Information("Recipe : {@response}", response);
             return Ok(response);
 
         }
@@ -83,9 +90,10 @@ namespace MasterChef.Api.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var response = await _recipeAppService.Inactivate(id);
-            
+
             if (_eventService.Event.EventsList.HasItems())
                 return BadRequest(_eventService.Event.EventsList);
+            _logger.Information("Inactivate Recipe : {@response}", response);
 
             return new StatusCodeResult(StatusCodes.Status204NoContent);
         }

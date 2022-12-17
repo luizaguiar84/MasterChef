@@ -4,22 +4,24 @@ $(".idDetalhes").click(function () {
     var id = $(this).attr('id');
     $.ajax({
         type: "Get",
-        url: "/Home/BuscarPorId",
+        url: "/Home/GetById",
         data: {
             'id': id
         },
         success: function (data) {
 
             $('#modalDetalhes').modal('show');
-            $('#idTitulo').text(data.titulo);
-            $('#idModoFazer').text(data.modoFazer);
-            $('#idimagem').attr("src", 'img/' + data.imagem);
+            $('#idTitulo').text(data.title);
+            $('#idModoFazer').text(data.wayOfPrepare);
+            $('#idimagem').attr("src", 'img/' + data.image);
 
-            var ingredientes = data.ingredientes;
-            $.each(ingredientes, function (key, value) {
+            $('#tbody').text("");
 
-                $('#tbody > tr').append("<td>" + value.nome + "</td><td>" + value.peso + "</td><td>" + value.descricao +
-                    " - " + value.quantidade + "</td>" + "<br />");
+            var ingredients = data.ingredients;
+            $.each(ingredients, function (key, value) {
+
+                $('#tbody').append("<tr> <td>" + value.name + "</td><td>" + value.weight + "</td><td>" + value.description +
+                    " - " + value.quantity + "</td>" + "</tr>");
 
             });
         }
@@ -34,7 +36,7 @@ $(".deletarIdIngrediente").click(function () {
 
     $.ajax({
         type: "Get",
-        url: "/Ingrediente/BuscarPorId",
+        url: "/Ingredient/BuscarPorReceitaId",
         data: {
             'id': id
         },
@@ -42,7 +44,7 @@ $(".deletarIdIngrediente").click(function () {
 
             $('#modalExcluirIngrediente').modal('show');
             $('#hdIdExcluirIngrediente').val(data.id);
-            $('#idNomeIngrediente').text(data.nome);
+            $('#idNomeIngrediente').text(data.name);
             console.log(data)
         }
     });
@@ -64,7 +66,7 @@ $(".deletarId").click(function () {
     console.log(id);
     $.ajax({
         type: "Get",
-        url: "/Receita/BuscarPorId",
+        url: "/Recipe/BuscarPorId",
         data: {
             'id': id
         },
@@ -72,7 +74,7 @@ $(".deletarId").click(function () {
 
             $('#modalExcluir').modal('show');
             $('#hdIdExcluir').val(data.id);
-            $('#idNome').text(data.titulo);
+            $('#idNome').text(data.title);
             console.log(data)
         }
     });

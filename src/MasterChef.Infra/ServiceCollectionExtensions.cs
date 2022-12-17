@@ -14,7 +14,6 @@ namespace MasterChef.Infra
 			 services.AddTransient<IRecipeRepository, RecipeRepository>();
 			services.AddTransient<IUserRepository, UserRepository>();
 			services.AddTransient<IIngredientRepository, IngredientRepository>();
-            services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             return services;

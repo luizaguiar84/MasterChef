@@ -1,5 +1,4 @@
 ﻿using MasterChef.Domain.Entities;
-
 using Microsoft.EntityFrameworkCore;
 
 namespace MasterChef.Infra.Context
@@ -16,6 +15,6 @@ namespace MasterChef.Infra.Context
 
         public DatabaseContext(DbContextOptions options) : base(options)
         { }
-        
+
     }
 }

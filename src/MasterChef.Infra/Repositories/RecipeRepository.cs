@@ -18,13 +18,15 @@ namespace MasterChef.Infra.Repositories
             _context = context;
         }
 
-        public async Task Add(Recipe recipe)
+        public async Task<Recipe> Add(Recipe recipe)
         {
             recipe.CreateDate = DateTime.Now;
             recipe.LastChange = DateTime.Now;
 
             await _context.Recipes.AddAsync(recipe);
             await _context.SaveChangesAsync();
+
+            return recipe;
 
         }
 
@@ -36,12 +38,9 @@ namespace MasterChef.Infra.Repositories
         
         public async Task<Recipe> GetById(int id)
         {
-            var recipe = await _context.Recipes.FirstOrDefaultAsync(r => r.Id == id && r.Active);
-
-            if (recipe == null)
-                return recipe;
-
-            recipe.Ingredients = await _context.Ingredients.Where(i => i.RecipeId == id && i.Active).ToListAsync();
+            var recipe = await _context.Recipes
+                .Include(r => r.Ingredients)
+                .FirstOrDefaultAsync(r => r.Id == id && r.Active);
 
             return recipe;
         }
