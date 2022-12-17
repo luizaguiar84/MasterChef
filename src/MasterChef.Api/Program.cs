@@ -7,7 +7,10 @@ using MasterChef.Infra.Sqlite;
 using MasterChef.Domain;
 using MasterChef.Infra.SqlServer;
 using MasterChef.Infra.Helpers;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Serilog;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +23,39 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddServices();
 builder.Services.AddInfraDependency();
 builder.Services.AddDomainDependency();
+
+builder.Services.AddCors(x =>
+{
+    x.AddPolicy("Default", b =>
+    {
+        b.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
+
+builder.Services.AddAuthentication(
+        x =>
+        {
+            x.DefaultAuthenticateScheme = "Jwt";
+            x.DefaultChallengeScheme = "Jwt";
+        })
+    .AddJwtBearer("Jwt",
+        o =>
+        {
+            o.TokenValidationParameters = new TokenValidationParameters()
+            {
+                ValidateAudience = false,
+                ValidAudience = "clients-api",
+                ValidIssuer = "api",
+                ValidateIssuer = false,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Security.GetKey()),
+                ValidateLifetime = true,
+                ClockSkew = TimeSpan.FromMinutes(5)
+            };
+        }
+    );
 
 var databaseConfiguration = new DatabaseConfiguration(builder.Configuration, builder.Environment.IsProduction());
 
@@ -54,6 +90,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors(x => x
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader());
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

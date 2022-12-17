@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using MasterChef.Domain.Entities;
 using MasterChef.Infra.Interfaces;
 using RestSharp;
 
@@ -6,9 +7,17 @@ namespace MasterChef.Infra.Clients
 {
     public class RestRequestClient : IRestRequestClient
     {
-		public async Task<RestResponse> PostAsync(string path, object obj = null)
+        public RequestClientFactory RequestFactory { get; set; }
+
+        public RestRequestClient()
+        {
+            RequestFactory = new RequestClientFactory();
+        }
+
+
+        public async Task<RestResponse> PostAsync(string path, object obj = null)
 		{
-			var client = RequestClientFactory.GetClient();
+			var client = await RequestFactory.GetClient();
 			var request = new RestRequest(path);
 			
 			if (obj != null)
@@ -19,15 +28,15 @@ namespace MasterChef.Infra.Clients
 
         public async Task<T> GetJsonAsync<T>(string path)
         {
-            var client = RequestClientFactory.GetClient();
+            var client = await RequestFactory.GetClient();
             var request = new RestRequest(path);
             
             return await client.GetJsonAsync<T>(path);
         }
 
         public async Task<RestResponse> GetAsync(string path)
-		{
-			var client = RequestClientFactory.GetClient();
+        {
+			var client = await RequestFactory.GetClient();
 			var request = new RestRequest(path);
 
 			return await client.GetAsync(request);
@@ -35,7 +44,7 @@ namespace MasterChef.Infra.Clients
 
         public async Task<RestResponse> PutAsync(string path, object obj = null)
         {
-            var client = RequestClientFactory.GetClient();
+            var client = await RequestFactory.GetClient();
             var request = new RestRequest(path);
 
             if (obj != null)
@@ -46,7 +55,7 @@ namespace MasterChef.Infra.Clients
 
         public async Task<RestResponse> DeleteAsync(string path, object obj = null)
         {
-            var client = RequestClientFactory.GetClient();
+            var client = await RequestFactory.GetClient();
             var request = new RestRequest(path);
 
             if (obj != null)
@@ -54,5 +63,6 @@ namespace MasterChef.Infra.Clients
 
             return await client.DeleteAsync(request);
         }
+
     }
 }

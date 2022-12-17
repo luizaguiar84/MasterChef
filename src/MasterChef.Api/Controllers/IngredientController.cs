@@ -2,12 +2,14 @@
 using MasterChef.Domain.Entities;
 using MasterChef.Domain.Interface;
 using MasterChef.Infra.Helpers.ExtensionMethods;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MasterChef.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class IngredientController : ControllerBase
     {
         private readonly IIngredientAppService _ingredientAppService;
