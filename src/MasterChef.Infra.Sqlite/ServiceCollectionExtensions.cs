@@ -26,8 +26,9 @@ namespace MasterChef.Infra.Sqlite
 				
 			});
 
+            services.BuildServiceProvider().MigrateDatabase();
 			
-			return services;
+            return services;
 		}
 	}
 }

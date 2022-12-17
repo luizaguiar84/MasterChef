@@ -24,7 +24,8 @@ namespace MasterChef.Infra.Postgres
                 });
             });
 
-
+            services.BuildServiceProvider().MigrateDatabase();
+            
             return services;
         }
     }

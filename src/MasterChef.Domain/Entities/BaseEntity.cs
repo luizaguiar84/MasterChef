@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MasterChef.Domain.Entities
 {
-	public abstract class BaseEntity
+	public class BaseEntity
 	{
 		[Key]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -12,9 +12,17 @@ namespace MasterChef.Domain.Entities
 
         [Display(Name = "Data de Criação")]
 		
-        public DateTimeOffset CreateDate { get; set; }
+        public DateTime? CreateDate { get; set; }
 
         [Display(Name = "Data de Atualização")]
-        public DateTimeOffset LastChange { get; set; }
+        public DateTime? LastChange { get; set; }
+
+        public bool Active { get; set; }
+
+        public BaseEntity()
+        {
+            LastChange = DateTime.Now;
+            Active = true;
+        }
 	}
 }

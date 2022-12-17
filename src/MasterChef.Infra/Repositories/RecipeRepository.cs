@@ -4,6 +4,7 @@ using MasterChef.Infra.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MasterChef.Infra.Repositories
@@ -35,7 +36,13 @@ namespace MasterChef.Infra.Repositories
         
         public async Task<Recipe> GetById(int id)
         {
-            var recipe = await _context.Recipes.FirstOrDefaultAsync(r => r.Id == id);
+            var recipe = await _context.Recipes.FirstOrDefaultAsync(r => r.Id == id && r.Active);
+
+            if (recipe == null)
+                return recipe;
+
+            recipe.Ingredients = await _context.Ingredients.Where(i => i.RecipeId == id && i.Active).ToListAsync();
+
             return recipe;
         }
 

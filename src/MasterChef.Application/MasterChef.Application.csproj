@@ -5,14 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.8.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.25.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MasterChef.Domain\MasterChef.Domain.csproj" />
-    <ProjectReference Include="..\MasterChef.Dto\MasterChef.Dto.csproj" />
     <ProjectReference Include="..\MasterChef.Infra\MasterChef.Infra.csproj" />
   </ItemGroup>
   

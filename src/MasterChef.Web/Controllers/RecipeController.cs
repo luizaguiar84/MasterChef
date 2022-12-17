@@ -1,65 +1,160 @@
-﻿using MasterChef.Application.Interfaces;
-using MasterChef.Domain.Entities;
+﻿using System.Collections.Generic;
+using System.IO;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using System.Net;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
+using MasterChef.Web.Models;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 
 namespace MasterChef.Web.Controllers
 {
+
     public class RecipeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly IRecipeService _service;
 
-        public RecipeController(
-            ILogger<HomeController> logger,
-            IRecipeService service)
+        private readonly string _pathImage;
+        private readonly string _connection;
+        public RecipeController(IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
         {
-            _logger = logger;
-            _service = service;
+            _pathImage = configuration["pathImagem"] ?? "";
+            _connection = configuration["apiUrl"] ?? "";
         }
 
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        public async Task<IActionResult> Cadastro()
         {
-            var recipes = await _service.GetAll();
-            return View(recipes);
+            RecipeModel model = new RecipeModel();
+            ViewBag.id = 0;
+
+            using var client = new HttpClient();
+
+            var response = await client.GetAsync($"{_connection}/Recipes");
+            var responseString = await response.Content.ReadAsStringAsync();
+
+            if (response.StatusCode != HttpStatusCode.OK)
+                return View();
+
+            var responseData = JsonConvert.DeserializeObject<List<RecipeModel>>(responseString);
+            model.Recipes = responseData;
+            return View(model);
         }
 
-        public IActionResult Create()
+        [HttpPost]
+        public async Task<IActionResult> Cadastro(RecipeModel model)
         {
+
+            if (ModelState.IsValid)
+            {
+                using var client = new HttpClient();
+
+                if (model.Id == 0)
+                {
+                    model.Picture = await SaveImage(model);
+                    var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+                    var response = await client.PostAsync($"{_connection}/Recipes", content);
+                    var responseString = await response.Content.ReadAsStringAsync();
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        var responseData = JsonConvert.DeserializeObject<RecipeModel>(responseString);
+                        return RedirectToAction("Cadastro");
+                    }
+                }
+                else
+                {
+                    model.Picture = await SaveImage(model);
+                    var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+                    var response = await client.PutAsync($"{_connection}/Recipes", content);
+                    var responseString = await response.Content.ReadAsStringAsync();
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        var responseData = JsonConvert.DeserializeObject<RecipeModel>(responseString);
+                        return RedirectToAction("Cadastro");
+                    }
+                }
+
+                return View();
+            }
+            return View("Cadastro", model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Editar(int id)
+        {
+            ViewBag.id = id;
+            using var client = new HttpClient();
+
+            var response = await client.GetAsync($"{_connection}/Receita/{id}");
+            var responseString = await response.Content.ReadAsStringAsync();
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                var responseList = await client.GetAsync($"{_connection}/Receita");
+                var responseStringList = await responseList.Content.ReadAsStringAsync();
+                var responseDataList = JsonConvert.DeserializeObject<List<RecipeModel>>(responseStringList);
+
+                var responseData = JsonConvert.DeserializeObject<RecipeModel>(responseString);
+                responseData.Recipes = responseDataList ?? new List<RecipeModel>();
+                return View("Cadastro", responseData);
+            }
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create(Recipe recipe)
-        {
-            _service.CreateNewRecipe(recipe);
 
-            return RedirectToAction(nameof(Index));
+        [HttpGet]
+        public async Task<JsonResult> BuscarPorId(int id)
+        {
+            using var client = new HttpClient();
+
+            var response = await client.GetAsync($"{_connection}/Recipes/{id}");
+            var responseString = await response.Content.ReadAsStringAsync();
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                var responseData = JsonConvert.DeserializeObject<RecipeModel>(responseString);
+                return Json(responseData);
+            }
+            return Json(null);
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Recipe recipe)
+        public async Task<IActionResult> Excluir(RecipeModel model)
         {
-            await _service.UpdateRecipe(recipe);
+            using var client = new HttpClient();
 
-            return RedirectToAction(nameof(Index));
+            var response = await client.DeleteAsync($"{_connection}/Recipes/{model.Id}");
+            var responseString = await response.Content.ReadAsStringAsync();
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                return RedirectToAction("Cadastro");
+            }
+            return Json(null);
         }
 
-        public async Task<IActionResult> Edit(int id)
+
+
+        [NonAction]
+        public async Task<string> SaveImage(RecipeModel model)
         {
-            Recipe recipe = await _service.GetById(id);
+            if (model.File == null)
+                return model.Picture ?? "";
 
-            return View(recipe);
-        }
+            var path = Path.Combine(Directory.GetCurrentDirectory(), _pathImage);
 
-        public async Task<IActionResult> Details(int id)
-        {
-            var recipe = await _service.GetById(id);
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
 
-            return View(recipe);
+            var fileInfo = new FileInfo(model.File.FileName);
+            model.Picture = model.File.FileName;
+
+            var fileNameWithPath = Path.Combine(path, model.Picture);
+
+            await using var stream = new FileStream(fileNameWithPath, FileMode.Create);
+            await model.File.CopyToAsync(stream);
+
+            return model.Picture ?? "";
         }
     }
 }
