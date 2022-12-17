@@ -7,7 +7,7 @@ namespace MasterChef.Application.Interfaces;
 public interface IRecipeAppService
 {
     Task<Recipe> Save(Recipe recipe);
-    List<Recipe> GetAll();
+    Task<List<Recipe>> GetAll();
     Task<Recipe> GetById(int id);
     Task<Recipe> Update(Recipe recipe);
     Task<Recipe> Inactivate(int id);

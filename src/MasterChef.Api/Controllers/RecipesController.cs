@@ -23,9 +23,9 @@ namespace MasterChef.Api.Controllers
         [ProducesResponseType(typeof(Recipe), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(List<string>), StatusCodes.Status404NotFound)]
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            var response = _recipeAppService.GetAll();
+            var response = await _recipeAppService.GetAll();
             return Ok(response);
         }
 

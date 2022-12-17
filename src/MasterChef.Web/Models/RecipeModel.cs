@@ -18,7 +18,7 @@ namespace MasterChef.Web.Models
         [Required(ErrorMessage = "Por favor preencha o campo de modo de fazer")]
         public string? WayOfPrepare { get; set; }
 
-        public string? Picture { get; set; }
+        public string? Image { get; set; }
         public DateTime? CreateDate { get; set; }
         public IEnumerable<IngredientModel>? Ingredients { get; set; }
         public List<RecipeModel>? Recipes { get; set; }

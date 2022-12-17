@@ -45,11 +45,6 @@ namespace MasterChef.Infra.Repositories
         public async Task<List<T>> GetAll() =>
             await DbSet.ToListAsync();
 
-        public List<T> GetAll(Func<T, bool> func)
-        {
-            return DbSet.Where(func).ToList();
-        }
-
         public async Task<bool> Delete(int id)
         {
             var response = DbSet.Remove(await DbSet.FindAsync(id));

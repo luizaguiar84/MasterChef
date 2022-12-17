@@ -5,6 +5,10 @@ using MasterChef.Infra.Postgres;
 using MasterChef.Infra.Sqlite;
 using MasterChef.Domain;
 using MasterChef.Infra.SqlServer;
+using MasterChef.Infra.Helpers;
+using Serilog;
+
+const string applicationName = "MasterChef.Api";
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,7 +36,10 @@ else if (databaseConfiguration.DatabaseType == DatabaseType.SqlServer)
 else
 	throw new NotSupportedException("No database configuration found");
 
-//builder.Services.BuildServiceProvider().MigrateDatabase();
+SerilogExtension.AddSerilogApi(builder.Configuration, applicationName);
+builder.Host.UseSerilog(Log.Logger);
+
+Console.Title = applicationName;
 
 var app = builder.Build();
 

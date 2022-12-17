@@ -48,7 +48,7 @@ namespace MasterChef.Web.Controllers
                 return View("Cadastro", model);
 
             RestResponse response = null;
-            model.Picture = await SaveImage(model);
+            model.Image = await SaveImage(model);
 
             if (model.Id == 0)
                 response = await _requestClient.PostAsync($"{_connection}/{EndpointName}", model);
@@ -100,7 +100,7 @@ namespace MasterChef.Web.Controllers
         private async Task<string> SaveImage(RecipeModel model)
         {
             if (model.File == null)
-                return model.Picture ?? "";
+                return model.Image ?? "";
 
             var path = Path.Combine(Directory.GetCurrentDirectory(), _pathImage);
 
@@ -108,14 +108,14 @@ namespace MasterChef.Web.Controllers
                 Directory.CreateDirectory(path);
 
             var fileInfo = new FileInfo(model.File.FileName);
-            model.Picture = model.File.FileName;
+            model.Image = model.File.FileName;
 
-            var fileNameWithPath = Path.Combine(path, model.Picture);
+            var fileNameWithPath = Path.Combine(path, model.Image);
 
             await using var stream = new FileStream(fileNameWithPath, FileMode.Create);
             await model.File.CopyToAsync(stream);
 
-            return model.Picture ?? "";
+            return model.Image ?? "";
         }
     }
 }

@@ -1,8 +1,13 @@
 using MasterChef.Infra.Clients;
+using MasterChef.Infra.Helpers;
 using MasterChef.Infra.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
+using System;
+
+const string applicationName = "MasterChef.Web";
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +16,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddTransient<IRestRequestClient, RestRequestClient>();
+
+SerilogExtension.AddSerilogApi(builder.Configuration, applicationName);
+builder.Host.UseSerilog(Log.Logger);
+
+Console.Title = applicationName;
 
 var app = builder.Build();
 

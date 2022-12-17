@@ -59,9 +59,10 @@ public class RecipeAppAppService : IRecipeAppService
         return await _recipeRepository.GetById(id);
     }
 
-    public  List<Recipe> GetAll()
+    public async Task<List<Recipe>> GetAll()
     {
-        return _repository.GetAll(l => l.Active);
+        var response =  await _repository.GetAll();
+        return response.Where(r => r.Active).ToList();
     }
 
     public async Task<Recipe> Inactivate(int id)
