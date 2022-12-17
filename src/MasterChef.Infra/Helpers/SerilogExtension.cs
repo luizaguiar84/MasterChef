@@ -28,7 +28,7 @@ namespace MasterChef.Infra.Helpers
                 .WriteTo.Async(wt => wt.File(
                     path: "logs/log.txt",
                     rollingInterval: RollingInterval.Day,
-                    outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u4}] [{HttpContextId}] {SourceContext} {Message}{NewLine}{Exception}{NewLine}"
+                    outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u4}] [{HttpContextId}] {SourceContext} {Message}{NewLine}{Exception}"
                     ))
                 .CreateLogger();
         }
