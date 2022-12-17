@@ -19,5 +19,13 @@ namespace MasterChef.Infra
 
             return services;
 		}
+
+        public static IServiceCollection AddClientDependency(this IServiceCollection services)
+        {
+            // Registro dos Clients
+            services.AddTransient<IRestRequestClient, RestRequestClient>();
+
+            return services;
+        }
     }
 }

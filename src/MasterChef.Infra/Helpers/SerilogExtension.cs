@@ -6,13 +6,17 @@ using Serilog.Events;
 using Serilog.Exceptions;
 using Serilog.Filters;
 using Serilog.Sinks.SystemConsole.Themes;
+using System.Reflection;
 
 namespace MasterChef.Infra.Helpers
 {
     public static class SerilogExtension
     {
-        public static void AddSerilogApi(IConfiguration configuration, string applicationName)
+        public static void AddSerilogApi(this IConfiguration configuration)
         {
+
+            var applicationName = Assembly.GetCallingAssembly().GetName().Name;
+
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Information)
                 .Enrich.FromLogContext()
