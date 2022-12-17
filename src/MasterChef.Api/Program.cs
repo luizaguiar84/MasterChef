@@ -6,11 +6,10 @@ using MasterChef.Infra.Postgres;
 using MasterChef.Infra.Sqlite;
 using MasterChef.Domain;
 using MasterChef.Infra.SqlServer;
-using MasterChef.Infra.Helpers;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
-
+using MasterChef.Infra.Helpers.ExtensionMethods;
 
 var builder = WebApplication.CreateBuilder(args);
 

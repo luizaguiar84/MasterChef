@@ -36,10 +36,8 @@ namespace MasterChef.Infra.Clients
 
             dynamic tokenResponse = null;
 
-            if (response.IsSuccessStatusCode)
-            {
+            if (response.IsSuccessStatusCode) 
                 tokenResponse = JsonConvert.DeserializeObject<dynamic>(response.Content);
-            }
 
             return response.IsSuccessStatusCode ? tokenResponse.token : string.Empty;
         }

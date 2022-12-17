@@ -8,7 +8,7 @@ using Serilog.Filters;
 using Serilog.Sinks.SystemConsole.Themes;
 using System.Reflection;
 
-namespace MasterChef.Infra.Helpers
+namespace MasterChef.Infra.Helpers.ExtensionMethods
 {
     public static class SerilogExtension
     {
@@ -18,7 +18,7 @@ namespace MasterChef.Infra.Helpers
             var applicationName = Assembly.GetCallingAssembly().GetName().Name;
 
             Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Information)
+                .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
                 .Enrich.FromLogContext()
                 .Enrich.WithExceptionDetails()
                 .Enrich.WithCorrelationId()
@@ -26,7 +26,7 @@ namespace MasterChef.Infra.Helpers
                 .Filter.ByExcluding(Matching.FromSource("Microsoft.AspNetCore.StaticFiles"))
                 .Filter.ByExcluding(z => z.MessageTemplate.Text.Contains("Business error"))
                 .WriteTo.Async(wt => wt.Console(
-                    theme: AnsiConsoleTheme.Code,
+                    theme: AnsiConsoleTheme.Sixteen,
                     outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u4}] [{HttpContextId}] {SourceContext} {Message}{NewLine}{Exception}{NewLine}"
                     ))
                 .WriteTo.Async(wt => wt.File(
