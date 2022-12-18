@@ -27,8 +27,6 @@ namespace MasterChef.Infra.IoC
             services.AddControllersWithViews();
             services.AddClientDependency();
             
-            services.BuildServiceProvider().MigrateDatabase();
-            
             return services;
         }
     }

@@ -1,4 +1,5 @@
-﻿using MasterChef.Infra.Interfaces;
+﻿using MasterChef.Infra.Enums;
+using MasterChef.Infra.Interfaces;
 using MasterChef.UI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +15,6 @@ namespace MasterChef.UI.Controllers
 
         private readonly string _pathImage;
         private readonly string _connection;
-        private const string EndpointName = "Recipes";
 
         public RecipeController(
             IWebHostEnvironment webHostEnvironment,
@@ -32,7 +32,7 @@ namespace MasterChef.UI.Controllers
             RecipeModel model = new RecipeModel();
             ViewBag.id = 0;
 
-            var response = await _requestClient.GetJsonAsync<List<RecipeModel>>($"{_connection}/{EndpointName}");
+            var response = await _requestClient.GetJsonAsync<List<RecipeModel>>($"{_connection}/{Endpoints.Recipes}");
 
             model.Recipes = response;
             return View(model);
@@ -48,9 +48,9 @@ namespace MasterChef.UI.Controllers
             model.Image = await SaveImage(model);
 
             if (model.Id == 0)
-                response = await _requestClient.PostAsync($"{_connection}/{EndpointName}", model);
+                response = await _requestClient.PostAsync($"{_connection}/{Endpoints.Recipes}", model);
             else
-                response = await _requestClient.PutAsync($"{_connection}/{EndpointName}", model);
+                response = await _requestClient.PutAsync($"{_connection}/{Endpoints.Recipes}", model);
 
             if (!response.IsSuccessful)
                 return View();
@@ -64,9 +64,9 @@ namespace MasterChef.UI.Controllers
         {
             ViewBag.id = id;
 
-            var responseData = await _requestClient.GetJsonAsync<RecipeModel>($"{_connection}/{EndpointName}/{id}");
+            var responseData = await _requestClient.GetJsonAsync<RecipeModel>($"{_connection}/{Endpoints.Recipes}/{id}");
             var responseDataList =
-                await _requestClient.GetJsonAsync<List<RecipeModel>>($"{_connection}/{EndpointName}");
+                await _requestClient.GetJsonAsync<List<RecipeModel>>($"{_connection}/{Endpoints.Recipes}");
 
             responseData.Recipes = responseDataList ?? new List<RecipeModel>();
 
@@ -77,7 +77,7 @@ namespace MasterChef.UI.Controllers
         [HttpGet]
         public async Task<JsonResult> BuscarPorId(int id)
         {
-            var response = await _requestClient.GetJsonAsync<RecipeModel>($"{_connection}/{EndpointName}/{id}");
+            var response = await _requestClient.GetJsonAsync<RecipeModel>($"{_connection}/{Endpoints.Recipes}/{id}");
 
             if (response != null)
                 return Json(response);
@@ -88,7 +88,7 @@ namespace MasterChef.UI.Controllers
         [HttpPost]
         public async Task<IActionResult> Excluir(RecipeModel model)
         {
-            var response = await _requestClient.DeleteAsync($"{_connection}/{EndpointName}/{model.Id}");
+            var response = await _requestClient.DeleteAsync($"{_connection}/{Endpoints.Recipes}/{model.Id}");
             return RedirectToAction("Cadastro");
         }
 
