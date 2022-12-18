@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
-using Microsoft.Extensions.Hosting.Internal;
 using Serilog;
 using Serilog.Events;
 using Serilog.Exceptions;

@@ -1,4 +1,3 @@
-using MasterChef.Infra;
 using MasterChef.Infra.Helpers.ExtensionMethods;
 using MasterChef.UI.Data;
 using Microsoft.AspNetCore.Identity;

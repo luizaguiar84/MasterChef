@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MasterChef.Infra.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
