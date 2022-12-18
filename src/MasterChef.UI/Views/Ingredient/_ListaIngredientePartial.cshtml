@@ -1,0 +1,51 @@
+﻿@model IEnumerable<MasterChef.UI.Models.IngredientModel>
+
+@if (@Model.Count()> 0)
+{
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Peso</th>
+                <th scope="col">Quantidade</th>
+                <th scope="col">Data de Cadastro</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+
+        @foreach (var item in Model)
+        {
+            <tbody>
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Weight</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.CreateDate</td>
+                    <td>
+                        <a asp-controller="Ingredient" asp-action="Editar" asp-route-id="@item.Id"
+                   class="data-bs-toggle text-start" tooltip data-bs-placement="top"
+                   title="Editar"><i class="fa fa-pen"></i></a>
+                    </td>
+
+
+                    <td>
+                        <a href="#" id="@item.Id" 
+                   class="data-bs-toggle text-start deletarIdIngrediente" tooltip data-bs-placement="top"
+                   title="Excluir">
+                            <i class="fa fa-thumbs-down" aria-hidden="true"></i>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+
+        }
+    </table>
+
+
+}
+else
+{
+    <p>Nenhum item encontrado.</p>
+}

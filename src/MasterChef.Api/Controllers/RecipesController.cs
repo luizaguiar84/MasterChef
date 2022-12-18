@@ -31,8 +31,17 @@ namespace MasterChef.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var response = await _recipeAppService.GetAll();
-            return Ok(response);
+            try
+            {
+                var response = await _recipeAppService.GetAll();
+                return Ok(response);
+
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }            
         }
 
 

@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MasterChef.Web", "src\MasterChef.Web\MasterChef.Web.csproj", "{4AF8ADC4-F2EA-4205-A25A-EF061838C3AF}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MasterChef.Infra.Sqlite", "src\MasterChef.Infra.Sqlite\MasterChef.Infra.Sqlite.csproj", "{7D3CCBCA-919A-4CDC-8F04-376DE69E313A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MasterChef.Infra.Postgres", "src\MasterChef.Infra.Postgres\MasterChef.Infra.Postgres.csproj", "{904D500C-4ACF-43CF-87F5-B169DA1365F2}"
@@ -17,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MasterChef.Application", "s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MasterChef.Api", "src\MasterChef.Api\MasterChef.Api.csproj", "{B4FE0A20-C926-42DB-9AC2-50E5A9B5A823}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterChef.Infra.SqlServer", "src\MasterChef.Infra.SqlServer\MasterChef.Infra.SqlServer.csproj", "{31A46CCE-46CA-474F-BC8B-72DDD8F36126}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MasterChef.Infra.SqlServer", "src\MasterChef.Infra.SqlServer\MasterChef.Infra.SqlServer.csproj", "{31A46CCE-46CA-474F-BC8B-72DDD8F36126}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MasterChef.UI", "src\MasterChef.UI\MasterChef.UI.csproj", "{908FCF3C-116A-4E16-9B73-BF27426B1A33}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,11 +25,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4AF8ADC4-F2EA-4205-A25A-EF061838C3AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4AF8ADC4-F2EA-4205-A25A-EF061838C3AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4AF8ADC4-F2EA-4205-A25A-EF061838C3AF}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{4AF8ADC4-F2EA-4205-A25A-EF061838C3AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4AF8ADC4-F2EA-4205-A25A-EF061838C3AF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7D3CCBCA-919A-4CDC-8F04-376DE69E313A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7D3CCBCA-919A-4CDC-8F04-376DE69E313A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D3CCBCA-919A-4CDC-8F04-376DE69E313A}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -58,6 +53,10 @@ Global
 		{31A46CCE-46CA-474F-BC8B-72DDD8F36126}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31A46CCE-46CA-474F-BC8B-72DDD8F36126}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31A46CCE-46CA-474F-BC8B-72DDD8F36126}.Release|Any CPU.Build.0 = Release|Any CPU
+		{908FCF3C-116A-4E16-9B73-BF27426B1A33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{908FCF3C-116A-4E16-9B73-BF27426B1A33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{908FCF3C-116A-4E16-9B73-BF27426B1A33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{908FCF3C-116A-4E16-9B73-BF27426B1A33}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
