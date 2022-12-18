@@ -176,7 +176,7 @@ namespace MasterChef.UI.Areas.Identity.Pages.Account.Manage
             return string.Format(
                 CultureInfo.InvariantCulture,
                 AuthenticatorUriFormat,
-                _urlEncoder.Encode("Microsoft.AspNetCore.Identity.UI"),
+                _urlEncoder.Encode("MasterChef"),
                 _urlEncoder.Encode(email),
                 unformattedKey);
         }
