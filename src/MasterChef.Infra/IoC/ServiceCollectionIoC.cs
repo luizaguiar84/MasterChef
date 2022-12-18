@@ -28,6 +28,12 @@ namespace MasterChef.Infra.IoC
             {
                 o.Providers.Add<GzipCompressionProvider>();
             });
+            
+            services.AddControllersWithViews();
+            services.AddClientDependency();
+            
+            services.BuildServiceProvider().MigrateDatabase();
+            
             return services;
         }
     }

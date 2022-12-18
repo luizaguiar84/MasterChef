@@ -10,12 +10,12 @@ namespace MasterChef.Infra
 	{
 		public static void MigrateDatabase(this IServiceProvider provider)
 		{
-			//Task.Factory.StartNew(() =>
-			//{
-			//	using var scope = provider.CreateScope();
-			//	using var context = scope.ServiceProvider.GetRequiredService<Context.DatabaseContext>();
-			//	context.Database.Migrate();
-			//});
+			Task.Factory.StartNew(() =>
+			{
+				using var scope = provider.CreateScope();
+				using var context = scope.ServiceProvider.GetRequiredService<Context.DatabaseContext>();
+				context.Database.Migrate();
+			});
 		}
 	}
 }

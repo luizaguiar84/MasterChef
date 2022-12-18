@@ -2,7 +2,6 @@ using MasterChef.Infra;
 using MasterChef.Infra.Helpers.ExtensionMethods;
 using MasterChef.UI.Data;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System.Reflection;
@@ -21,17 +20,12 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddControllersWithViews();
-
-builder.Services.AddClientDependency();
-
 builder.Configuration.AddSerilogApi();
 builder.Host.UseSerilog(Log.Logger);
 
 Console.Title = Assembly.GetEntryAssembly().GetName().Name;
 
 builder.Services.AddServiceIoCDependency();
-
 
 var app = builder.Build();
 
