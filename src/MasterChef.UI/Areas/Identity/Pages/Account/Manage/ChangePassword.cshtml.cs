@@ -72,7 +72,8 @@ namespace MasterChef.UI.Areas.Identity.Pages.Account.Manage
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [DataType(DataType.Password)]
-            [Compare("Confirmar nova senha", ErrorMessage = "As senhas não conferem.")]
+            [Compare("NewPassword", ErrorMessage = "As senhas não conferem.")]
+            [Display(Name = "Confirmar senha")]
             public string ConfirmPassword { get; set; }
         }
 
