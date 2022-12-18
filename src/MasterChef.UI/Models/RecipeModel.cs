@@ -24,6 +24,6 @@ namespace MasterChef.UI.Models
         public IEnumerable<IngredientModel>? Ingredients { get; set; }
         public List<RecipeModel>? Recipes { get; set; }
 
-        public IFormFile File { get; set; }
+        public IFormFile? File { get; set; }
     }
 }
