@@ -1,7 +1,6 @@
 using MasterChef.Application.Interfaces;
 using MasterChef.Domain.Entities;
 using MasterChef.Infra.Interfaces;
-using MasterChef.Infra.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;

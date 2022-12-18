@@ -3,7 +3,6 @@ using MasterChef.Application.Interfaces;
 using MasterChef.Application.Services;
 using MasterChef.Application.Validations;
 using MasterChef.Domain.Entities;
-using MasterChef.Infra.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MasterChef.Application

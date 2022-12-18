@@ -1,10 +1,6 @@
 ﻿using MasterChef.Application.Interfaces;
 using MasterChef.Domain.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 
 namespace MasterChef.Api.Controllers
 {

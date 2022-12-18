@@ -1,7 +1,4 @@
-﻿using System.Reflection;
-using Microsoft.EntityFrameworkCore;
-using MasterChef.Infra;
-using MasterChef.Infra.Context;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace MasterChef.Infra.Sqlite.Context
 {

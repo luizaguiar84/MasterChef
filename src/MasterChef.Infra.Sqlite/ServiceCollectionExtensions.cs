@@ -1,10 +1,6 @@
-﻿using System;
-using System.Reflection;
-using System.Threading.Tasks;
+﻿using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using MasterChef.Infra;
-using MasterChef.Infra.Context;
 using MasterChef.Infra.Sqlite.Context;
 
 namespace MasterChef.Infra.Sqlite

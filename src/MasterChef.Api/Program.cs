@@ -7,7 +7,6 @@ using MasterChef.Infra.Sqlite;
 using MasterChef.Domain;
 using MasterChef.Infra.SqlServer;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using Serilog;
 using MasterChef.Infra.Helpers.ExtensionMethods;
 

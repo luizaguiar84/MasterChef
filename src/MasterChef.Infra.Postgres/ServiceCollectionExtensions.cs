@@ -1,6 +1,4 @@
-﻿using System;
-using System.Reflection;
-using MasterChef.Infra.Context;
+﻿using System.Reflection;
 using MasterChef.Infra.Postgres.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
