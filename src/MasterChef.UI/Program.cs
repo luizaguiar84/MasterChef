@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System.Reflection;
+using MasterChef.Infra.IoC;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,19 +30,8 @@ builder.Host.UseSerilog(Log.Logger);
 
 Console.Title = Assembly.GetEntryAssembly().GetName().Name;
 
-builder.Services.Configure<IdentityOptions>(options =>
-{
-    options.Password.RequireDigit = false;
-    options.Password.RequiredLength = 3;
-    options.Password.RequireNonAlphanumeric = false;
-    options.Password.RequireUppercase = false;
-    options.Password.RequireLowercase = false;
-});
+builder.Services.AddServiceIoCDependency();
 
-builder.Services.AddResponseCompression(o =>
-{
-    o.Providers.Add<GzipCompressionProvider>();
-});
 
 var app = builder.Build();
 

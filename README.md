@@ -4,7 +4,7 @@
 
 Para iniciar o projeto, ir em **solução**, **propriedades** e ativar ***"Varios Projetos de inicialização"***
 
-- Selecionar "MasterChef.Api" e "MasterChef.Web"
+- Selecionar "MasterChef.Api" e "MasterChef.UI"
 
 ![tela de propriedades](docs/imgs/propImg.png "tela de propriedades")
 
