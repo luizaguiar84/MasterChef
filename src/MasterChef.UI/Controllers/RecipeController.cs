@@ -1,12 +1,10 @@
-﻿using MasterChef.Domain.Entities;
-using MasterChef.Infra.Enums;
+﻿using MasterChef.Infra.Enums;
 using MasterChef.Infra.Interfaces;
 using MasterChef.UI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol;
 using RestSharp;
-using Microsoft.AspNetCore.Identity;
 
 namespace MasterChef.UI.Controllers
 {
@@ -17,18 +15,15 @@ namespace MasterChef.UI.Controllers
 
         private readonly string _pathImage;
         private readonly string _connection;
-        private readonly UserManager<IdentityUser> _userManager;
 
         public RecipeController(
             IWebHostEnvironment webHostEnvironment,
             IConfiguration configuration,
-            IRestRequestClient requestClient,
-            UserManager<IdentityUser> userManager)
+            IRestRequestClient requestClient)
         {
             _requestClient = requestClient;
             _pathImage = configuration["pathImagem"] ?? "";
             _connection = configuration["apiUrl"] ?? "";
-            _userManager = userManager;
         }
 
         [HttpGet]
@@ -37,12 +32,9 @@ namespace MasterChef.UI.Controllers
             RecipeModel model = new RecipeModel();
             ViewBag.id = 0;
 
-            var user = await GetUser();
-            var response = await _requestClient.GetJsonAsync<List<RecipeModel>>($"{_connection}/{Endpoints.Recipes}/getRecipeByUser/{user.Id}");
+            var response = await _requestClient.GetJsonAsync<List<RecipeModel>>($"{_connection}/{Endpoints.Recipes}");
 
-            if (response != null)
-                model.Recipes = response;
-               
+            model.Recipes = response;
             return View(model);
         }
 
@@ -51,8 +43,6 @@ namespace MasterChef.UI.Controllers
         {
             if (!ModelState.IsValid)
                 return View("Cadastro", model);
-
-            await UpdateUser(model);
 
             RestResponse response = null;
             model.Image = await SaveImage(model);
@@ -128,27 +118,6 @@ namespace MasterChef.UI.Controllers
             }
 
             return model.Image ?? "";
-        }
-        
-        private async Task UpdateUser(RecipeModel model)
-        {
-            if (model == null)
-                return;
-            
-            var user = await GetUser();
-
-            model.User = new User()
-            {
-                ExternalId = user.Id,
-                Username = user.UserName,
-                Password = ""
-            };
-        }
-
-        private async Task<IdentityUser> GetUser()
-        {
-            var user = await _userManager.GetUserAsync(User);
-            return user;
         }
     }
 }

@@ -4,7 +4,6 @@ using MasterChef.Infra.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MasterChef.Infra.Repositories
@@ -53,16 +52,6 @@ namespace MasterChef.Infra.Repositories
             _context.Entry(entity).Property(p => p.CreateDate).IsModified = false;
 
             await _context.SaveChangesAsync();
-        }
-
-        public async Task<List<Recipe>> GetAllByUserId(string id)
-        {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.ExternalId == id);
-            if (user == null)
-                return null;
-
-            var response = await _context.Recipes.Where(r => r.UserId == user.Id && r.Active).ToListAsync();
-            return response;
         }
     }
 }

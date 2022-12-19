@@ -1,20 +1,15 @@
 ﻿using System.Threading.Tasks;
 using MasterChef.Infra.Interfaces;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using RestSharp;
-using ILogger = Serilog.ILogger;
 
 namespace MasterChef.Infra.Clients
 {
     public class RestRequestClient : IRestRequestClient
     {
-        private readonly ILogger _logger;
         public RequestClientFactory RequestFactory { get; set; }
 
-        public RestRequestClient(ILogger logger)
+        public RestRequestClient()
         {
-            _logger = logger;
             RequestFactory = new RequestClientFactory();
         }
 
@@ -27,8 +22,6 @@ namespace MasterChef.Infra.Clients
 			if (obj != null)
 				request.AddJsonBody(obj);
 
-            var x = JsonConvert.SerializeObject(obj);
-            _logger.Information("Post: {@x}", x);
 			return await client.PostAsync(request);
 		}
 
