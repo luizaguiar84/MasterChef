@@ -10,5 +10,6 @@ namespace MasterChef.Infra.Interfaces
         Task<IList<Recipe>> GetAll();
         Task<Recipe> GetById(int id);
         Task Update(Recipe entity);
+        Task<List<Recipe>> GetAllByUserId(string id);
     }
 }

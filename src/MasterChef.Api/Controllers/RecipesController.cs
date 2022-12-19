@@ -10,7 +10,7 @@ namespace MasterChef.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class RecipesController : ControllerBase
     {
         private readonly ILogger _logger;
@@ -44,6 +44,23 @@ namespace MasterChef.Api.Controllers
             }            
         }
 
+        [ProducesResponseType(typeof(Recipe), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<string>), StatusCodes.Status404NotFound)]
+        [Route("getRecipeByUser/{id}")]
+        [HttpGet]
+        public async Task<IActionResult> GetRecipeByUser(string id)
+        {
+            var response = new List<Recipe>();
+            
+            var recipes = await _recipeAppService.GetAllByUserId(id);
+
+            if (recipes!= null) 
+                response = recipes;
+
+            _logger.Information("Recipe : {@response}", response);
+            return Ok(response);
+
+        }
 
         [ProducesResponseType(typeof(Recipe), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(List<string>), StatusCodes.Status404NotFound)]
