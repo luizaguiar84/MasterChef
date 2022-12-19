@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using MasterChef.Domain;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,7 +8,7 @@ namespace MasterChef.Infra.IoC
 {
     public static class ServiceCollectionIoC
     {
-        public static IServiceCollection AddServiceIoCDependency(this IServiceCollection services)
+        public static IServiceCollection AddUIServiceIoCDependency(this IServiceCollection services)
         {
             services.Configure<IdentityOptions>(options =>
             {
@@ -27,7 +28,26 @@ namespace MasterChef.Infra.IoC
             services.AddControllersWithViews();
             services.AddClientDependency();
             
-            services.BuildServiceProvider().MigrateDatabase();
+            return services;
+        }
+        
+        public static IServiceCollection AddApiServiceIoCDependency(this IServiceCollection services)
+        {
+            services.AddControllers();
+            services.AddEndpointsApiExplorer();
+            services.AddInfraDependency();
+            services.AddDomainDependency();
+
+            services.AddCors(x =>
+            {
+                x.AddPolicy("Default", b =>
+                {
+                    b.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                });
+            });
+            
             
             return services;
         }

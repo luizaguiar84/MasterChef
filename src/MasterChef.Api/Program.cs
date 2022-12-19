@@ -4,33 +4,19 @@ using MasterChef.Infra;
 using MasterChef.Infra.Enums;
 using MasterChef.Infra.Postgres;
 using MasterChef.Infra.Sqlite;
-using MasterChef.Domain;
 using MasterChef.Infra.SqlServer;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using MasterChef.Infra.Helpers.ExtensionMethods;
+using MasterChef.Infra.IoC;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddApiServiceIoCDependency();
 builder.Services.AddServices();
-builder.Services.AddInfraDependency();
-builder.Services.AddDomainDependency();
-
-builder.Services.AddCors(x =>
-{
-    x.AddPolicy("Default", b =>
-    {
-        b.AllowAnyOrigin()
-            .AllowAnyMethod()
-            .AllowAnyHeader();
-    });
-});
+builder.Services.AddSwaggerGen();
 
 builder.Services.AddAuthentication(
         x =>

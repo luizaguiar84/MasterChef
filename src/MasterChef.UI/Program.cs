@@ -24,7 +24,9 @@ builder.Host.UseSerilog(Log.Logger);
 
 Console.Title = Assembly.GetEntryAssembly().GetName().Name;
 
-builder.Services.AddServiceIoCDependency();
+builder.Services.AddUIServiceIoCDependency();
+
+builder.Services.BuildServiceProvider().MigrateIdentityDatabase();
 
 var app = builder.Build();
 

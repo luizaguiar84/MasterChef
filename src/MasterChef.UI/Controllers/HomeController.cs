@@ -1,4 +1,5 @@
-﻿using MasterChef.Infra.Interfaces;
+﻿using MasterChef.Infra.Enums;
+using MasterChef.Infra.Interfaces;
 using MasterChef.UI.Models;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol;
@@ -23,7 +24,7 @@ namespace MasterChef.UI.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var response = await _requestClient.GetAsync($"{_connection}/Recipes");
+            var response = await _requestClient.GetAsync($"{_connection}/{Endpoints.Recipes}");
 
             if (!response.IsSuccessful)
                 return View(new List<RecipeModel>());
@@ -35,7 +36,7 @@ namespace MasterChef.UI.Controllers
         [HttpGet]
         public async Task<JsonResult> GetById(int id)
         {
-            var response = await _requestClient.GetAsync($"{_connection}/Recipes/{id}");
+            var response = await _requestClient.GetAsync($"{_connection}/{Endpoints.Recipes}/{id}");
 
             if (!response.IsSuccessStatusCode)
                 return Json(null);
