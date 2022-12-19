@@ -35,22 +35,17 @@ public class RecipeAppAppService : IRecipeAppService
         if (!validator.IsValid)
         {
             var events = await _eventService.Add("Save Recipe", validator.Errors);
-            return null;
         }
-        
-        recipe.CreateDate = DateTime.Now;
-        recipe.LastChange = DateTime.Now;
+        else
+        {
+            recipe.CreateDate = DateTime.Now;
+            recipe.LastChange = DateTime.Now;
 
-        var response = await _recipeRepository.Add(recipe);
-        
-        return response;
-    }
+            var response = await _recipeRepository.Add(recipe);
+        }
 
-    public async Task<List<Recipe>> GetAllByUserId(string id)
-    {
-        return await _recipeRepository.GetAllByUserId(id);
+        return recipe;
     }
-    
     public async Task<Recipe> Update(Recipe recipe)
     {
         await _recipeRepository.Update(recipe);
