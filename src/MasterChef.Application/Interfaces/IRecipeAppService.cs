@@ -9,6 +9,7 @@ public interface IRecipeAppService
     Task<Recipe> Save(Recipe recipe);
     Task<List<Recipe>> GetAll();
     Task<Recipe> GetById(int id);
+    Task<List<Recipe>> GetAllByUserId(string id);
     Task<Recipe> Update(Recipe recipe);
     Task<Recipe> Inactivate(int id);
 }

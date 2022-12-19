@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using MasterChef.Domain.Entities;
 
 namespace MasterChef.UI.Models
 {
@@ -21,9 +22,9 @@ namespace MasterChef.UI.Models
 
         public string? Image { get; set; }
         public DateTime? CreateDate { get; set; }
-        public IEnumerable<IngredientModel>? Ingredients { get; set; }
-        public List<RecipeModel>? Recipes { get; set; }
-
+        public IEnumerable<IngredientModel>? Ingredients { get; set; } = new List<IngredientModel>();
+        public List<RecipeModel>? Recipes { get; set; } = new List<RecipeModel>();
         public IFormFile? File { get; set; }
+        public User? User { get; set; }
     }
 }
