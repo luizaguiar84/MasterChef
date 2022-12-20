@@ -1,11 +1,13 @@
 ﻿using MasterChef.Application.Interfaces;
 using MasterChef.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MasterChef.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class TokenController : ControllerBase
     {
         private readonly ITokenService _tokenService;
@@ -18,6 +20,7 @@ namespace MasterChef.Api.Controllers
         }
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Create(TokenInfo model)
         {
             if (await IsValidUserAndPassword(model.Username, model.Password))

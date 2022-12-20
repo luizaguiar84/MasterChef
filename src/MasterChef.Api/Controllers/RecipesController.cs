@@ -27,8 +27,8 @@ namespace MasterChef.Api.Controllers
             _eventService = eventService;
         }
 
-        [ProducesResponseType(typeof(Recipe), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(List<string>), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(List<Recipe>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<Recipe>), StatusCodes.Status404NotFound)]
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -45,8 +45,8 @@ namespace MasterChef.Api.Controllers
             }            
         }
 
-        [ProducesResponseType(typeof(Recipe), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(List<string>), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(List<Recipe>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<Recipe>), StatusCodes.Status404NotFound)]
         [Route("getRecipeByUser/{id}")]
         [HttpGet]
         public async Task<IActionResult> GetRecipeByUser(string id)
@@ -64,7 +64,7 @@ namespace MasterChef.Api.Controllers
         }
 
         [ProducesResponseType(typeof(Recipe), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(List<string>), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(List<Recipe>), StatusCodes.Status404NotFound)]
         [Route("{id}")]
         [HttpGet]
         public async Task<IActionResult> Get(int id)
@@ -81,7 +81,7 @@ namespace MasterChef.Api.Controllers
 
 
         [ProducesResponseType(typeof(RecipeDto), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(List<string>), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(List<string>), StatusCodes.Status404NotFound)]
         [HttpPost]
         public async Task<IActionResult> Post(RecipeDto recipe)
         {
