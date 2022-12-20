@@ -1,7 +1,9 @@
-﻿using MasterChef.Domain.Entities;
+﻿using AutoMapper;
+using MasterChef.Domain.Entities;
+using MasterChef.Domain.Models;
+using MasterChef.Dto;
 using MasterChef.Infra.Enums;
 using MasterChef.Infra.Interfaces;
-using MasterChef.UI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol;
@@ -18,17 +20,20 @@ namespace MasterChef.UI.Controllers
         private readonly string _pathImage;
         private readonly string _connection;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly IMapper _mapper;
 
         public RecipeController(
             IWebHostEnvironment webHostEnvironment,
             IConfiguration configuration,
             IRestRequestClient requestClient,
-            UserManager<IdentityUser> userManager)
+            UserManager<IdentityUser> userManager,
+            IMapper mapper)
         {
             _requestClient = requestClient;
             _pathImage = configuration["pathImagem"] ?? "";
             _connection = configuration["apiUrl"] ?? "";
             _userManager = userManager;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -58,14 +63,14 @@ namespace MasterChef.UI.Controllers
             model.Image = await SaveImage(model);
 
             if (model.Id == 0)
-                response = await _requestClient.PostAsync($"{_connection}/{Endpoints.Recipes}", model);
+                response = await _requestClient.PostAsync($"{_connection}/{Endpoints.Recipes}", _mapper.Map<RecipeDto>(model));
             else
-                response = await _requestClient.PutAsync($"{_connection}/{Endpoints.Recipes}", model);
+                response = await _requestClient.PutAsync($"{_connection}/{Endpoints.Recipes}", _mapper.Map<RecipeDto>(model));
 
             if (!response.IsSuccessful)
                 return View();
 
-            var responseData = response.Content.FromJson<RecipeModel>();
+            var responseData = response.Content.FromJson<RecipeDto>();
             return RedirectToAction("Cadastro");
         }
 

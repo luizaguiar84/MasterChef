@@ -22,5 +22,4 @@ public class Recipe : BaseEntity
     [Display(Name = "Imagem")]
     public string? Image { get; set; }
     public int? UserId { get; set; }
-    public User? User { get; set; }
 }

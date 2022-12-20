@@ -1,7 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using MasterChef.Domain.Entities;
+using Microsoft.AspNetCore.Http;
 
-namespace MasterChef.UI.Models
+namespace MasterChef.Domain.Models
 {
     public class RecipeModel
     {

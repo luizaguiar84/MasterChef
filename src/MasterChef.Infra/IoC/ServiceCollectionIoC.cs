@@ -1,4 +1,5 @@
-﻿using MasterChef.Domain;
+﻿using System;
+using MasterChef.Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -28,6 +29,8 @@ namespace MasterChef.Infra.IoC
             services.AddControllersWithViews();
             services.AddClientDependency();
             
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             return services;
         }
         
@@ -48,6 +51,8 @@ namespace MasterChef.Infra.IoC
                 });
             });
             
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             
             return services;
         }

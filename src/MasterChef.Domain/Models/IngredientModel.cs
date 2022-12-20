@@ -1,4 +1,7 @@
-﻿namespace MasterChef.UI.Models
+﻿using System;
+using System.Collections.Generic;
+
+namespace MasterChef.Domain.Models
 {
     public class IngredientModel
     {

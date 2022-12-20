@@ -1,6 +1,6 @@
-﻿using MasterChef.Infra.Enums;
+﻿using MasterChef.Domain.Models;
+using MasterChef.Infra.Enums;
 using MasterChef.Infra.Interfaces;
-using MasterChef.UI.Models;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol;
 using RestSharp;

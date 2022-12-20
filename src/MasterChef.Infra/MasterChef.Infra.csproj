@@ -32,6 +32,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MasterChef.Domain\MasterChef.Domain.csproj" />
+    <ProjectReference Include="..\MasterChef.Dto\MasterChef.Dto.csproj" />
   </ItemGroup>
   
 </Project>

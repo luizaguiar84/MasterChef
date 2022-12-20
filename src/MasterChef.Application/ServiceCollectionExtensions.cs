@@ -3,6 +3,7 @@ using MasterChef.Application.Interfaces;
 using MasterChef.Application.Services;
 using MasterChef.Application.Validations;
 using MasterChef.Domain.Entities;
+using MasterChef.Dto;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MasterChef.Application
@@ -15,7 +16,7 @@ namespace MasterChef.Application
             services.AddTransient<ITokenService, TokenService>();
             services.AddTransient<IUserAppService, UserAppAppService>();
             services.AddTransient<IIngredientAppService, IngredientAppAppService>();
-            services.AddTransient<IValidator<Recipe>, RecipeValidations>();
+            services.AddTransient<IValidator<RecipeDto>, RecipeValidations>();
 
 
             return services;

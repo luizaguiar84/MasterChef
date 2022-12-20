@@ -1,6 +1,7 @@
 ﻿using MasterChef.Application.Interfaces;
 using MasterChef.Domain.Entities;
 using MasterChef.Domain.Interface;
+using MasterChef.Dto;
 using MasterChef.Infra.Helpers.ExtensionMethods;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -79,10 +80,10 @@ namespace MasterChef.Api.Controllers
         }
 
 
-        [ProducesResponseType(typeof(Recipe), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(RecipeDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(List<string>), StatusCodes.Status500InternalServerError)]
         [HttpPost]
-        public async Task<IActionResult> Post(Recipe recipe)
+        public async Task<IActionResult> Post(RecipeDto recipe)
         {
             var response = await _recipeAppService.Save(recipe);
 
@@ -93,10 +94,10 @@ namespace MasterChef.Api.Controllers
             return Ok(response);
         }
 
-        [ProducesResponseType(typeof(Recipe), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(RecipeDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(List<string>), StatusCodes.Status500InternalServerError)]
         [HttpPut]
-        public async Task<IActionResult> Put(Recipe recipe)
+        public async Task<IActionResult> Put(RecipeDto recipe)
         {
             var response = await _recipeAppService.Update(recipe);
 

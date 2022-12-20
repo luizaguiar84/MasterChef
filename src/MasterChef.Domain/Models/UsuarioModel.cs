@@ -1,4 +1,4 @@
-﻿namespace MasterChef.UI.Models
+﻿namespace MasterChef.Domain.Models
 {
     public class UsuarioModel
     {

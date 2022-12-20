@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace MasterChef.Infra.SqlServer.Data.Migrations
+namespace MasterChef.Infra.SqlServer.Migrations
 {
     [DbContext(typeof(SqlServerContext))]
-    [Migration("20221219025129_AddUserInRecipe")]
-    partial class AddUserInRecipe
+    [Migration("20221220015519_updateRecipeEntity")]
+    partial class updateRecipeEntity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -100,8 +100,6 @@ namespace MasterChef.Infra.SqlServer.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("Recipes");
                 });
 
@@ -147,15 +145,6 @@ namespace MasterChef.Infra.SqlServer.Data.Migrations
                         .HasForeignKey("RecipeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("MasterChef.Domain.Entities.Recipe", b =>
-                {
-                    b.HasOne("MasterChef.Domain.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MasterChef.Domain.Entities.Recipe", b =>
