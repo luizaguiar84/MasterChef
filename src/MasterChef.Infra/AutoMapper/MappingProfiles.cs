@@ -16,11 +16,7 @@ public class MappingProfiles : Profile
         CreateMap<RecipeModel, RecipeDto>();
         CreateMap<RecipeDto, RecipeModel>();
 
-        //CreateMap<IdentityUser, UserDto>();
         CreateMap<User, UserDto>();
-        CreateMap<UserDto, User>();
-
-        
-    }
-    
+        CreateMap<UserDto, User>();        
+    }    
 }
