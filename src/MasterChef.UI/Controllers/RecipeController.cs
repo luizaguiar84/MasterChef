@@ -23,7 +23,6 @@ namespace MasterChef.UI.Controllers
         private readonly IMapper _mapper;
 
         public RecipeController(
-            IWebHostEnvironment webHostEnvironment,
             IConfiguration configuration,
             IRestRequestClient requestClient,
             UserManager<IdentityUser> userManager,

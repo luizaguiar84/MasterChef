@@ -11,7 +11,7 @@ namespace MasterChef.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class RecipesController : ControllerBase
     {
         private readonly ILogger _logger;
@@ -23,8 +23,8 @@ namespace MasterChef.Api.Controllers
             IEventService eventService)
         {
             _logger = logger;
-            this._recipeAppService = recipeAppService;
-            this._eventService = eventService;
+            _recipeAppService = recipeAppService;
+            _eventService = eventService;
         }
 
         [ProducesResponseType(typeof(Recipe), StatusCodes.Status200OK)]
@@ -108,7 +108,6 @@ namespace MasterChef.Api.Controllers
             return Ok(response);
 
         }
-
 
         [ProducesResponseType(typeof(Recipe), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(List<string>), StatusCodes.Status500InternalServerError)]
