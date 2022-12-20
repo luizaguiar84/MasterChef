@@ -1,4 +1,5 @@
 using System.Reflection;
+using MasterChef.Api.Controllers.Config;
 using MasterChef.Application;
 using MasterChef.Infra;
 using MasterChef.Infra.Enums;
@@ -9,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using MasterChef.Infra.Helpers.ExtensionMethods;
 using MasterChef.Infra.IoC;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +18,45 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddApiServiceIoCDependency();
 builder.Services.AddServices();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo()
+    {
+        Title = "MasterChef Api",
+        Version = "v1"
+    });
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+    {
+        Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n 
+                      Digite 'Bearer' [space] e o token.
+                      \r\n\r\Exemplo: 'Bearer 12345abcdef'",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                },
+                Scheme = "oauth2",
+                Name = "Bearer",
+                In = ParameterLocation.Header,
+
+            },
+            new List<string>()
+        }
+    });
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    c.IncludeXmlComments(xmlPath);
+});
 
 builder.Services.AddAuthentication(
         x =>
@@ -40,6 +80,12 @@ builder.Services.AddAuthentication(
             };
         }
     );
+
+builder.Services.AddControllers().ConfigureApiBehaviorOptions(o =>
+{
+    o.InvalidModelStateResponseFactory = InvalidModelStateResponseFactory.ProduceErrorResponse;
+});
+
 
 var databaseConfiguration = new DatabaseConfiguration(builder.Configuration, builder.Environment.IsProduction());
 

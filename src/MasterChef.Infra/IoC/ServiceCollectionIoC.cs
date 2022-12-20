@@ -36,7 +36,6 @@ namespace MasterChef.Infra.IoC
         
         public static IServiceCollection AddApiServiceIoCDependency(this IServiceCollection services)
         {
-            services.AddControllers();
             services.AddEndpointsApiExplorer();
             services.AddInfraDependency();
             services.AddDomainDependency();

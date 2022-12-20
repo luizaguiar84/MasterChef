@@ -17,6 +17,7 @@ namespace MasterChef.Api.Controllers
             this._userAppService = userAppService;
         }
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Create(TokenInfo model)
         {
             if (await IsValidUserAndPassword(model.Username, model.Password))
