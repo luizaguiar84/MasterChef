@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace MasterChef.Api
+namespace MasterChef.Infra.Security
 {
     public static class Security
     {
