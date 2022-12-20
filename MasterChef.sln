@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterChef.Infra.Sqlite.Ide
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterChef.Infra.SqlServer.Identity", "src\MasterChef.Infra.SqlServer.Identity\MasterChef.Infra.SqlServer.Identity.csproj", "{8D1EAF02-330F-4BE8-9DED-F84154B63344}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infra", "Infra", "{77FB2164-2563-4B6E-A07E-8C129B9E1C7B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,5 +83,12 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {63E01BCC-753E-4EE9-B45A-148F6D79ECDB}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{904D500C-4ACF-43CF-87F5-B169DA1365F2} = {77FB2164-2563-4B6E-A07E-8C129B9E1C7B}
+		{7D3CCBCA-919A-4CDC-8F04-376DE69E313A} = {77FB2164-2563-4B6E-A07E-8C129B9E1C7B}
+		{B5093071-C250-4DA9-857B-427FBF660526} = {77FB2164-2563-4B6E-A07E-8C129B9E1C7B}
+		{31A46CCE-46CA-474F-BC8B-72DDD8F36126} = {77FB2164-2563-4B6E-A07E-8C129B9E1C7B}
+		{8D1EAF02-330F-4BE8-9DED-F84154B63344} = {77FB2164-2563-4B6E-A07E-8C129B9E1C7B}
 	EndGlobalSection
 EndGlobal
