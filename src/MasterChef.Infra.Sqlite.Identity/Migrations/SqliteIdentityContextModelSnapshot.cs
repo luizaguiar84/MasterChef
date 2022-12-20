@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace MasterChef.Infra.Sqlite.Identity.Data.Migrations
+namespace MasterChef.Infra.Sqlite.Identity.Migrations
 {
     [DbContext(typeof(SqliteIdentityContext))]
     partial class SqliteIdentityContextModelSnapshot : ModelSnapshot
