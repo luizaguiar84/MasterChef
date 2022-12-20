@@ -40,7 +40,7 @@ namespace MasterChef.UI.Controllers
         {
             if (ModelState.IsValid)
             {
-                RestResponse response = null;
+                RestResponse? response = null;
                 if (model.Id == 0)
                     response = await _requestClient.PostAsync($"{_connection}/{Endpoints.Ingredient}", model);
                 

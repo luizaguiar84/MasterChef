@@ -58,7 +58,7 @@ namespace MasterChef.UI.Controllers
 
             await UpdateUser(model);
 
-            RestResponse response = null;
+            RestResponse? response = null;
             model.Image = await SaveImage(model);
 
             if (model.Id == 0)
