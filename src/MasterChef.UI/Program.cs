@@ -1,23 +1,26 @@
 using MasterChef.Infra.Helpers.ExtensionMethods;
-using MasterChef.UI.Data;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System.Reflection;
+using MasterChef.Infra;
+using MasterChef.Infra.Enums;
 using MasterChef.Infra.IoC;
+using MasterChef.Infra.Sqlite.Identity;
+using MasterChef.Infra.SqlServer.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var databaseConfiguration = new DatabaseConfiguration(builder.Configuration, builder.Environment.IsProduction());
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+switch (databaseConfiguration.DatabaseType)
+{
+    case DatabaseType.Sqlite:
+        builder.Services.AddSqLiteIdentityDependency(databaseConfiguration);
+        break;
+    case DatabaseType.SqlServer:
+        builder.Services.AddSqlServerIdentityDependency(databaseConfiguration);
+        break;
+}
 
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Configuration.AddSerilogApi();
 builder.Host.UseSerilog(Log.Logger);
@@ -26,7 +29,7 @@ Console.Title = Assembly.GetEntryAssembly().GetName().Name;
 
 builder.Services.AddUIServiceIoCDependency();
 
-builder.Services.BuildServiceProvider().MigrateIdentityDatabase();
+//builder.Services.BuildServiceProvider().MigrateIdentityDatabase();
 
 var app = builder.Build();
 
