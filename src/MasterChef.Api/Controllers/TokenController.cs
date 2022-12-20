@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MasterChef.Api.Controllers
 {
+    /// <summary>
+    /// Token
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
@@ -13,11 +16,22 @@ namespace MasterChef.Api.Controllers
         private readonly ITokenService _tokenService;
         private readonly IUserAppService _userAppService;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tokenService"></param>
+        /// <param name="userAppService"></param>
         public TokenController(ITokenService tokenService, IUserAppService userAppService)
         {
             this._tokenService = tokenService;
             this._userAppService = userAppService;
         }
+        
+        /// <summary>
+        /// Get a token
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
