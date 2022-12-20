@@ -29,8 +29,6 @@ Console.Title = Assembly.GetEntryAssembly().GetName().Name;
 
 builder.Services.AddUIServiceIoCDependency();
 
-//builder.Services.BuildServiceProvider().MigrateIdentityDatabase();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
