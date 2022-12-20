@@ -4,6 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <ItemGroup>
@@ -33,6 +34,12 @@
     <ProjectReference Include="..\MasterChef.Infra.Postgres\MasterChef.Infra.Postgres.csproj" />
     <ProjectReference Include="..\MasterChef.Infra.Sqlite\MasterChef.Infra.Sqlite.csproj" />
     <ProjectReference Include="..\MasterChef.Infra.SqlServer\MasterChef.Infra.SqlServer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\.dockerignore">
+      <Link>.dockerignore</Link>
+    </Content>
   </ItemGroup>
     
 </Project>
