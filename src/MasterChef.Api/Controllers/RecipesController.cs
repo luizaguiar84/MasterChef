@@ -59,6 +59,7 @@ namespace MasterChef.Api.Controllers
         /// Get recipe by User id
         /// </summary>
         /// <param name="id"></param>
+        /// <param name="query"></param>
         /// <returns></returns>
         [ProducesResponseType(typeof(List<Recipe>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(List<Recipe>), StatusCodes.Status404NotFound)]

@@ -57,6 +57,7 @@ namespace MasterChef.Api.Controllers
         /// <summary>
         /// Get all ingredients from the recipe
         /// </summary>
+        /// <param name="query"></param>
         /// <param name="id">recipe id</param>
         /// <returns></returns>
         [ProducesResponseType(typeof(Ingredient), StatusCodes.Status200OK)]

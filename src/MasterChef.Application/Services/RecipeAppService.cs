@@ -2,8 +2,6 @@ using System;
 using MasterChef.Application.Interfaces;
 using MasterChef.Domain.Entities;
 using MasterChef.Infra.Interfaces;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation;
@@ -72,15 +70,7 @@ public class RecipeAppService : IRecipeAppService
 
     public async Task<ResultDto<Recipe>> GetAllByUserId(RequestDto key, string id)
     {
-        var cacheKey = GetCacheKeyForRecipeQuery(key, id);
-
-        var response = await _cache.GetOrCreateAsync(cacheKey, (entry) =>
-        {
-            entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(1);
-            return _recipeRepository.GetAllRecipesByUserId(key, id);
-        });
-
-        return response;
+        return await _recipeRepository.GetAllRecipesByUserId(key, id);;
     }
 
     public async Task Update(RecipeDto recipe)
@@ -106,7 +96,7 @@ public class RecipeAppService : IRecipeAppService
         var response =
             await _cache.GetOrCreateAsync(cacheKey, (entry) =>
             {
-                entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(1);
+                entry.AbsoluteExpiration = DateTimeOffset.Now.AddMinutes(1);
                 return _recipeRepository.GetAll(query);
             });
 
