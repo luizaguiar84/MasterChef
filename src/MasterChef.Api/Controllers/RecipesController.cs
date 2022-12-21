@@ -5,6 +5,7 @@ using MasterChef.Domain.Resources;
 using MasterChef.Dto;
 using MasterChef.Infra.Helpers.ExtensionMethods;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using ILogger = Serilog.ILogger;
 
@@ -16,6 +17,7 @@ namespace MasterChef.Api.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
+    [EnableCors("Default")]
     public class RecipesController : ControllerBase
     {
         private readonly ILogger _logger;
