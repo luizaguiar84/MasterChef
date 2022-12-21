@@ -20,6 +20,7 @@ public static class QueriableExtensions
         return new ResultDto<T>()
         {
             Page = key.Page,
+            PageSize = key.PageSize,
             TotalItems = totalItems,
             Items = response
         };

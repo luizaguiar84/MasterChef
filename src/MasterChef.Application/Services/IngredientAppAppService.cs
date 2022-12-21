@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using MasterChef.Application.Interfaces;
 using MasterChef.Domain.Interface;
 using MasterChef.Domain.Models;
+using MasterChef.Infra.Cache;
 using MasterChef.Infra.Interfaces;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace MasterChef.Application.Services
 {
@@ -14,15 +16,18 @@ namespace MasterChef.Application.Services
         private readonly IEventService _eventService;
         private readonly IIngredientRepository _ingredientRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMemoryCache _cache;
 
         public IngredientAppAppService(
             IEventService eventService,
             IIngredientRepository ingredientRepository,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork, 
+            IMemoryCache cache)
         {
             this._eventService = eventService;
             this._ingredientRepository = ingredientRepository;
             _unitOfWork = unitOfWork;
+            _cache = cache;
         }
 
         public async Task<Ingredient> AddAsync(Ingredient ingredient)
@@ -43,7 +48,16 @@ namespace MasterChef.Application.Services
 
         public async Task<ResultDto<Ingredient>> GetByRecipeId(RequestDto query, int recipeId)
         {
-            return await _ingredientRepository.GetByRecipeId(query, recipeId);
+            var cacheKey = GetCacheKeyForIngredientQuery(query, recipeId);
+
+            var response =
+                await _cache.GetOrCreateAsync(cacheKey, (entry) =>
+                {
+                    entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(1);
+                    return _ingredientRepository.GetByRecipeId(query, recipeId);
+                });
+            
+            return response;
         }
 
         public async Task Delete(int id)
@@ -54,8 +68,28 @@ namespace MasterChef.Application.Services
 
         public async Task<ResultDto<Ingredient>> GetAll(RequestDto query)
         {
-            var response = await _ingredientRepository.GetAll(query);
+            var cacheKey = GetCacheKeyForIngredientQuery(query);
+
+            var response =
+                await _cache.GetOrCreateAsync(cacheKey, (entry) =>
+                {
+                    entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(1);
+                    return _ingredientRepository.GetAll(query);
+                });
+            
             return response;
+        }
+        
+        private string GetCacheKeyForIngredientQuery(RequestDto query, int id = 0)
+        {
+            var key = CacheKeys.IngredientsList.ToString();
+
+            if (id > 0)
+                key = string.Concat(key, "_", id);
+
+            key = string.Concat(key, "_", query.Page, "_", query.PageSize);
+
+            return key;
         }
     }
 }
