@@ -4,6 +4,7 @@ using MasterChef.Domain.Interface;
 using MasterChef.Domain.Resources;
 using MasterChef.Infra.Helpers.ExtensionMethods;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MasterChef.Api.Controllers
@@ -14,6 +15,7 @@ namespace MasterChef.Api.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
+    [EnableCors("Default")]
     public class IngredientController : ControllerBase
     {
         private readonly IIngredientAppService _ingredientAppService;
@@ -43,12 +45,11 @@ namespace MasterChef.Api.Controllers
         public async Task<IActionResult> Get()
         {
             var response = await _ingredientAppService.GetAll();
-            
+
             if (response == null)
                 return NotFound();
 
             return Ok(response);
-
         }
 
         /// <summary>
@@ -63,7 +64,7 @@ namespace MasterChef.Api.Controllers
         public async Task<IActionResult> Get(int id)
         {
             var response = await _ingredientAppService.GetByRecipeId(id);
-            
+
             if (response == null)
                 return NotFound();
 
@@ -82,13 +83,12 @@ namespace MasterChef.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(Ingredient ingredient)
         {
-            var response = await _ingredientAppService.Save(ingredient);
-            
+            var response = await _ingredientAppService.AddAsync(ingredient);
+
             if (_eventService.Event.EventsList.HasItems())
                 return BadRequest(new ErrorResource(_eventService.Event.EventsList));
 
-            return CreatedAtAction(nameof(Get), new {id = ingredient.Id}, response);
-
+            return CreatedAtAction(nameof(Get), new { id = ingredient.Id }, response);
         }
 
 
@@ -103,13 +103,12 @@ namespace MasterChef.Api.Controllers
         [HttpPut]
         public async Task<IActionResult> Put(Ingredient ingredient)
         {
-            var response = await _ingredientAppService.Update(ingredient);
+            await _ingredientAppService.UpdateAsync(ingredient);
 
             if (_eventService.Event.EventsList.HasItems())
                 return BadRequest(new ErrorResource(_eventService.Event.EventsList));
 
-            return Ok(response);
-
+            return Ok(ingredient);
         }
 
         /// <summary>
@@ -124,14 +123,12 @@ namespace MasterChef.Api.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var response = await _ingredientAppService.Delete(id);
+            await _ingredientAppService.Delete(id);
 
             if (_eventService.Event.EventsList.HasItems())
                 return BadRequest(new ErrorResource(_eventService.Event.EventsList));
 
             return NoContent();
-
         }
-
     }
 }

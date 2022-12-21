@@ -6,9 +6,9 @@ namespace MasterChef.Application.Interfaces;
 
 public interface IIngredientAppService
 {
-    Task<Ingredient> Save(Ingredient Ingredient);
-    Task<Ingredient> Update(Ingredient ingredient);
+    Task<Ingredient> AddAsync(Ingredient Ingredient);
+    Task UpdateAsync(Ingredient ingredient);
     Task<List<Ingredient>> GetByRecipeId(int recipeId);
-    Task<bool> Delete(int id);
+    Task Delete(int id);
     Task<List<Ingredient>> GetAll();
 }

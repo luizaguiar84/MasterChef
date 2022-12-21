@@ -7,9 +7,9 @@ namespace MasterChef.Infra.Interfaces;
 public interface IIngredientRepository
 {
     Task<List<Ingredient>> GetByRecipeId(int recipeId);
-    Task<Ingredient> Add(Ingredient ingredient);
+    Task<Ingredient> AddAsync(Ingredient ingredient);
     Task<List<Ingredient>> GetAll();
-    Task<Ingredient> GetById(int id);
-    Task<Ingredient> Update(Ingredient entity);
-    Task<bool> Delete(int id);
+    Task<Ingredient> GetByIdAsync(int id);
+    void Update(Ingredient entity);
+    Task DeleteAsync(int id);
 }

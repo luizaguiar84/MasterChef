@@ -12,33 +12,43 @@ namespace MasterChef.Application.Services
     {
         private readonly IEventService _eventService;
         private readonly IIngredientRepository _ingredientRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public IngredientAppAppService(IEventService eventService, IIngredientRepository ingredientRepository)
+        public IngredientAppAppService(
+            IEventService eventService,
+            IIngredientRepository ingredientRepository,
+            IUnitOfWork unitOfWork)
         {
             this._eventService = eventService;
             this._ingredientRepository = ingredientRepository;
+            _unitOfWork = unitOfWork;
         }
-        public async Task<Ingredient> Save(Ingredient ingredient)
+
+        public async Task<Ingredient> AddAsync(Ingredient ingredient)
         {
             ingredient.CreateDate = DateTime.Now;
             ingredient.LastChange = DateTime.Now;
-            await _ingredientRepository.Add(ingredient);
+            await _ingredientRepository.AddAsync(ingredient);
+            await _unitOfWork.CompleteAsync();
+
             return ingredient;
         }
-        public async Task<Ingredient> Update(Ingredient ingredient)
+
+        public async Task UpdateAsync(Ingredient ingredient)
         {
-            var response = await _ingredientRepository.Update(ingredient);
-            return response;
+            _ingredientRepository.Update(ingredient);
+            await _unitOfWork.CompleteAsync();
         }
+
         public async Task<List<Ingredient>> GetByRecipeId(int recipeId)
         {
             return await _ingredientRepository.GetByRecipeId(recipeId);
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task Delete(int id)
         {
-            var response = await _ingredientRepository.Delete(id);
-            return response;
+            await _ingredientRepository.DeleteAsync(id);
+            await _unitOfWork.CompleteAsync();
         }
 
         public async Task<List<Ingredient>> GetAll()

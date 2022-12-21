@@ -7,10 +7,10 @@ namespace MasterChef.Infra.Interfaces
 {
     public interface IRecipeRepository
     {
-        Task<Recipe> Add(RecipeDto recipe);
+        Task<Recipe> AddAsync(RecipeDto recipe);
         Task<IList<Recipe>> GetAll();
-        Task<Recipe> GetById(int id);
-        Task<Recipe> Update(Recipe entity);
-        Task<List<Recipe>> GetAllByUserId(string id);
+        Task<Recipe> GetByIdAsync(int id);
+        void Update(Recipe entity);
+        Task<List<Recipe>> GetAllRecipesByUserId(string id);
     }
 }

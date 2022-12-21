@@ -25,7 +25,7 @@ namespace MasterChef.Infra.Repositories
             _mapper = mapper;
         }
 
-        public async Task<Recipe> Add(RecipeDto recipe)
+        public async Task<Recipe> AddAsync(RecipeDto recipe)
         {
             var entityDomain = _mapper.Map<Recipe>(recipe);
 
@@ -33,19 +33,20 @@ namespace MasterChef.Infra.Repositories
             entityDomain.LastChange = DateTime.Now;
             
             await _context.Recipes.AddAsync(entityDomain);
-            await _context.SaveChangesAsync();
 
             return entityDomain;
-
         }
 
         public async Task<IList<Recipe>> GetAll()
         {
-            var recipes = await _context.Recipes.ToListAsync();
+            var recipes = await _context.Recipes
+                .AsNoTracking()
+                .ToListAsync();
+            
             return recipes;
         }
         
-        public async Task<Recipe> GetById(int id)
+        public async Task<Recipe> GetByIdAsync(int id)
         {
             var recipe = await _context.Recipes
                 .Include(r => r.Ingredients)
@@ -54,25 +55,26 @@ namespace MasterChef.Infra.Repositories
             return recipe;
         }
 
-        public async Task<Recipe> Update(Recipe entity)
+        public void Update(Recipe entity)
         {
             entity.LastChange = DateTime.Now;
             var response = _context.Recipes.Update(entity);
-            
             _context.Entry(entity).Property(p => p.CreateDate).IsModified = false;
-
-            await _context.SaveChangesAsync();
-
-            return response.Entity;
         }
 
-        public async Task<List<Recipe>> GetAllByUserId(string id)
+        public async Task<List<Recipe>> GetAllRecipesByUserId(string id)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.ExternalId == id);
+            var user = await _context.Users
+                .FirstOrDefaultAsync(u => u.ExternalId == id);
+            
             if (user == null)
                 return null;
 
-            var response = await _context.Recipes.Where(r => r.UserId == user.Id && r.Active).ToListAsync();
+            var response = await _context.Recipes
+                .AsNoTracking()
+                .Where(r => r.UserId == user.Id && r.Active)
+                .ToListAsync();
+            
             return response;
         }
     }

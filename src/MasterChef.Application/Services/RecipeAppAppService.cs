@@ -16,16 +16,19 @@ public class RecipeAppAppService : IRecipeAppService
     private readonly IIngredientAppService _ingredientAppService;
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<RecipeDto> _validation;
     private readonly IEventService _eventService;
     private readonly IRecipeRepository _recipeRepository;
+
     public RecipeAppAppService(
         IValidator<RecipeDto> validation,
         IEventService eventService,
         IRecipeRepository recipeRepository,
         IIngredientAppService ingredientAppService,
         IUserRepository userRepository,
-        IMapper mapper)
+        IMapper mapper,
+        IUnitOfWork unitOfWork)
     {
         this._validation = validation;
         this._eventService = eventService;
@@ -33,6 +36,7 @@ public class RecipeAppAppService : IRecipeAppService
         this._ingredientAppService = ingredientAppService;
         _userRepository = userRepository;
         _mapper = mapper;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<RecipeDto> Save(RecipeDto recipe)
@@ -51,44 +55,46 @@ public class RecipeAppAppService : IRecipeAppService
             user = await _userRepository.Add(_mapper.Map<User>(recipe.User));
 
         recipe.UserId = user.Id;
-        
-        var response = await _recipeRepository.Add(recipe);
-        
+
+        var response = await _recipeRepository.AddAsync(recipe);
+        await _unitOfWork.CompleteAsync();
+
         return _mapper.Map<RecipeDto>(response);
     }
 
     public async Task<List<Recipe>> GetAllByUserId(string id)
     {
-        return await _recipeRepository.GetAllByUserId(id);
+        return await _recipeRepository.GetAllRecipesByUserId(id);
     }
-    
-    public async Task<Recipe> Update(RecipeDto recipe)
+
+    public async Task Update(RecipeDto recipe)
     {
         var user = await _userRepository.GetByExternalId(recipe.User?.ExternalId);
-        
-        if (user != null) 
+
+        if (user != null)
             recipe.UserId = user.Id;
 
-        var response = await _recipeRepository.Update(_mapper.Map<Recipe>(recipe));
-        return response;
+        _recipeRepository.Update(_mapper.Map<Recipe>(recipe));
+        await _unitOfWork.CompleteAsync();
     }
 
     public async Task<Recipe> GetById(int id)
     {
-        return await _recipeRepository.GetById(id);
+        return await _recipeRepository.GetByIdAsync(id);
     }
 
     public async Task<List<Recipe>> GetAll()
     {
-        var response =  await _recipeRepository.GetAll();
+        var response = await _recipeRepository.GetAll();
         return response.Where(r => r.Active).ToList();
     }
 
     public async Task<Recipe> Inactivate(int id)
     {
-        var recipe = await _recipeRepository.GetById(id);
+        var recipe = await _recipeRepository.GetByIdAsync(id);
         recipe.Active = false;
-        await _recipeRepository.Update(recipe);
+        _recipeRepository.Update(recipe);
+        await _unitOfWork.CompleteAsync();
 
         return recipe;
     }

@@ -11,6 +11,6 @@ public interface IRecipeAppService
     Task<List<Recipe>> GetAll();
     Task<Recipe> GetById(int id);
     Task<List<Recipe>> GetAllByUserId(string id);
-    Task<Recipe> Update(RecipeDto recipe);
+    Task Update(RecipeDto recipe);
     Task<Recipe> Inactivate(int id);
 }

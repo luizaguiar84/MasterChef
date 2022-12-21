@@ -27,25 +27,26 @@ namespace MasterChef.Infra.Repositories
             return response;
         }
 
-        public async Task<Ingredient> Add(Ingredient ingredient)
+        public async Task<Ingredient> AddAsync(Ingredient ingredient)
         {
             ingredient.CreateDate = DateTime.Now;
             ingredient.LastChange = DateTime.Now;
 
             await _context.Ingredients.AddAsync(ingredient);
-            await _context.SaveChangesAsync();
 
             return ingredient;
-
         }
 
         public async Task<List<Ingredient>> GetAll()
         {
-            var response = await _context.Ingredients.ToListAsync();
+            var response = await _context.Ingredients
+                .AsNoTracking()
+                .ToListAsync();
+
             return response;
         }
 
-        public async Task<Ingredient> GetById(int id)
+        public async Task<Ingredient> GetByIdAsync(int id)
         {
             var response = await _context.Ingredients
                 .FirstOrDefaultAsync(r => r.Id == id && r.Active);
@@ -53,30 +54,17 @@ namespace MasterChef.Infra.Repositories
             return response;
         }
 
-        public async Task<Ingredient> Update(Ingredient entity)
+        public void Update(Ingredient entity)
         {
             entity.LastChange = DateTime.Now;
             _context.Ingredients.Update(entity);
-
             _context.Entry(entity).Property(p => p.CreateDate).IsModified = false;
-
-            await _context.SaveChangesAsync();
-
-            return entity;
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task DeleteAsync(int id)
         {
-            var entity = await GetById(id);
-
-            if (entity == null)
-                return false;
-
+            var entity = await GetByIdAsync(id);
             _context.Ingredients.Remove(entity);
-            var response = await _context.SaveChangesAsync();
-
-            return response > 0;
-
         }
     }
 }

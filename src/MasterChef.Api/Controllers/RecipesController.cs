@@ -124,13 +124,12 @@ namespace MasterChef.Api.Controllers
         [HttpPut]
         public async Task<IActionResult> Put(RecipeDto recipe)
         {
-            var response = await _recipeAppService.Update(recipe);
+            await _recipeAppService.Update(recipe);
 
             if (_eventService.Event.EventsList.HasItems())
                 return BadRequest(new ErrorResource(_eventService.Event.EventsList));
 
-            _logger.Information("Recipe : {@response}", response);
-            return Ok(response);
+            return Ok(recipe);
         }
 
         /// <summary>
@@ -152,7 +151,7 @@ namespace MasterChef.Api.Controllers
 
             _logger.Information("Inactivate Recipe : {@response}", response);
 
-            return new StatusCodeResult(StatusCodes.Status204NoContent);
+            return NoContent();
         }
     }
 }
