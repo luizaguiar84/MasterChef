@@ -44,15 +44,9 @@ namespace MasterChef.Infra.Repositories
             
             queryable = queryable.Where(r => r.Active);
             
-            var totalItems = await queryable.CountAsync();
-
             var recipes = await queryable.ToListAsync(query);
 
-            return new ResultDto<Recipe>()
-            {
-                TotalItems = totalItems,
-                Items = recipes
-            };
+            return recipes;
         }
 
         public async Task<Recipe> GetByIdAsync(int id)
@@ -82,16 +76,10 @@ namespace MasterChef.Infra.Repositories
             var query = _context.Recipes
                 .AsNoTracking()
                 .Where(r => r.UserId == user.Id && r.Active);
-                
-            var totalItems = await query.CountAsync();
-
-            var recipes = await query.ToListAsync(key);
             
-            return new ResultDto<Recipe>()
-            {
-                TotalItems = totalItems,
-                Items = recipes
-            };;
+            var recipes = await query.ToListAsync(key);
+
+            return recipes;
         }
     }
 }

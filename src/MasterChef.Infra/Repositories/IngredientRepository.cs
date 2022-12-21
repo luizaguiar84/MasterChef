@@ -26,15 +26,9 @@ namespace MasterChef.Infra.Repositories
                     .AsNoTracking()
                     .Where(i => i.RecipeId == recipeId);
             
-            var totalItems = await query.CountAsync();
-            
             var ingredients =  await query.ToListAsync(key);
 
-            return new ResultDto<Ingredient>()
-            {
-                TotalItems = totalItems,
-                Items = ingredients
-            };
+            return ingredients;
         }
 
         public async Task<Ingredient> AddAsync(Ingredient ingredient)
@@ -52,15 +46,9 @@ namespace MasterChef.Infra.Repositories
             var query = _context.Ingredients
                 .AsNoTracking();
             
-            var totalItems = await query.CountAsync();
-            
             var ingredients =  await query.ToListAsync(key);
 
-            return new ResultDto<Ingredient>()
-            {
-                TotalItems = totalItems,
-                Items = ingredients
-            };
+            return ingredients;
         }
 
         public async Task<Ingredient> GetByIdAsync(int id)

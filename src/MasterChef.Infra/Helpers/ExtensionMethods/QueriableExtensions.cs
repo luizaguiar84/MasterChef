@@ -8,13 +8,20 @@ namespace MasterChef.Infra.Helpers.ExtensionMethods;
 
 public static class QueriableExtensions
 {
-    public static async Task<List<T>> ToListAsync<T>(this IQueryable<T> query, RequestDto key)
+    public static async Task<ResultDto<T>> ToListAsync<T>(this IQueryable<T> query, RequestDto key)
     {
+        var totalItems = await query.CountAsync();
+
         var response = await query
             .Skip(key.Page * key.PageSize)
             .Take(key.PageSize)
             .ToListAsync();
 
-        return response;
+        return new ResultDto<T>()
+        {
+            Page = key.Page,
+            TotalItems = totalItems,
+            Items = response
+        };
     }
 }
