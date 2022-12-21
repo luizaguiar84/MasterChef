@@ -6,6 +6,7 @@ using MasterChef.Infra.Enums;
 using MasterChef.Infra.IoC;
 using MasterChef.Infra.Sqlite.Identity;
 using MasterChef.Infra.SqlServer.Identity;
+using Microsoft.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +21,6 @@ switch (databaseConfiguration.DatabaseType)
         builder.Services.AddSqlServerIdentityDependency(databaseConfiguration);
         break;
 }
-
 
 builder.Configuration.AddSerilogApi();
 builder.Host.UseSerilog(Log.Logger);
@@ -44,7 +44,17 @@ else
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
+
+app.UseResponseCompression();
+
+app.UseStaticFiles(new StaticFileOptions()
+{
+    OnPrepareResponse = ctx =>
+    {
+        int duration = 60 * 60 * 24 * 365;
+        ctx.Context.Response.Headers[HeaderNames.CacheControl] = $"public, max-age={duration}";
+    }
+});
 
 app.UseRouting();
 

@@ -26,11 +26,15 @@ namespace MasterChef.Infra.IoC
             });
 
 
-            services.AddResponseCompression(o => { o.Providers.Add<GzipCompressionProvider>(); });
+            services.AddResponseCompression(o =>
+            {
+                o.Providers.Add<GzipCompressionProvider>();
+            });
 
             services.AddControllersWithViews();
             services.AddClientDependency();
 
+            services.AddMemoryCache();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             return services;
@@ -51,7 +55,6 @@ namespace MasterChef.Infra.IoC
                     },
                     License = new OpenApiLicense()
                     {
-                        Name = "MIT"
                     }
                 });
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
@@ -109,6 +112,11 @@ namespace MasterChef.Infra.IoC
                     }
                 );
 
+            services.AddResponseCompression(o =>
+            {
+                o.Providers.Add<GzipCompressionProvider>();
+            });
+            
             services.AddEndpointsApiExplorer();
             services.AddInfraDependency();
             services.AddDomainDependency();
@@ -123,6 +131,7 @@ namespace MasterChef.Infra.IoC
                 });
             });
 
+            services.AddMemoryCache();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 
