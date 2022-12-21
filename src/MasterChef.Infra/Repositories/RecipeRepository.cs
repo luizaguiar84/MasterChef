@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MasterChef.Domain.Models;
 using MasterChef.Dto;
+using MasterChef.Infra.Helpers.ExtensionMethods;
 
 namespace MasterChef.Infra.Repositories
 {
@@ -45,10 +46,7 @@ namespace MasterChef.Infra.Repositories
             
             var totalItems = await queryable.CountAsync();
 
-            var recipes =  await queryable
-                .Skip(query.Page * query.PageSize)
-                .Take(query.PageSize)
-                .ToListAsync();
+            var recipes = await queryable.ToListAsync(query);
 
             return new ResultDto<Recipe>()
             {
@@ -87,10 +85,7 @@ namespace MasterChef.Infra.Repositories
                 
             var totalItems = await query.CountAsync();
 
-            var recipes = await query
-                .Skip(key.Page * key.PageSize)
-                .Take(key.PageSize)
-                .ToListAsync();
+            var recipes = await query.ToListAsync(key);
             
             return new ResultDto<Recipe>()
             {

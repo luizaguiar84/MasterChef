@@ -6,6 +6,7 @@ using MasterChef.Domain.Models;
 using MasterChef.Infra.Context;
 using MasterChef.Infra.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using MasterChef.Infra.Helpers.ExtensionMethods;
 
 namespace MasterChef.Infra.Repositories
 {
@@ -27,10 +28,7 @@ namespace MasterChef.Infra.Repositories
             
             var totalItems = await query.CountAsync();
             
-            var ingredients =  await query
-                .Skip(key.Page * key.PageSize)
-                .Take(key.PageSize)
-                .ToListAsync();
+            var ingredients =  await query.ToListAsync(key);
 
             return new ResultDto<Ingredient>()
             {
@@ -56,10 +54,7 @@ namespace MasterChef.Infra.Repositories
             
             var totalItems = await query.CountAsync();
             
-            var ingredients =  await query
-                .Skip(key.Page * key.PageSize)
-                .Take(key.PageSize)
-                .ToListAsync();
+            var ingredients =  await query.ToListAsync(key);
 
             return new ResultDto<Ingredient>()
             {
