@@ -9,7 +9,7 @@ public class RequestDto
 
     public RequestDto()
     {
-        Page = 1;
+        Page = 0;
         PageSize = 50;
     }
     
@@ -19,7 +19,7 @@ public class RequestDto
         PageSize = pageSize;
 
         if (Page <= 0) 
-            Page = 1;
+            Page = 0;
 
         if (PageSize <= 0) 
             PageSize = 50;

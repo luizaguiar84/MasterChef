@@ -3,7 +3,6 @@ using MasterChef.Infra.Context;
 using MasterChef.Infra.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -47,7 +46,7 @@ namespace MasterChef.Infra.Repositories
             var totalItems = await queryable.CountAsync();
 
             var recipes =  await queryable
-                .Skip((query.Page - 1) * query.PageSize)
+                .Skip(query.Page * query.PageSize)
                 .Take(query.PageSize)
                 .ToListAsync();
 
@@ -89,7 +88,7 @@ namespace MasterChef.Infra.Repositories
             var totalItems = await query.CountAsync();
 
             var recipes = await query
-                .Skip((key.Page - 1) * key.PageSize)
+                .Skip(key.Page * key.PageSize)
                 .Take(key.PageSize)
                 .ToListAsync();
             

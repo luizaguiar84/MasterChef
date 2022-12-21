@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MasterChef.Domain.Entities;
@@ -27,9 +26,9 @@ namespace MasterChef.Infra.Repositories
                     .Where(i => i.RecipeId == recipeId);
             
             var totalItems = await query.CountAsync();
-
+            
             var ingredients =  await query
-                .Skip((key.Page - 1) * key.PageSize)
+                .Skip(key.Page * key.PageSize)
                 .Take(key.PageSize)
                 .ToListAsync();
 
@@ -56,9 +55,9 @@ namespace MasterChef.Infra.Repositories
                 .AsNoTracking();
             
             var totalItems = await query.CountAsync();
-
+            
             var ingredients =  await query
-                .Skip((key.Page - 1) * key.PageSize)
+                .Skip(key.Page * key.PageSize)
                 .Take(key.PageSize)
                 .ToListAsync();
 
