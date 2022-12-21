@@ -1,6 +1,7 @@
 ﻿using MasterChef.Application.Interfaces;
 using MasterChef.Domain.Entities;
 using MasterChef.Domain.Interface;
+using MasterChef.Domain.Models;
 using MasterChef.Domain.Resources;
 using MasterChef.Dto;
 using MasterChef.Infra.Helpers.ExtensionMethods;
@@ -14,6 +15,7 @@ namespace MasterChef.Api.Controllers
     /// <summary>
     /// Recipes Controller
     /// </summary>
+    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
@@ -44,12 +46,12 @@ namespace MasterChef.Api.Controllers
         /// Get All Recipes
         /// </summary>
         /// <returns></returns>
-        [ProducesResponseType(typeof(List<Recipe>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<ResultDto<Recipe>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(List<Recipe>), StatusCodes.Status404NotFound)]
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get([FromQuery] RequestDto query)
         {
-            var response = await _recipeAppService.GetAll();
+            var response = await _recipeAppService.GetAll(query);
             return Ok(response);
         }
 
@@ -62,11 +64,11 @@ namespace MasterChef.Api.Controllers
         [ProducesResponseType(typeof(List<Recipe>), StatusCodes.Status404NotFound)]
         [Route("getRecipeByUser/{id}")]
         [HttpGet]
-        public async Task<IActionResult> GetRecipeByUser(string id)
+        public async Task<IActionResult> GetRecipeByUser(string id, [FromQuery] RequestDto query)
         {
-            var response = new List<Recipe>();
+            var response = new ResultDto<Recipe>();
 
-            var recipes = await _recipeAppService.GetAllByUserId(id);
+            var recipes = await _recipeAppService.GetAllByUserId(query, id);
 
             if (recipes != null)
                 response = recipes;

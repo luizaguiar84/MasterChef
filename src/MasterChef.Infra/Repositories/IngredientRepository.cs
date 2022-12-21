@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MasterChef.Domain.Entities;
+using MasterChef.Domain.Models;
 using MasterChef.Infra.Context;
 using MasterChef.Infra.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -18,13 +19,25 @@ namespace MasterChef.Infra.Repositories
             _context = context;
         }
 
-        public async Task<List<Ingredient>> GetByRecipeId(int recipeId)
+        public async Task<ResultDto<Ingredient>> GetByRecipeId(RequestDto key, int recipeId)
         {
-            var response = await _context.Ingredients.Where(
-                    i => i.RecipeId == recipeId)
+            var query = 
+                _context.Ingredients
+                    .AsNoTracking()
+                    .Where(i => i.RecipeId == recipeId);
+            
+            var totalItems = await query.CountAsync();
+
+            var ingredients =  await query
+                .Skip((key.Page - 1) * key.PageSize)
+                .Take(key.PageSize)
                 .ToListAsync();
 
-            return response;
+            return new ResultDto<Ingredient>()
+            {
+                TotalItems = totalItems,
+                Items = ingredients
+            };
         }
 
         public async Task<Ingredient> AddAsync(Ingredient ingredient)
@@ -37,13 +50,23 @@ namespace MasterChef.Infra.Repositories
             return ingredient;
         }
 
-        public async Task<List<Ingredient>> GetAll()
+        public async Task<ResultDto<Ingredient>> GetAll(RequestDto key)
         {
-            var response = await _context.Ingredients
-                .AsNoTracking()
+            var query = _context.Ingredients
+                .AsNoTracking();
+            
+            var totalItems = await query.CountAsync();
+
+            var ingredients =  await query
+                .Skip((key.Page - 1) * key.PageSize)
+                .Take(key.PageSize)
                 .ToListAsync();
 
-            return response;
+            return new ResultDto<Ingredient>()
+            {
+                TotalItems = totalItems,
+                Items = ingredients
+            };
         }
 
         public async Task<Ingredient> GetByIdAsync(int id)

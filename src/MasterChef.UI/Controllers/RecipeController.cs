@@ -42,10 +42,10 @@ namespace MasterChef.UI.Controllers
             ViewBag.id = 0;
 
             var user = await GetUser();
-            var response = await _requestClient.GetJsonAsync<List<RecipeModel>>($"{_connection}/{Endpoints.Recipes}/getRecipeByUser/{user.Id}");
+            var response = await _requestClient.GetJsonAsync<ResultDto<RecipeModel>>($"{_connection}/{Endpoints.Recipes}/getRecipeByUser/{user.Id}");
 
             if (response != null)
-                model.Recipes = response;
+                model.Recipes = response.Items;
                
             return View(model);
         }
@@ -80,9 +80,9 @@ namespace MasterChef.UI.Controllers
 
             var responseData = await _requestClient.GetJsonAsync<RecipeModel>($"{_connection}/{Endpoints.Recipes}/{id}");
             var responseDataList =
-                await _requestClient.GetJsonAsync<List<RecipeModel>>($"{_connection}/{Endpoints.Recipes}");
+                await _requestClient.GetJsonAsync<ResultDto<RecipeModel>>($"{_connection}/{Endpoints.Recipes}");
 
-            responseData.Recipes = responseDataList ?? new List<RecipeModel>();
+            responseData.Recipes = responseDataList.Items ?? new List<RecipeModel>();
 
             return View("Cadastro", responseData);
         }

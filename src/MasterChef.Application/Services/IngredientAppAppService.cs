@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using MasterChef.Application.Interfaces;
 using MasterChef.Domain.Interface;
+using MasterChef.Domain.Models;
 using MasterChef.Infra.Interfaces;
 
 namespace MasterChef.Application.Services
@@ -40,9 +41,9 @@ namespace MasterChef.Application.Services
             await _unitOfWork.CompleteAsync();
         }
 
-        public async Task<List<Ingredient>> GetByRecipeId(int recipeId)
+        public async Task<ResultDto<Ingredient>> GetByRecipeId(RequestDto query, int recipeId)
         {
-            return await _ingredientRepository.GetByRecipeId(recipeId);
+            return await _ingredientRepository.GetByRecipeId(query, recipeId);
         }
 
         public async Task Delete(int id)
@@ -51,9 +52,9 @@ namespace MasterChef.Application.Services
             await _unitOfWork.CompleteAsync();
         }
 
-        public async Task<List<Ingredient>> GetAll()
+        public async Task<ResultDto<Ingredient>> GetAll(RequestDto query)
         {
-            var response = await _ingredientRepository.GetAll();
+            var response = await _ingredientRepository.GetAll(query);
             return response;
         }
     }

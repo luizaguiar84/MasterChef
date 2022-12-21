@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation;
 using MasterChef.Domain.Interface;
+using MasterChef.Domain.Models;
 using MasterChef.Dto;
 
 namespace MasterChef.Application.Services;
 
-public class RecipeAppAppService : IRecipeAppService
+public class RecipeAppService : IRecipeAppService
 {
     private readonly IIngredientAppService _ingredientAppService;
     private readonly IUserRepository _userRepository;
@@ -21,7 +22,7 @@ public class RecipeAppAppService : IRecipeAppService
     private readonly IEventService _eventService;
     private readonly IRecipeRepository _recipeRepository;
 
-    public RecipeAppAppService(
+    public RecipeAppService(
         IValidator<RecipeDto> validation,
         IEventService eventService,
         IRecipeRepository recipeRepository,
@@ -62,9 +63,9 @@ public class RecipeAppAppService : IRecipeAppService
         return _mapper.Map<RecipeDto>(response);
     }
 
-    public async Task<List<Recipe>> GetAllByUserId(string id)
+    public async Task<ResultDto<Recipe>> GetAllByUserId(RequestDto key, string id)
     {
-        return await _recipeRepository.GetAllRecipesByUserId(id);
+        return await _recipeRepository.GetAllRecipesByUserId(key, id);
     }
 
     public async Task Update(RecipeDto recipe)
@@ -83,10 +84,10 @@ public class RecipeAppAppService : IRecipeAppService
         return await _recipeRepository.GetByIdAsync(id);
     }
 
-    public async Task<List<Recipe>> GetAll()
+    public async Task<ResultDto<Recipe>> GetAll(RequestDto query)
     {
-        var response = await _recipeRepository.GetAll();
-        return response.Where(r => r.Active).ToList();
+        var response = await _recipeRepository.GetAll(query);
+        return response;
     }
 
     public async Task<Recipe> Inactivate(int id)

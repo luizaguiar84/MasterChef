@@ -12,7 +12,7 @@ namespace MasterChef.Application
     {
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
-            services.AddTransient<IRecipeAppService, RecipeAppAppService>();
+            services.AddTransient<IRecipeAppService, RecipeAppService>();
             services.AddTransient<ITokenService, TokenService>();
             services.AddTransient<IUserAppService, UserAppAppService>();
             services.AddTransient<IIngredientAppService, IngredientAppAppService>();

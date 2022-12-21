@@ -8,6 +8,7 @@ namespace MasterChef.Api.Controllers
     /// <summary>
     /// Token
     /// </summary>
+    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]

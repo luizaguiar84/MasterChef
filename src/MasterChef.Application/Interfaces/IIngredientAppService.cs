@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using MasterChef.Domain.Entities;
+using MasterChef.Domain.Models;
 
 namespace MasterChef.Application.Interfaces;
 
@@ -8,7 +9,7 @@ public interface IIngredientAppService
 {
     Task<Ingredient> AddAsync(Ingredient Ingredient);
     Task UpdateAsync(Ingredient ingredient);
-    Task<List<Ingredient>> GetByRecipeId(int recipeId);
+    Task<ResultDto<Ingredient>> GetByRecipeId(RequestDto query, int recipeId);
     Task Delete(int id);
-    Task<List<Ingredient>> GetAll();
+    Task<ResultDto<Ingredient>> GetAll(RequestDto query);
 }

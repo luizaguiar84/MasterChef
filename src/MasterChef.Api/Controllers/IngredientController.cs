@@ -1,6 +1,7 @@
 ﻿using MasterChef.Application.Interfaces;
 using MasterChef.Domain.Entities;
 using MasterChef.Domain.Interface;
+using MasterChef.Domain.Models;
 using MasterChef.Domain.Resources;
 using MasterChef.Infra.Helpers.ExtensionMethods;
 using Microsoft.AspNetCore.Authorization;
@@ -12,6 +13,7 @@ namespace MasterChef.Api.Controllers
     /// <summary>
     /// Controller to add / edit recipe ingredients
     /// </summary>
+    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
@@ -42,9 +44,9 @@ namespace MasterChef.Api.Controllers
         [ProducesResponseType(typeof(Ingredient), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(List<string>), StatusCodes.Status404NotFound)]
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get([FromQuery] RequestDto query)
         {
-            var response = await _ingredientAppService.GetAll();
+            var response = await _ingredientAppService.GetAll(query);
 
             if (response == null)
                 return NotFound();
@@ -61,9 +63,9 @@ namespace MasterChef.Api.Controllers
         [ProducesResponseType(typeof(List<string>), StatusCodes.Status404NotFound)]
         [HttpGet]
         [Route("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Get([FromQuery] RequestDto query, int id)
         {
-            var response = await _ingredientAppService.GetByRecipeId(id);
+            var response = await _ingredientAppService.GetByRecipeId(query, id);
 
             if (response == null)
                 return NotFound();

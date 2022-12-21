@@ -34,8 +34,8 @@ namespace MasterChef.UI.Controllers
             if (!response.IsSuccessful)
                 return View(new List<RecipeModel>());
             
-            var recipes = response.Content.FromJson<List<RecipeDto>>();
-            return View(_mapper.Map<List<RecipeModel>>(recipes));
+            var recipes = response.Content.FromJson<ResultDto<RecipeDto>>();
+            return View(_mapper.Map<List<RecipeModel>>(recipes.Items));
         }
 
         [HttpGet]

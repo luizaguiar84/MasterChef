@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using MasterChef.Domain.Models;
 using MasterChef.Dto;
 
 namespace MasterChef.Infra.Repositories
@@ -19,7 +20,7 @@ namespace MasterChef.Infra.Repositories
         public RecipeRepository(
             DatabaseContext context,
             IMapper mapper
-            )
+        )
         {
             _context = context;
             _mapper = mapper;
@@ -31,21 +32,32 @@ namespace MasterChef.Infra.Repositories
 
             entityDomain.CreateDate = DateTime.Now;
             entityDomain.LastChange = DateTime.Now;
-            
+
             await _context.Recipes.AddAsync(entityDomain);
 
             return entityDomain;
         }
 
-        public async Task<IList<Recipe>> GetAll()
+        public async Task<ResultDto<Recipe>> GetAll(RequestDto query)
         {
-            var recipes = await _context.Recipes
-                .AsNoTracking()
-                .ToListAsync();
+            var queryable = _context.Recipes.AsNoTracking();
             
-            return recipes;
+            queryable = queryable.Where(r => r.Active);
+            
+            var totalItems = await queryable.CountAsync();
+
+            var recipes =  await queryable
+                .Skip((query.Page - 1) * query.PageSize)
+                .Take(query.PageSize)
+                .ToListAsync();
+
+            return new ResultDto<Recipe>()
+            {
+                TotalItems = totalItems,
+                Items = recipes
+            };
         }
-        
+
         public async Task<Recipe> GetByIdAsync(int id)
         {
             var recipe = await _context.Recipes
@@ -62,20 +74,30 @@ namespace MasterChef.Infra.Repositories
             _context.Entry(entity).Property(p => p.CreateDate).IsModified = false;
         }
 
-        public async Task<List<Recipe>> GetAllRecipesByUserId(string id)
+        public async Task<ResultDto<Recipe>> GetAllRecipesByUserId(RequestDto key, string id)
         {
             var user = await _context.Users
                 .FirstOrDefaultAsync(u => u.ExternalId == id);
-            
+
             if (user == null)
                 return null;
 
-            var response = await _context.Recipes
+            var query = _context.Recipes
                 .AsNoTracking()
-                .Where(r => r.UserId == user.Id && r.Active)
+                .Where(r => r.UserId == user.Id && r.Active);
+                
+            var totalItems = await query.CountAsync();
+
+            var recipes = await query
+                .Skip((key.Page - 1) * key.PageSize)
+                .Take(key.PageSize)
                 .ToListAsync();
             
-            return response;
+            return new ResultDto<Recipe>()
+            {
+                TotalItems = totalItems,
+                Items = recipes
+            };;
         }
     }
 }
