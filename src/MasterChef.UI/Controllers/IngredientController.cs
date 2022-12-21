@@ -78,7 +78,6 @@ namespace MasterChef.UI.Controllers
                 return View("Cadastro", dados);
             }
             return RedirectToAction($"BuscarPorReceitaId", new { id = ViewBag.ReceitaId });
-
         }
 
         [HttpGet]
