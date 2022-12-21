@@ -32,7 +32,6 @@ namespace MasterChef.UI.Controllers
             model.Ingredients = response ?? new List<IngredientModel>();
 
             return View("Cadastro", model);
-
         }
 
         [HttpPost]

@@ -2,6 +2,7 @@ using System.Reflection;
 using MasterChef.Infra.SqlServer.Identity.Context;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MasterChef.Infra.SqlServer.Identity;
@@ -13,12 +14,11 @@ public static class ServiceCollectionExtensions
         services.AddDbContext<SqlServerIdentityContext>(options =>
         {
             options.EnableSensitiveDataLogging();
-            //options.ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning));
-            //options.UseLoggerFactory();
-
-            options.UseSqlServer(configuration.ConnectionString, options =>
+            options.ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryPossibleUnintendedUseOfEqualsWarning));
+            
+            options.UseSqlServer(configuration.ConnectionString, o =>
             {
-                options.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName);
+                o.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName);
             });
 				
         });
