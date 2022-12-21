@@ -35,7 +35,6 @@
   <ItemGroup>
     <ProjectReference Include="..\MasterChef.Application\MasterChef.Application.csproj" />
     <ProjectReference Include="..\MasterChef.Domain\MasterChef.Domain.csproj" />
-    <ProjectReference Include="..\MasterChef.Infra.Postgres\MasterChef.Infra.Postgres.csproj" />
     <ProjectReference Include="..\MasterChef.Infra.Sqlite\MasterChef.Infra.Sqlite.csproj" />
     <ProjectReference Include="..\MasterChef.Infra.SqlServer\MasterChef.Infra.SqlServer.csproj" />
   </ItemGroup>

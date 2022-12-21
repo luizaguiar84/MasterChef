@@ -10,6 +10,9 @@ using ILogger = Serilog.ILogger;
 
 namespace MasterChef.Api.Controllers
 {
+    /// <summary>
+    /// Recipes Controller
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
@@ -18,7 +21,7 @@ namespace MasterChef.Api.Controllers
         private readonly ILogger _logger;
         private readonly IRecipeAppService _recipeAppService;
         private readonly IEventService _eventService;
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -44,17 +47,8 @@ namespace MasterChef.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            try
-            {
-                var response = await _recipeAppService.GetAll();
-                return Ok(response);
-
-            }
-            catch (Exception e)
-            {
-
-                throw;
-            }            
+            var response = await _recipeAppService.GetAll();
+            return Ok(response);
         }
 
         /// <summary>
@@ -69,15 +63,14 @@ namespace MasterChef.Api.Controllers
         public async Task<IActionResult> GetRecipeByUser(string id)
         {
             var response = new List<Recipe>();
-            
+
             var recipes = await _recipeAppService.GetAllByUserId(id);
 
-            if (recipes!= null) 
+            if (recipes != null)
                 response = recipes;
 
             _logger.Information("Recipe : {@response}", response);
             return Ok(response);
-
         }
 
         /// <summary>
@@ -98,7 +91,6 @@ namespace MasterChef.Api.Controllers
 
             _logger.Information("Recipe : {@response}", response);
             return Ok(response);
-
         }
 
         /// <summary>
@@ -115,10 +107,10 @@ namespace MasterChef.Api.Controllers
             var response = await _recipeAppService.Save(recipe);
 
             if (_eventService.Event.EventsList.HasItems())
-                 return BadRequest( new ErrorResource(_eventService.Event.EventsList));
+                return BadRequest(new ErrorResource(_eventService.Event.EventsList));
 
             _logger.Information("Recipe : {@response}", response);
-            return CreatedAtAction(nameof(Get), new {id = response.Id }, response);
+            return CreatedAtAction(nameof(Get), new { id = response.Id }, response);
         }
 
         /// <summary>
@@ -139,7 +131,6 @@ namespace MasterChef.Api.Controllers
 
             _logger.Information("Recipe : {@response}", response);
             return Ok(response);
-
         }
 
         /// <summary>
@@ -158,7 +149,7 @@ namespace MasterChef.Api.Controllers
 
             if (_eventService.Event.EventsList.HasItems())
                 return BadRequest(new ErrorResource(_eventService.Event.EventsList));
-            
+
             _logger.Information("Inactivate Recipe : {@response}", response);
 
             return new StatusCodeResult(StatusCodes.Status204NoContent);

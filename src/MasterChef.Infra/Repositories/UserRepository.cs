@@ -52,7 +52,7 @@ namespace MasterChef.Infra.Repositories
         }
         public async Task<User> GetByUserNameAndPassword(User user)
         {
-            var response = _context.Users.FirstOrDefault(u => u.Username.Equals(user.Username) && u.Password.Equals(user.Password));
+            var response = await _context.Users.FirstOrDefaultAsync(u => u.Username.Equals(user.Username) && u.Password.Equals(user.Password));
 
             return response;
         }
