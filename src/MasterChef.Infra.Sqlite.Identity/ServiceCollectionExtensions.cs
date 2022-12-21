@@ -2,6 +2,7 @@ using System.Reflection;
 using MasterChef.Infra.Sqlite.Identity.Context;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MasterChef.Infra.Sqlite.Identity;
@@ -13,8 +14,7 @@ public static class ServiceCollectionExtensions
         services.AddDbContext<SqliteIdentityContext>(options =>
         {
             options.EnableSensitiveDataLogging();
-            //options.ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning));
-            //options.UseLoggerFactory();
+            options.ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryPossibleUnintendedUseOfEqualsWarning));
 
             options.UseSqlite(configuration.ConnectionString, options =>
             {
