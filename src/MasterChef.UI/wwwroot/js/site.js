@@ -38,7 +38,7 @@ $(".deletarIdIngrediente").click(function () {
 
     $.ajax({
         type: "Get",
-        url: "/Ingredient/BuscarPorReceitaId",
+        url: "/Ingredient/GetById",
         data: {
             'id': id
         },

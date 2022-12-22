@@ -38,7 +38,7 @@ namespace MasterChef.UI.Controllers
 
             var ingredients = _mapper.Map<List<IngredientModel>>(response.Items);
             
-            model.Ingredients = ingredients ?? new List<IngredientModel>();
+            model.Ingredients = ingredients;
 
             return View("Cadastro", model);
         }
@@ -112,7 +112,9 @@ namespace MasterChef.UI.Controllers
         public async Task<IActionResult> Delete(IngredientModel model)
         {
 
-            var response = await _requestClient.DeleteAsync($"{_connection}/{Endpoints.Ingredient}/{model.Id}");
+            var path = $"{_connection}/{Endpoints.Ingredient}/{model.Id}";
+            
+            var response = await _requestClient.DeleteAsync(path);
 
             if (response.IsSuccessStatusCode)
             {

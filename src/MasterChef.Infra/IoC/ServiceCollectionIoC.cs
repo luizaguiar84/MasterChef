@@ -125,8 +125,8 @@ namespace MasterChef.Infra.IoC
             {
                 x.AddPolicy("Default", b =>
                 {
-                    b.AllowAnyOrigin()
-                        .AllowAnyMethod()
+                    b.WithOrigins("*")
+                        .WithMethods("*")
                         .AllowAnyHeader();
                 });
             });

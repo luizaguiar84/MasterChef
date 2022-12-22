@@ -37,8 +37,7 @@ namespace MasterChef.Api.Controllers
             _ingredientAppService = ingredientAppService;
             _eventService = eventService;
         }
-
-
+        
         /// <summary>
         /// Get all ingredients
         /// </summary>
