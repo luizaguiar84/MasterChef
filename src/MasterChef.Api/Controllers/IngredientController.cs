@@ -122,7 +122,7 @@ namespace MasterChef.Api.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [ProducesResponseType(typeof(ErrorResource), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(Ingredient), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(List<string>), StatusCodes.Status500InternalServerError)]
         [HttpDelete]
         [Route("{id}")]
