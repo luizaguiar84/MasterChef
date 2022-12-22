@@ -12,14 +12,14 @@ using MasterChef.Infra.Interfaces;
 
 namespace MasterChef.Application.Services
 {
-    public class IngredientAppAppService : IIngredientAppService
+    public class IngredientAppService : IIngredientAppService
     {
         private readonly IEventService _eventService;
         private readonly IIngredientRepository _ingredientRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public IngredientAppAppService(
+        public IngredientAppService(
             IEventService eventService,
             IIngredientRepository ingredientRepository,
             IUnitOfWork unitOfWork,
@@ -67,6 +67,12 @@ namespace MasterChef.Application.Services
         {
             var response = await _ingredientRepository.GetAll(query);
             return _mapper.Map<ResultDto<IngredientResponseDto>>(response);
+        }
+
+        public async Task<IngredientResponseDto> GetById(int id)
+        {
+            var response = await _ingredientRepository.GetByIdAsync(id);
+            return _mapper.Map<IngredientResponseDto>(response);
         }
 
         private string GetCacheKeyForIngredientQuery(RequestDto query, int id = 0)

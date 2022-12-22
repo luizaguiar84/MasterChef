@@ -10,7 +10,7 @@ namespace MasterChef.Infra.SqlServer.Migrations
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_Recipes_Users_UserId",
-                table: "Recipes");
+                table: "Recipe");
 
             migrationBuilder.DropIndex(
                 name: "IX_Users_ExternalId",
@@ -18,7 +18,7 @@ namespace MasterChef.Infra.SqlServer.Migrations
 
             migrationBuilder.DropIndex(
                 name: "IX_Recipes_UserId",
-                table: "Recipes");
+                table: "Recipe");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_ExternalId",
@@ -41,12 +41,12 @@ namespace MasterChef.Infra.SqlServer.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Recipes_UserId",
-                table: "Recipes",
+                table: "Recipe",
                 column: "UserId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Recipes_Users_UserId",
-                table: "Recipes",
+                table: "Recipe",
                 column: "UserId",
                 principalTable: "Users",
                 principalColumn: "Id");

@@ -30,7 +30,7 @@ namespace MasterChef.UI.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var response = await _requestClient.GetAsync($"{_connection}/{Endpoints.Recipes}");
+            var response = await _requestClient.GetAsync($"{_connection}/{Endpoints.Recipe}");
 
             if (!response.IsSuccessful)
                 return View(new List<RecipeModel>());
@@ -42,7 +42,7 @@ namespace MasterChef.UI.Controllers
         [HttpGet]
         public async Task<JsonResult> GetById(int id)
         {
-            var response = await _requestClient.GetAsync($"{_connection}/{Endpoints.Recipes}/{id}");
+            var response = await _requestClient.GetAsync($"{_connection}/{Endpoints.Recipe}/{id}");
 
             if (!response.IsSuccessStatusCode)
                 return Json(null);

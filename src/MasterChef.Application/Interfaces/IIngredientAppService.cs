@@ -12,4 +12,5 @@ public interface IIngredientAppService
     Task<ResultDto<IngredientResponseDto>> GetByRecipeId(RequestDto query, int recipeId);
     Task Delete(int id);
     Task<ResultDto<IngredientResponseDto>> GetAll(RequestDto query);
+    Task<IngredientResponseDto> GetById(int id);
 }

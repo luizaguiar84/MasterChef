@@ -16,7 +16,7 @@ namespace MasterChef.Infra.Sqlite.Migrations
 
             migrationBuilder.AlterColumn<string>(
                 name: "WayOfPrepare",
-                table: "Recipes",
+                table: "Recipe",
                 type: "TEXT",
                 nullable: false,
                 defaultValue: "",
@@ -26,7 +26,7 @@ namespace MasterChef.Infra.Sqlite.Migrations
 
             migrationBuilder.AlterColumn<string>(
                 name: "Title",
-                table: "Recipes",
+                table: "Recipe",
                 type: "TEXT",
                 nullable: false,
                 defaultValue: "",
@@ -36,7 +36,7 @@ namespace MasterChef.Infra.Sqlite.Migrations
 
             migrationBuilder.AlterColumn<string>(
                 name: "Description",
-                table: "Recipes",
+                table: "Recipe",
                 type: "TEXT",
                 nullable: false,
                 defaultValue: "",
@@ -46,7 +46,7 @@ namespace MasterChef.Infra.Sqlite.Migrations
 
             migrationBuilder.AddColumn<int>(
                 name: "UserId",
-                table: "Recipes",
+                table: "Recipe",
                 type: "INTEGER",
                 nullable: true);
 
@@ -69,11 +69,11 @@ namespace MasterChef.Infra.Sqlite.Migrations
 
             migrationBuilder.DropColumn(
                 name: "UserId",
-                table: "Recipes");
+                table: "Recipe");
 
             migrationBuilder.AlterColumn<string>(
                 name: "WayOfPrepare",
-                table: "Recipes",
+                table: "Recipe",
                 type: "TEXT",
                 nullable: true,
                 oldClrType: typeof(string),
@@ -81,7 +81,7 @@ namespace MasterChef.Infra.Sqlite.Migrations
 
             migrationBuilder.AlterColumn<string>(
                 name: "Title",
-                table: "Recipes",
+                table: "Recipe",
                 type: "TEXT",
                 nullable: true,
                 oldClrType: typeof(string),
@@ -89,7 +89,7 @@ namespace MasterChef.Infra.Sqlite.Migrations
 
             migrationBuilder.AlterColumn<string>(
                 name: "Description",
-                table: "Recipes",
+                table: "Recipe",
                 type: "TEXT",
                 nullable: true,
                 oldClrType: typeof(string),

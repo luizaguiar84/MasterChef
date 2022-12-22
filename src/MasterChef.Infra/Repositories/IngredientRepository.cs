@@ -23,12 +23,12 @@ namespace MasterChef.Infra.Repositories
 
         public async Task<ResultDto<Ingredient>> GetByRecipeId(RequestDto key, int recipeId)
         {
-            var query = 
+            var query =
                 _context.Ingredients
                     .AsNoTracking()
                     .Where(i => i.RecipeId == recipeId);
-            
-            var ingredients =  await query.ToListAsync(key);
+
+            var ingredients = await query.ToListAsync(key);
 
             return ingredients;
         }
@@ -47,8 +47,8 @@ namespace MasterChef.Infra.Repositories
         {
             var query = _context.Ingredients
                 .AsNoTracking();
-            
-            var ingredients =  await query.ToListAsync(key);
+
+            var ingredients = await query.ToListAsync(key);
 
             return ingredients;
         }
@@ -56,7 +56,7 @@ namespace MasterChef.Infra.Repositories
         public async Task<Ingredient> GetByIdAsync(int id)
         {
             var response = await _context.Ingredients
-                .FirstOrDefaultAsync(r => r.Id == id && r.Active);
+                .FirstOrDefaultAsync(r => r.Id == id);
 
             return response;
         }

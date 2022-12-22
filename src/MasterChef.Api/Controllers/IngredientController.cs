@@ -1,5 +1,4 @@
 ﻿using MasterChef.Application.Interfaces;
-using MasterChef.Domain.Entities;
 using MasterChef.Domain.Interface;
 using MasterChef.Domain.Resources;
 using MasterChef.Dto.Dto;
@@ -56,6 +55,25 @@ namespace MasterChef.Api.Controllers
         }
 
         /// <summary>
+        /// Get ingredient by Id
+        /// </summary>
+        /// <param name="id">recipe id</param>
+        /// <returns></returns>
+        [ProducesResponseType(typeof(IngredientResponseDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<string>), StatusCodes.Status404NotFound)]
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var response = await _ingredientAppService.GetById(id);
+
+            if (response == null)
+                return NotFound();
+
+            return Ok(response);
+        }
+
+        /// <summary>
         /// Get all ingredients from the recipe
         /// </summary>
         /// <param name="query"></param>
@@ -64,7 +82,7 @@ namespace MasterChef.Api.Controllers
         [ProducesResponseType(typeof(ResultDto<IngredientResponseDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(List<string>), StatusCodes.Status404NotFound)]
         [HttpGet]
-        [Route("{id}")]
+        [Route("getbyrecipeId/{id}")]
         public async Task<IActionResult> Get([FromQuery] RequestDto query, int id)
         {
             var response = await _ingredientAppService.GetByRecipeId(query, id);
@@ -74,7 +92,7 @@ namespace MasterChef.Api.Controllers
 
             return Ok(response);
         }
-
+        
 
         /// <summary>
         /// Add a ingredient

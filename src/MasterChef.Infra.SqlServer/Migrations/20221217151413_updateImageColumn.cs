@@ -12,7 +12,7 @@ namespace MasterChef.Infra.SqlServer.Migrations
         {
             migrationBuilder.RenameColumn(
                 name: "Picture",
-                table: "Recipes",
+                table: "Recipe",
                 newName: "Image");
         }
 
@@ -21,7 +21,7 @@ namespace MasterChef.Infra.SqlServer.Migrations
         {
             migrationBuilder.RenameColumn(
                 name: "Image",
-                table: "Recipes",
+                table: "Recipe",
                 newName: "Picture");
         }
     }

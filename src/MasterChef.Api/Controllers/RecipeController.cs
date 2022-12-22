@@ -14,14 +14,14 @@ using ILogger = Serilog.ILogger;
 namespace MasterChef.Api.Controllers
 {
     /// <summary>
-    /// Recipes Controller
+    /// Recipe Controller
     /// </summary>
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
     [EnableCors("Default")]
-    public class RecipesController : ControllerBase
+    public class RecipeController : ControllerBase
     {
         private readonly ILogger _logger;
         private readonly IRecipeAppService _recipeAppService;
@@ -33,7 +33,7 @@ namespace MasterChef.Api.Controllers
         /// <param name="logger"></param>
         /// <param name="recipeAppService"></param>
         /// <param name="eventService"></param>
-        public RecipesController(
+        public RecipeController(
             ILogger logger,
             IRecipeAppService recipeAppService,
             IEventService eventService)
@@ -44,7 +44,7 @@ namespace MasterChef.Api.Controllers
         }
 
         /// <summary>
-        /// Get All Recipes
+        /// Get All Recipe
         /// </summary>
         /// <returns></returns>
         [ProducesResponseType(typeof(List<ResultDto<Recipe>>), StatusCodes.Status200OK)]
@@ -80,7 +80,7 @@ namespace MasterChef.Api.Controllers
         }
 
         /// <summary>
-        /// Get a recipe
+        /// Get a recipe by Id
         /// </summary>
         /// <param name="id">id</param>
         /// <returns></returns>

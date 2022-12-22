@@ -89,7 +89,7 @@ namespace MasterChef.Infra.Sqlite.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Recipes");
+                    b.ToTable("Recipe");
                 });
 
             modelBuilder.Entity("MasterChef.Domain.Entities.User", b =>

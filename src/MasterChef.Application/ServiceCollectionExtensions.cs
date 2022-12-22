@@ -15,7 +15,7 @@ namespace MasterChef.Application
             services.AddTransient<IRecipeAppService, RecipeAppService>();
             services.AddTransient<ITokenService, TokenService>();
             services.AddTransient<IUserAppService, UserAppAppService>();
-            services.AddTransient<IIngredientAppService, IngredientAppAppService>();
+            services.AddTransient<IIngredientAppService, IngredientAppService>();
             services.AddTransient<IValidator<RecipeDto>, RecipeValidations>();
 
 

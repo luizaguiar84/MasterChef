@@ -34,7 +34,7 @@ namespace MasterChef.UI.Controllers
             ViewBag.ReceitaId = id;
             ViewBag.id = 0;
 
-            var response = await _requestClient.GetJsonAsync<ResultDto<IngredientResponseDto>>($"{_connection}/{Endpoints.Ingredient}/{id}");
+            var response = await _requestClient.GetJsonAsync<ResultDto<IngredientResponseDto>>($"{_connection}/{Endpoints.Ingredient}/getbyrecipeid/{id}");
 
             var ingredients = _mapper.Map<List<IngredientModel>>(response.Items);
             
@@ -71,20 +71,18 @@ namespace MasterChef.UI.Controllers
         {
             ViewBag.id = id;
 
-            var response = await _requestClient.GetAsync($"{_connection}/{Endpoints.Ingredient}");
+            var response = await _requestClient.GetAsync($"{_connection}/{Endpoints.Ingredient}/{id}");
 
             if (response.IsSuccessful)
             {
-                var responseData = response.Content.FromJson<ResultDto<IngredientModel>>();
+                var responseData = response.Content.FromJson<IngredientModel>();
 
-                var dados = responseData.Items.FirstOrDefault(x => x.Id == id) ?? new IngredientModel();
+                var responseList = await _requestClient.GetJsonAsync<ResultDto<IngredientModel>>($"{_connection}/{Endpoints.Ingredient}/getbyrecipeid/{responseData.RecipeId}");
 
-                var responseList = await _requestClient.GetJsonAsync<ResultDto<IngredientModel>>($"{_connection}/{Endpoints.Ingredient}/{dados.RecipeId}");
+                responseData.Ingredients = responseList.Items ?? new List<IngredientModel>();
 
-                dados.Ingredients = responseList.Items ?? new List<IngredientModel>();
-
-                ViewBag.ReceitaId = dados.RecipeId;
-                return View("Cadastro", dados);
+                ViewBag.ReceitaId = responseData.RecipeId;
+                return View("Cadastro", responseData);
             }
             return RedirectToAction($"BuscarPorReceitaId", new { id = ViewBag.ReceitaId });
         }
@@ -94,16 +92,14 @@ namespace MasterChef.UI.Controllers
         {
             ViewBag.id = id;
             
-            var response = await _requestClient.GetAsync($"{_connection}/{Endpoints.Ingredient}");
+            var response = await _requestClient.GetAsync($"{_connection}/{Endpoints.Ingredient}/{id}");
 
-            if (response.IsSuccessful)
-            {
-                var responseData = response.Content.FromJson<ResultDto<IngredientModel>>();
-                var dados = responseData.Items.FirstOrDefault(x => x.Id == id) ?? new IngredientModel();
-                ViewBag.ReceitaId = dados.RecipeId;
-                return Json(dados);
-            }
-            return Json(null);
+            if (!response.IsSuccessful) 
+                return Json(null);
+
+            var responseData = response.Content.FromJson<IngredientModel>();
+            ViewBag.ReceitaId = responseData.RecipeId;
+            return Json(responseData);
 
         }
 
