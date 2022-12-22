@@ -1,9 +1,10 @@
 ﻿using MasterChef.Application.Interfaces;
 using MasterChef.Domain.Entities;
 using MasterChef.Domain.Interface;
-using MasterChef.Domain.Models;
 using MasterChef.Domain.Resources;
-using MasterChef.Dto;
+using MasterChef.Dto.Dto;
+using MasterChef.Dto.Resources;
+using MasterChef.Dto.ResponseDto;
 using MasterChef.Infra.Helpers.ExtensionMethods;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
@@ -49,7 +50,7 @@ namespace MasterChef.Api.Controllers
         [ProducesResponseType(typeof(List<ResultDto<Recipe>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(List<Recipe>), StatusCodes.Status404NotFound)]
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] RequestDto query)
+        public async Task<IActionResult> Get([FromQuery] RecipeRequestDto query)
         {
             var response = await _recipeAppService.GetAll(query);
             return Ok(response);
@@ -61,13 +62,13 @@ namespace MasterChef.Api.Controllers
         /// <param name="id"></param>
         /// <param name="query"></param>
         /// <returns></returns>
-        [ProducesResponseType(typeof(List<Recipe>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(List<Recipe>), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ResultDto<RecipeResponseDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<ErrorResource>), StatusCodes.Status404NotFound)]
         [Route("getRecipeByUser/{id}")]
         [HttpGet]
-        public async Task<IActionResult> GetRecipeByUser(string id, [FromQuery] RequestDto query)
+        public async Task<IActionResult> GetRecipeByUser(string id, [FromQuery] RecipeRequestDto query)
         {
-            var response = new ResultDto<Recipe>();
+            var response = new ResultDto<RecipeResponseDto>();
 
             var recipes = await _recipeAppService.GetAllByUserId(query, id);
 
@@ -83,8 +84,8 @@ namespace MasterChef.Api.Controllers
         /// </summary>
         /// <param name="id">id</param>
         /// <returns></returns>
-        [ProducesResponseType(typeof(Recipe), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(List<Recipe>), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(RecipeResponseDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<ErrorResource>), StatusCodes.Status404NotFound)]
         [Route("{id}")]
         [HttpGet]
         public async Task<IActionResult> Get(int id)
@@ -103,7 +104,7 @@ namespace MasterChef.Api.Controllers
         /// </summary>
         /// <param name="recipe">Recipe model</param>
         /// <returns></returns>
-        [ProducesResponseType(typeof(RecipeDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(RecipeResponseDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(List<string>), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorResource), StatusCodes.Status400BadRequest)]
         [HttpPost]
@@ -123,7 +124,7 @@ namespace MasterChef.Api.Controllers
         /// </summary>
         /// <param name="recipe">recipe id</param>
         /// <returns></returns>
-        [ProducesResponseType(typeof(RecipeDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(RecipeResponseDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(List<string>), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ErrorResource), StatusCodes.Status400BadRequest)]
         [HttpPut]

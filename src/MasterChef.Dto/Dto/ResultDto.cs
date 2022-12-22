@@ -1,6 +1,4 @@
-using System.Collections.Generic;
-
-namespace MasterChef.Domain.Models;
+namespace MasterChef.Dto.Dto;
 
 public class ResultDto<T>
 {

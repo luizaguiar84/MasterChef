@@ -1,4 +1,4 @@
-namespace MasterChef.Dto;
+namespace MasterChef.Dto.Dto;
 
 public class UserDto
 {

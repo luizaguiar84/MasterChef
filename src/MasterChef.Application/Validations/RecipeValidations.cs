@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using MasterChef.Domain.Entities;
-using MasterChef.Dto;
+using MasterChef.Dto.Dto;
 using static System.String;
 
 namespace MasterChef.Application.Validations

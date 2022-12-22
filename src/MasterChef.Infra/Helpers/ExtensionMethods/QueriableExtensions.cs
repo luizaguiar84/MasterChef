@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MasterChef.Domain.Models;
+using MasterChef.Dto.Dto;
+using MasterChef.Dto.Resources;
 using Microsoft.EntityFrameworkCore;
 
 namespace MasterChef.Infra.Helpers.ExtensionMethods;

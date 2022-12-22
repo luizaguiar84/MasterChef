@@ -1,4 +1,7 @@
-﻿using MasterChef.Domain.Models;
+﻿using AutoMapper;
+using MasterChef.Domain.Models;
+using MasterChef.Dto.Dto;
+using MasterChef.Dto.ResponseDto;
 using MasterChef.Infra.Enums;
 using MasterChef.Infra.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -10,14 +13,17 @@ namespace MasterChef.UI.Controllers
     public class IngredientController : Controller
     {
         private readonly IRestRequestClient _requestClient;
+        private readonly IMapper _mapper;
         private readonly string _connection;
 
         public IngredientController(
             IWebHostEnvironment webHostEnvironment,
             IConfiguration configuration,
-            IRestRequestClient requestClient)
+            IRestRequestClient requestClient,
+            IMapper mapper)
         {
             _requestClient = requestClient;
+            _mapper = mapper;
             _connection = configuration["apiUrl"] ?? "";
         }
 
@@ -28,8 +34,11 @@ namespace MasterChef.UI.Controllers
             ViewBag.ReceitaId = id;
             ViewBag.id = 0;
 
-            var response = await _requestClient.GetJsonAsync<ResultDto<IngredientModel>>($"{_connection}/{Endpoints.Ingredient}/{id}");
-            model.Ingredients = response.Items ?? new List<IngredientModel>();
+            var response = await _requestClient.GetJsonAsync<ResultDto<IngredientResponseDto>>($"{_connection}/{Endpoints.Ingredient}/{id}");
+
+            var ingredients = _mapper.Map<List<IngredientModel>>(response.Items);
+            
+            model.Ingredients = ingredients ?? new List<IngredientModel>();
 
             return View("Cadastro", model);
         }

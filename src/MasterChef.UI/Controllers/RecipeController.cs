@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using MasterChef.Domain.Entities;
 using MasterChef.Domain.Models;
-using MasterChef.Dto;
 using MasterChef.Infra.Enums;
 using MasterChef.Infra.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -9,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol;
 using RestSharp;
 using Microsoft.AspNetCore.Identity;
+using MasterChef.Dto.Dto;
 
 namespace MasterChef.UI.Controllers
 {

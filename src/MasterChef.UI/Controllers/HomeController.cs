@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MasterChef.Domain.Models;
-using MasterChef.Dto;
+using MasterChef.Dto.Dto;
+using MasterChef.Dto.ResponseDto;
 using MasterChef.Infra.Enums;
 using MasterChef.Infra.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -34,7 +35,7 @@ namespace MasterChef.UI.Controllers
             if (!response.IsSuccessful)
                 return View(new List<RecipeModel>());
             
-            var recipes = response.Content.FromJson<ResultDto<RecipeDto>>();
+            var recipes = response.Content.FromJson<ResultDto<RecipeResponseDto>>();
             return View(_mapper.Map<List<RecipeModel>>(recipes.Items));
         }
 

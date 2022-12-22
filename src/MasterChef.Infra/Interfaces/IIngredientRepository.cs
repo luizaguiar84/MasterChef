@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using MasterChef.Domain.Entities;
 using MasterChef.Domain.Models;
+using MasterChef.Dto.Dto;
+using MasterChef.Dto.Resources;
 
 namespace MasterChef.Infra.Interfaces;
 

@@ -1,6 +1,6 @@
 
 
-namespace MasterChef.Domain.Models;
+namespace MasterChef.Dto.Resources;
 
 public class RequestDto
 {

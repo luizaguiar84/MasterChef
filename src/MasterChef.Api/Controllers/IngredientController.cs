@@ -1,8 +1,10 @@
 ﻿using MasterChef.Application.Interfaces;
 using MasterChef.Domain.Entities;
 using MasterChef.Domain.Interface;
-using MasterChef.Domain.Models;
 using MasterChef.Domain.Resources;
+using MasterChef.Dto.Dto;
+using MasterChef.Dto.Resources;
+using MasterChef.Dto.ResponseDto;
 using MasterChef.Infra.Helpers.ExtensionMethods;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
@@ -41,7 +43,7 @@ namespace MasterChef.Api.Controllers
         /// Get all ingredients
         /// </summary>
         /// <returns></returns>
-        [ProducesResponseType(typeof(Ingredient), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ResultDto<IngredientResponseDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(List<string>), StatusCodes.Status404NotFound)]
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] RequestDto query)
@@ -60,7 +62,7 @@ namespace MasterChef.Api.Controllers
         /// <param name="query"></param>
         /// <param name="id">recipe id</param>
         /// <returns></returns>
-        [ProducesResponseType(typeof(Ingredient), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ResultDto<IngredientResponseDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(List<string>), StatusCodes.Status404NotFound)]
         [HttpGet]
         [Route("{id}")]
@@ -80,11 +82,11 @@ namespace MasterChef.Api.Controllers
         /// </summary>
         /// <param name="ingredient"></param>
         /// <returns></returns>
-        [ProducesResponseType(typeof(Ingredient), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IngredientResponseDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResource), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(List<string>), StatusCodes.Status500InternalServerError)]
         [HttpPost]
-        public async Task<IActionResult> Post(Ingredient ingredient)
+        public async Task<IActionResult> Post(IngredientDto ingredient)
         {
             var response = await _ingredientAppService.AddAsync(ingredient);
 
@@ -100,11 +102,11 @@ namespace MasterChef.Api.Controllers
         /// </summary>
         /// <param name="ingredient"></param>
         /// <returns></returns>
-        [ProducesResponseType(typeof(Ingredient), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IngredientDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResource), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(List<string>), StatusCodes.Status500InternalServerError)]
         [HttpPut]
-        public async Task<IActionResult> Put(Ingredient ingredient)
+        public async Task<IActionResult> Put(IngredientDto ingredient)
         {
             await _ingredientAppService.UpdateAsync(ingredient);
 

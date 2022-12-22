@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation;
 using MasterChef.Domain.Interface;
-using MasterChef.Domain.Models;
-using MasterChef.Dto;
 using MasterChef.Infra.Cache;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.IdentityModel.Tokens;
+using MasterChef.Dto.Dto;
+using MasterChef.Dto.Resources;
+using MasterChef.Dto.ResponseDto;
 
 namespace MasterChef.Application.Services;
 
@@ -35,17 +36,17 @@ public class RecipeAppService : IRecipeAppService
         IUnitOfWork unitOfWork,
         IMemoryCache cache)
     {
-        this._validation = validation;
-        this._eventService = eventService;
-        this._recipeRepository = recipeRepository;
-        this._ingredientAppService = ingredientAppService;
+        _validation = validation;
+        _eventService = eventService;
+        _recipeRepository = recipeRepository;
+        _ingredientAppService = ingredientAppService;
         _userRepository = userRepository;
         _mapper = mapper;
         _unitOfWork = unitOfWork;
         _cache = cache;
     }
 
-    public async Task<RecipeDto> Save(RecipeDto recipe)
+    public async Task<RecipeResponseDto> Save(RecipeDto recipe)
     {
         var validator = await _validation.ValidateAsync(recipe);
 
@@ -61,16 +62,19 @@ public class RecipeAppService : IRecipeAppService
             user = await _userRepository.Add(_mapper.Map<User>(recipe.User));
 
         recipe.UserId = user.Id;
-
-        var response = await _recipeRepository.AddAsync(recipe);
+        
+        var response = await _recipeRepository.AddAsync(_mapper.Map<Recipe>(recipe));
         await _unitOfWork.CompleteAsync();
 
-        return _mapper.Map<RecipeDto>(response);
+        return _mapper.Map<RecipeResponseDto>(response);
     }
 
-    public async Task<ResultDto<Recipe>> GetAllByUserId(RequestDto key, string id)
+    public async Task<ResultDto<RecipeResponseDto>> GetAllByUserId(RecipeRequestDto key, string id)
     {
-        return await _recipeRepository.GetAllRecipesByUserId(key, id);;
+        var response  = await _recipeRepository.GetAllRecipesByUserId(key, id);
+
+        return _mapper.Map<ResultDto<RecipeResponseDto>>(response);
+
     }
 
     public async Task Update(RecipeDto recipe)
@@ -84,23 +88,24 @@ public class RecipeAppService : IRecipeAppService
         await _unitOfWork.CompleteAsync();
     }
 
-    public async Task<Recipe> GetById(int id)
+    public async Task<RecipeResponseDto> GetById(int id)
     {
-        return await _recipeRepository.GetByIdAsync(id);
+        var response = await _recipeRepository.GetByIdAsync(id);
+        return _mapper.Map<RecipeResponseDto>(response);
     }
 
-    public async Task<ResultDto<Recipe>> GetAll(RequestDto query)
+    public async Task<ResultDto<RecipeResponseDto>> GetAll(RecipeRequestDto query)
     {
         var cacheKey = GetCacheKeyForRecipeQuery(query);
 
         var response =
             await _cache.GetOrCreateAsync(cacheKey, (entry) =>
             {
-                entry.AbsoluteExpiration = DateTimeOffset.Now.AddMinutes(1);
+                entry.AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(20);
                 return _recipeRepository.GetAll(query);
             });
 
-        return response;
+        return _mapper.Map<ResultDto<RecipeResponseDto>>(response);
     }
 
     public async Task<Recipe> Inactivate(int id)

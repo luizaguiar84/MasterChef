@@ -1,13 +1,14 @@
 ﻿using MasterChef.Domain.Entities;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
 using MasterChef.Application.Interfaces;
 using MasterChef.Domain.Interface;
-using MasterChef.Domain.Models;
+using MasterChef.Dto.Dto;
+using MasterChef.Dto.Resources;
+using MasterChef.Dto.ResponseDto;
 using MasterChef.Infra.Cache;
 using MasterChef.Infra.Interfaces;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace MasterChef.Application.Services
 {
@@ -16,36 +17,44 @@ namespace MasterChef.Application.Services
         private readonly IEventService _eventService;
         private readonly IIngredientRepository _ingredientRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
         public IngredientAppAppService(
             IEventService eventService,
             IIngredientRepository ingredientRepository,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            IMapper mapper)
         {
             this._eventService = eventService;
             this._ingredientRepository = ingredientRepository;
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
-        public async Task<Ingredient> AddAsync(Ingredient ingredient)
+        public async Task<IngredientResponseDto> AddAsync(IngredientDto ingredientDto)
         {
+            var ingredient = _mapper.Map<Ingredient>(ingredientDto);
+
             ingredient.CreateDate = DateTime.Now;
             ingredient.LastChange = DateTime.Now;
             await _ingredientRepository.AddAsync(ingredient);
             await _unitOfWork.CompleteAsync();
 
-            return ingredient;
+            return _mapper.Map<IngredientResponseDto>(ingredient);
         }
 
-        public async Task UpdateAsync(Ingredient ingredient)
+        public async Task UpdateAsync(IngredientDto ingredientDto)
         {
+            var ingredient = _mapper.Map<Ingredient>(ingredientDto);
+
             _ingredientRepository.Update(ingredient);
             await _unitOfWork.CompleteAsync();
         }
 
-        public async Task<ResultDto<Ingredient>> GetByRecipeId(RequestDto query, int recipeId)
+        public async Task<ResultDto<IngredientResponseDto>> GetByRecipeId(RequestDto query, int recipeId)
         {
-            return await _ingredientRepository.GetByRecipeId(query, recipeId);
+            var response = await _ingredientRepository.GetByRecipeId(query, recipeId);
+            return _mapper.Map<ResultDto<IngredientResponseDto>>(response);
         }
 
         public async Task Delete(int id)
@@ -54,9 +63,10 @@ namespace MasterChef.Application.Services
             await _unitOfWork.CompleteAsync();
         }
 
-        public async Task<ResultDto<Ingredient>> GetAll(RequestDto query)
+        public async Task<ResultDto<IngredientResponseDto>> GetAll(RequestDto query)
         {
-            return await _ingredientRepository.GetAll(query);
+            var response = await _ingredientRepository.GetAll(query);
+            return _mapper.Map<ResultDto<IngredientResponseDto>>(response);
         }
 
         private string GetCacheKeyForIngredientQuery(RequestDto query, int id = 0)
