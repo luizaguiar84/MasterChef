@@ -9,13 +9,15 @@ $(".idDetalhes").click(function () {
             'id': id
         },
         success: function (data) {
+            
+            $('#tbody').text("");
+            $('#idModoFazer').text("");
+
 
             $('#modalDetalhes').modal('show');
             $('#idTitulo').text(data.title);
-            $('#idModoFazer').text(data.wayOfPrepare);
+            $('#idModoFazer').append(data.wayOfPrepare.replace(/\n/g, "<br>"));
             $('#idimagem').attr("src", 'img/' + data.image);
-
-            $('#tbody').text("");
 
             var ingredients = data.ingredients;
             $.each(ingredients, function (key, value) {
