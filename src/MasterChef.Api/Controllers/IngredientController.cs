@@ -36,13 +36,14 @@ namespace MasterChef.Api.Controllers
             _ingredientAppService = ingredientAppService;
             _eventService = eventService;
         }
-        
+
         /// <summary>
         /// Get all ingredients
         /// </summary>
         /// <returns></returns>
         [ProducesResponseType(typeof(ResultDto<IngredientResponseDto>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(List<string>), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] RequestDto query)
         {
@@ -60,7 +61,8 @@ namespace MasterChef.Api.Controllers
         /// <param name="id">recipe id</param>
         /// <returns></returns>
         [ProducesResponseType(typeof(IngredientResponseDto), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(List<string>), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> GetById(int id)
@@ -76,23 +78,24 @@ namespace MasterChef.Api.Controllers
         /// <summary>
         /// Get all ingredients from the recipe
         /// </summary>
+        /// <param name="recipeId"></param>
         /// <param name="query"></param>
-        /// <param name="id">recipe id</param>
         /// <returns></returns>
         [ProducesResponseType(typeof(ResultDto<IngredientResponseDto>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(List<string>), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpGet]
-        [Route("getbyrecipeId/{id}")]
-        public async Task<IActionResult> Get([FromQuery] RequestDto query, int id)
+        [Route("getbyrecipeId/{recipeId}")]
+        public async Task<IActionResult> Get(int recipeId, [FromQuery] RequestDto query)
         {
-            var response = await _ingredientAppService.GetByRecipeId(query, id);
+            var response = await _ingredientAppService.GetByRecipeId(query, recipeId);
 
             if (response == null)
                 return NotFound();
 
             return Ok(response);
         }
-        
+
 
         /// <summary>
         /// Add a ingredient
@@ -101,7 +104,7 @@ namespace MasterChef.Api.Controllers
         /// <returns></returns>
         [ProducesResponseType(typeof(IngredientResponseDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResource), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(List<string>), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPost]
         public async Task<IActionResult> Post(IngredientDto ingredient)
         {
@@ -121,7 +124,7 @@ namespace MasterChef.Api.Controllers
         /// <returns></returns>
         [ProducesResponseType(typeof(IngredientDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResource), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(List<string>), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPut]
         public async Task<IActionResult> Put(IngredientDto ingredient)
         {
@@ -140,7 +143,7 @@ namespace MasterChef.Api.Controllers
         /// <returns></returns>
         [ProducesResponseType(typeof(ErrorResource), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(List<string>), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpDelete]
         [Route("{id}")]
         public async Task<IActionResult> Delete(int id)

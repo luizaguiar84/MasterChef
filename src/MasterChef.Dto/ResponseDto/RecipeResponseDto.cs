@@ -11,7 +11,7 @@ namespace MasterChef.Dto.ResponseDto
         public string? Title { get; set; }
         public string? Description { get; set; }
         public string? WayOfPrepare { get; set; }
-        public ICollection<Ingredient>? Ingredients { get; set; }
+        public ICollection<IngredientResponseDto>? Ingredients { get; set; }
         public string? Image { get; set; }
         public int? UserId { get; set; }
     }

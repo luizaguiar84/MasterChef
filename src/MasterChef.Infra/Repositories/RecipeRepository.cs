@@ -41,7 +41,9 @@ namespace MasterChef.Infra.Repositories
 
         public async Task<ResultDto<Recipe>> GetAll(RecipeRequestDto query)
         {
-            var queryable = _context.Recipes.AsNoTracking();
+            var queryable = _context.Recipes
+                .Include(r => r.Ingredients)
+                .AsNoTracking();
 
             if (!query.active.HasValue || query.active.HasValue && query.active.Value)
                 queryable = queryable.Where(r => r.Active);
