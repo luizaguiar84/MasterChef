@@ -1,6 +1,9 @@
-﻿using MasterChef.Infra.Enums;
+﻿using AutoMapper;
+using MasterChef.Domain.Models;
+using MasterChef.Dto.Dto;
+using MasterChef.Dto.ResponseDto;
+using MasterChef.Infra.Enums;
 using MasterChef.Infra.Interfaces;
-using MasterChef.UI.Models;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol;
 using RestSharp;
@@ -10,14 +13,17 @@ namespace MasterChef.UI.Controllers
     public class IngredientController : Controller
     {
         private readonly IRestRequestClient _requestClient;
+        private readonly IMapper _mapper;
         private readonly string _connection;
 
         public IngredientController(
             IWebHostEnvironment webHostEnvironment,
             IConfiguration configuration,
-            IRestRequestClient requestClient)
+            IRestRequestClient requestClient,
+            IMapper mapper)
         {
             _requestClient = requestClient;
+            _mapper = mapper;
             _connection = configuration["apiUrl"] ?? "";
         }
 
@@ -28,11 +34,13 @@ namespace MasterChef.UI.Controllers
             ViewBag.ReceitaId = id;
             ViewBag.id = 0;
 
-            var response = await _requestClient.GetJsonAsync<List<IngredientModel>>($"{_connection}/{Endpoints.Ingredient}/{id}");
-            model.Ingredients = response ?? new List<IngredientModel>();
+            var response = await _requestClient.GetJsonAsync<ResultDto<IngredientResponseDto>>($"{_connection}/{Endpoints.Ingredient}/getbyrecipeid/{id}");
+
+            var ingredients = _mapper.Map<List<IngredientModel>>(response.Items);
+            
+            model.Ingredients = ingredients;
 
             return View("Cadastro", model);
-
         }
 
         [HttpPost]
@@ -40,7 +48,7 @@ namespace MasterChef.UI.Controllers
         {
             if (ModelState.IsValid)
             {
-                RestResponse response = null;
+                RestResponse? response = null;
                 if (model.Id == 0)
                     response = await _requestClient.PostAsync($"{_connection}/{Endpoints.Ingredient}", model);
                 
@@ -63,23 +71,20 @@ namespace MasterChef.UI.Controllers
         {
             ViewBag.id = id;
 
-            var response = await _requestClient.GetAsync($"{_connection}/{Endpoints.Ingredient}");
+            var response = await _requestClient.GetAsync($"{_connection}/{Endpoints.Ingredient}/{id}");
 
             if (response.IsSuccessful)
             {
-                var responseData = response.Content.FromJson<List<IngredientModel>>();
+                var responseData = response.Content.FromJson<IngredientModel>();
 
-                var dados = responseData.ToList().FirstOrDefault(x => x.Id == id) ?? new IngredientModel();
+                var responseList = await _requestClient.GetJsonAsync<ResultDto<IngredientModel>>($"{_connection}/{Endpoints.Ingredient}/getbyrecipeid/{responseData.RecipeId}");
 
-                var responseList = await _requestClient.GetJsonAsync<List<IngredientModel>>($"{_connection}/{Endpoints.Ingredient}/{dados.RecipeId}");
+                responseData.Ingredients = responseList.Items ?? new List<IngredientModel>();
 
-                dados.Ingredients = responseList ?? new List<IngredientModel>();
-
-                ViewBag.ReceitaId = dados.RecipeId;
-                return View("Cadastro", dados);
+                ViewBag.ReceitaId = responseData.RecipeId;
+                return View("Cadastro", responseData);
             }
             return RedirectToAction($"BuscarPorReceitaId", new { id = ViewBag.ReceitaId });
-
         }
 
         [HttpGet]
@@ -87,16 +92,14 @@ namespace MasterChef.UI.Controllers
         {
             ViewBag.id = id;
             
-            var response = await _requestClient.GetAsync($"{_connection}/{Endpoints.Ingredient}");
+            var response = await _requestClient.GetAsync($"{_connection}/{Endpoints.Ingredient}/{id}");
 
-            if (response.IsSuccessful)
-            {
-                var responseData = response.Content.FromJson<List<IngredientModel>>();
-                var dados = responseData.ToList().FirstOrDefault(x => x.Id == id) ?? new IngredientModel();
-                ViewBag.ReceitaId = dados.RecipeId;
-                return Json(dados);
-            }
-            return Json(null);
+            if (!response.IsSuccessful) 
+                return Json(null);
+
+            var responseData = response.Content.FromJson<IngredientModel>();
+            ViewBag.ReceitaId = responseData.RecipeId;
+            return Json(responseData);
 
         }
 
@@ -105,12 +108,14 @@ namespace MasterChef.UI.Controllers
         public async Task<IActionResult> Delete(IngredientModel model)
         {
 
-            var response = await _requestClient.DeleteAsync($"{_connection}/{Endpoints.Ingredient}/{model.Id}");
+            var path = $"{_connection}/{Endpoints.Ingredient}/{model.Id}";
+            
+            var response = await _requestClient.DeleteAsync(path);
 
             if (response.IsSuccessStatusCode)
             {
-                var responseIngrediente = await _requestClient.GetJsonAsync<List<IngredientModel>>($"{_connection}/{Endpoints.Ingredient}");
-                var dados = responseIngrediente.ToList().FirstOrDefault() ?? new IngredientModel();
+                var responseIngrediente = await _requestClient.GetJsonAsync<ResultDto<IngredientModel>>($"{_connection}/{Endpoints.Ingredient}");
+                var dados = responseIngrediente.Items.FirstOrDefault() ?? new IngredientModel();
                 return RedirectToAction($"BuscarPorReceitaId", new { id = dados.RecipeId });
             }
             return Json(null);

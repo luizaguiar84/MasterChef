@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>aspnet-MasterChef.UI-138fb45f-4784-477a-be2c-64370dbea0c6</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,7 +27,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MasterChef.Infra.Sqlite.Identity\MasterChef.Infra.Sqlite.Identity.csproj" />
+    <ProjectReference Include="..\MasterChef.Infra.SqlServer.Identity\MasterChef.Infra.SqlServer.Identity.csproj" />
     <ProjectReference Include="..\MasterChef.Infra\MasterChef.Infra.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\.dockerignore">
+      <Link>.dockerignore</Link>
+    </Content>
   </ItemGroup>
 
 </Project>

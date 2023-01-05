@@ -1,15 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using MasterChef.Domain.Entities;
+using MasterChef.Domain.Models;
+using MasterChef.Dto.Dto;
+using MasterChef.Dto.Resources;
 
 namespace MasterChef.Infra.Interfaces;
 
 public interface IIngredientRepository
 {
-    Task<List<Ingredient>> GetByRecipeId(int recipeId);
-    Task<Ingredient> Add(Ingredient ingredient);
-    Task<List<Ingredient>> GetAll();
-    Task<Ingredient> GetById(int id);
-    Task<Ingredient> Update(Ingredient entity);
-    Task<bool> Delete(int id);
+    Task<ResultDto<Ingredient>> GetByRecipeId(RequestDto key, int recipeId);
+    Task<Ingredient> AddAsync(Ingredient ingredient);
+    Task<ResultDto<Ingredient>> GetAll(RequestDto key);
+    Task<Ingredient> GetByIdAsync(int id);
+    void Update(Ingredient entity);
+    Task DeleteAsync(int id);
 }

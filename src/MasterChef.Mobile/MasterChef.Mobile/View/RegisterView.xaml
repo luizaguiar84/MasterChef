@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MasterChef.Mobile.View.RegisterView"
+             Title="Cadastre-se">
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="CenterAndExpand" Padding="3">
+
+            <Entry x:Name="Email" Text="{Binding Email}" Placeholder="Usuário" 
+                   HeightRequest="40" 
+                   Keyboard="Email"
+                   TextColor="Black"/>
+
+            <Entry x:Name="Password" Text="{Binding Password}" Placeholder="Senha" 
+                   HeightRequest="40" 
+                   TextColor="Black" IsPassword="true"/>
+
+            <Entry x:Name="ConfirmPassword" Text="{Binding ConfirmPassword}" Placeholder="Confirme a Senha" 
+                   HeightRequest="40" 
+                   TextColor="Black" IsPassword="true"/>
+
+            <Button Command="{Binding SubmitCommand}" Text="Cadastre-se" TextColor="White"
+                    FontAttributes="Bold" FontSize="Large" HorizontalOptions="FillAndExpand"
+                    BackgroundColor="#088da5" />
+
+            <Label Text="Já tem uma conta? faça o login!" TextColor="Blue">
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding LoginCommand}" />
+            </Label.GestureRecognizers>
+            </Label>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -17,10 +17,10 @@ namespace MasterChef.Infra.SqlServer.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.1")
+                .HasAnnotation("ProductVersion", "6.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
             modelBuilder.Entity("MasterChef.Domain.Entities.Ingredient", b =>
                 {
@@ -28,7 +28,7 @@ namespace MasterChef.Infra.SqlServer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -67,7 +67,7 @@ namespace MasterChef.Infra.SqlServer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -76,6 +76,7 @@ namespace MasterChef.Infra.SqlServer.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Image")
@@ -85,9 +86,14 @@ namespace MasterChef.Infra.SqlServer.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.Property<string>("WayOfPrepare")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -101,13 +107,16 @@ namespace MasterChef.Infra.SqlServer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("CreateDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("ExternalId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime?>("LastChange")
                         .HasColumnType("datetime2");
@@ -119,6 +128,10 @@ namespace MasterChef.Infra.SqlServer.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ExternalId")
+                        .IsUnique()
+                        .HasFilter("[ExternalId] IS NOT NULL");
 
                     b.ToTable("Users");
                 });

@@ -12,7 +12,7 @@ namespace MasterChef.Infra.SqlServer.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Recipes",
+                name: "Recipe",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -68,7 +68,7 @@ namespace MasterChef.Infra.SqlServer.Migrations
                     table.ForeignKey(
                         name: "FK_Ingredients_Recipes_RecipeId",
                         column: x => x.RecipeId,
-                        principalTable: "Recipes",
+                        principalTable: "Recipe",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -89,7 +89,7 @@ namespace MasterChef.Infra.SqlServer.Migrations
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Recipes");
+                name: "Recipe");
         }
     }
 }

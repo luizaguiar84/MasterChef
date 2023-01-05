@@ -17,14 +17,14 @@ namespace MasterChef.Infra.Sqlite.Migrations
 
             migrationBuilder.DropForeignKey(
                 name: "FK_Recipes_Categories_CategoryId",
-                table: "Recipes");
+                table: "Recipe");
 
             migrationBuilder.DropTable(
                 name: "Categories");
 
             migrationBuilder.DropIndex(
                 name: "IX_Recipes_CategoryId",
-                table: "Recipes");
+                table: "Recipe");
 
             migrationBuilder.DropPrimaryKey(
                 name: "PK_Ingredient",
@@ -32,7 +32,7 @@ namespace MasterChef.Infra.Sqlite.Migrations
 
             migrationBuilder.DropColumn(
                 name: "CategoryId",
-                table: "Recipes");
+                table: "Recipe");
 
             migrationBuilder.RenameTable(
                 name: "Ingredient",
@@ -64,7 +64,7 @@ namespace MasterChef.Infra.Sqlite.Migrations
 
             migrationBuilder.AddColumn<bool>(
                 name: "Active",
-                table: "Recipes",
+                table: "Recipe",
                 type: "INTEGER",
                 nullable: false,
                 defaultValue: false);
@@ -95,7 +95,7 @@ namespace MasterChef.Infra.Sqlite.Migrations
                 name: "FK_Ingredients_Recipes_RecipeId",
                 table: "Ingredients",
                 column: "RecipeId",
-                principalTable: "Recipes",
+                principalTable: "Recipe",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
         }
@@ -121,7 +121,7 @@ namespace MasterChef.Infra.Sqlite.Migrations
 
             migrationBuilder.DropColumn(
                 name: "Active",
-                table: "Recipes");
+                table: "Recipe");
 
             migrationBuilder.DropColumn(
                 name: "Active",
@@ -143,7 +143,7 @@ namespace MasterChef.Infra.Sqlite.Migrations
 
             migrationBuilder.AddColumn<int>(
                 name: "CategoryId",
-                table: "Recipes",
+                table: "Recipe",
                 type: "INTEGER",
                 nullable: true);
 
@@ -178,19 +178,19 @@ namespace MasterChef.Infra.Sqlite.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Recipes_CategoryId",
-                table: "Recipes",
+                table: "Recipe",
                 column: "CategoryId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Ingredient_Recipes_RecipeId",
                 table: "Ingredient",
                 column: "RecipeId",
-                principalTable: "Recipes",
+                principalTable: "Recipe",
                 principalColumn: "Id");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Recipes_Categories_CategoryId",
-                table: "Recipes",
+                table: "Recipe",
                 column: "CategoryId",
                 principalTable: "Categories",
                 principalColumn: "Id");

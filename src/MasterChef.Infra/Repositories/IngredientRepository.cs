@@ -1,11 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MasterChef.Domain.Entities;
+using MasterChef.Domain.Models;
+using MasterChef.Dto.Dto;
+using MasterChef.Dto.Resources;
 using MasterChef.Infra.Context;
 using MasterChef.Infra.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using MasterChef.Infra.Helpers.ExtensionMethods;
 
 namespace MasterChef.Infra.Repositories
 {
@@ -18,65 +21,57 @@ namespace MasterChef.Infra.Repositories
             _context = context;
         }
 
-        public async Task<List<Ingredient>> GetByRecipeId(int recipeId)
+        public async Task<ResultDto<Ingredient>> GetByRecipeId(RequestDto key, int recipeId)
         {
-            var response = await _context.Ingredients.Where(
-                    i => i.RecipeId == recipeId)
-                .ToListAsync();
+            var query =
+                _context.Ingredients
+                    .AsNoTracking()
+                    .Where(i => i.RecipeId == recipeId);
 
-            return response;
+            var ingredients = await query.ToListAsync(key);
+
+            return ingredients;
         }
 
-        public async Task<Ingredient> Add(Ingredient ingredient)
+        public async Task<Ingredient> AddAsync(Ingredient ingredient)
         {
             ingredient.CreateDate = DateTime.Now;
             ingredient.LastChange = DateTime.Now;
 
             await _context.Ingredients.AddAsync(ingredient);
-            await _context.SaveChangesAsync();
 
             return ingredient;
-
         }
 
-        public async Task<List<Ingredient>> GetAll()
+        public async Task<ResultDto<Ingredient>> GetAll(RequestDto key)
         {
-            var response = await _context.Ingredients.ToListAsync();
-            return response;
+            var query = _context.Ingredients
+                .AsNoTracking();
+
+            var ingredients = await query.ToListAsync(key);
+
+            return ingredients;
         }
 
-        public async Task<Ingredient> GetById(int id)
+        public async Task<Ingredient> GetByIdAsync(int id)
         {
             var response = await _context.Ingredients
-                .FirstOrDefaultAsync(r => r.Id == id && r.Active);
+                .FirstOrDefaultAsync(r => r.Id == id);
 
             return response;
         }
 
-        public async Task<Ingredient> Update(Ingredient entity)
+        public void Update(Ingredient entity)
         {
             entity.LastChange = DateTime.Now;
             _context.Ingredients.Update(entity);
-
             _context.Entry(entity).Property(p => p.CreateDate).IsModified = false;
-
-            await _context.SaveChangesAsync();
-
-            return entity;
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task DeleteAsync(int id)
         {
-            var entity = await GetById(id);
-
-            if (entity == null)
-                return false;
-
+            var entity = await GetByIdAsync(id);
             _context.Ingredients.Remove(entity);
-            var response = await _context.SaveChangesAsync();
-
-            return response > 0;
-
         }
     }
 }
