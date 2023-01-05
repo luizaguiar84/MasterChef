@@ -6,13 +6,11 @@ namespace MasterChef.Infra.Interfaces
 {
     public interface IUserRepository
     {
-        Task<User> Add(User user);
+        Task Add(User user);
         Task<IList<User>> GetAll();
         Task<User> GetById(int id);
         Task Update(User entity);
         Task<User> GetByUserNameAndPassword(User user);
-        Task<User> GetByExternalId(string externalId);
-
 
     }
 }

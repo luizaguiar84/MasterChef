@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
 using MasterChef.Infra.SqlServer.Context;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MasterChef.Infra.SqlServer
@@ -13,7 +12,6 @@ namespace MasterChef.Infra.SqlServer
             services.AddDbContext<MasterChef.Infra.Context.DatabaseContext, SqlServerContext>(options =>
             {
                 options.EnableSensitiveDataLogging();
-                options.ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryPossibleUnintendedUseOfEqualsWarning));
 
                 options.UseSqlServer(configuration.ConnectionString, builder =>
                 {

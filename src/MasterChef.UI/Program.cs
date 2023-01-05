@@ -1,26 +1,23 @@
 using MasterChef.Infra.Helpers.ExtensionMethods;
+using MasterChef.UI.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System.Reflection;
-using MasterChef.Infra;
-using MasterChef.Infra.Enums;
 using MasterChef.Infra.IoC;
-using MasterChef.Infra.Sqlite.Identity;
-using MasterChef.Infra.SqlServer.Identity;
-using Microsoft.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var databaseConfiguration = new DatabaseConfiguration(builder.Configuration, builder.Environment.IsProduction());
+// Add services to the container.
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-switch (databaseConfiguration.DatabaseType)
-{
-    case DatabaseType.Sqlite:
-        builder.Services.AddSqLiteIdentityDependency(databaseConfiguration);
-        break;
-    case DatabaseType.SqlServer:
-        builder.Services.AddSqlServerIdentityDependency(databaseConfiguration);
-        break;
-}
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(connectionString));
+
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Configuration.AddSerilogApi();
 builder.Host.UseSerilog(Log.Logger);
@@ -28,6 +25,8 @@ builder.Host.UseSerilog(Log.Logger);
 Console.Title = Assembly.GetEntryAssembly().GetName().Name;
 
 builder.Services.AddUIServiceIoCDependency();
+
+builder.Services.BuildServiceProvider().MigrateIdentityDatabase();
 
 var app = builder.Build();
 
@@ -44,17 +43,7 @@ else
 }
 
 app.UseHttpsRedirection();
-
-app.UseResponseCompression();
-
-app.UseStaticFiles(new StaticFileOptions()
-{
-    OnPrepareResponse = ctx =>
-    {
-        int duration = 60 * 60 * 24 * 365;
-        ctx.Context.Response.Headers[HeaderNames.CacheControl] = $"public, max-age={duration}";
-    }
-});
+app.UseStaticFiles();
 
 app.UseRouting();
 

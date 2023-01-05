@@ -24,7 +24,7 @@ namespace MasterChef.Infra.Sqlite.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Recipe",
+                name: "Recipes",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -68,7 +68,7 @@ namespace MasterChef.Infra.Sqlite.Migrations
                     table.ForeignKey(
                         name: "FK_Ingredient_Recipes_RecipeId",
                         column: x => x.RecipeId,
-                        principalTable: "Recipe",
+                        principalTable: "Recipes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -90,7 +90,7 @@ namespace MasterChef.Infra.Sqlite.Migrations
                     table.ForeignKey(
                         name: "FK_Tag_Recipes_RecipeId",
                         column: x => x.RecipeId,
-                        principalTable: "Recipe",
+                        principalTable: "Recipes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -102,7 +102,7 @@ namespace MasterChef.Infra.Sqlite.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Recipes_CategoryId",
-                table: "Recipe",
+                table: "Recipes",
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
@@ -120,7 +120,7 @@ namespace MasterChef.Infra.Sqlite.Migrations
                 name: "Tag");
 
             migrationBuilder.DropTable(
-                name: "Recipe");
+                name: "Recipes");
 
             migrationBuilder.DropTable(
                 name: "Categories");

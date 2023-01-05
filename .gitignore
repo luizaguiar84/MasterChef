@@ -12,9 +12,6 @@
 
 # Media
 *.db
-*.db-shm
-*.db-wal
-*.sqlite
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
