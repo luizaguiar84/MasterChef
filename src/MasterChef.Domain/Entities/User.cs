@@ -1,5 +1,8 @@
-﻿namespace MasterChef.Domain.Entities
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace MasterChef.Domain.Entities
 {
+    [Index(nameof(ExternalId), IsUnique = true)]
     public class User : BaseEntity
     {
         public string Username { get; set; }

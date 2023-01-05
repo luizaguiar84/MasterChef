@@ -98,7 +98,7 @@ namespace MasterChef.Infra.SqlServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Recipe");
+                    b.ToTable("Recipes");
                 });
 
             modelBuilder.Entity("MasterChef.Domain.Entities.User", b =>
