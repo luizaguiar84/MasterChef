@@ -1,5 +1,6 @@
 ﻿using MasterChef.Application.Interfaces;
 using MasterChef.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ILogger = Serilog.ILogger;
 
@@ -7,6 +8,7 @@ namespace MasterChef.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IUserAppService _userService;

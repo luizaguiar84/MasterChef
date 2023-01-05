@@ -23,7 +23,7 @@ namespace MasterChef.Mobile.View
         private async void btnExcluir_Clicked(object sender, EventArgs e)
         {
             int id = lblId.Text == "" ? 0 : Convert.ToInt32(lblId.Text);
-            IngredienteModel model = new IngredienteModel()
+            IngredientModel model = new IngredientModel()
             {
                 Id = id
             };
@@ -38,7 +38,7 @@ namespace MasterChef.Mobile.View
         private async void btnSalvar_Clicked(object sender, EventArgs e)
         {
             int id = lblId.Text == "" ? 0 : Convert.ToInt32(lblId.Text);
-            IngredienteModel model = new IngredienteModel()
+            IngredientModel model = new IngredientModel()
             {
                 Id = id,
                 RecipeId = lblIdRecipe.Text == "" ? 0 : Convert.ToInt32(lblIdRecipe.Text),

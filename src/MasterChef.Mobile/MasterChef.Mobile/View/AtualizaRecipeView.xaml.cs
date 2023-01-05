@@ -57,7 +57,7 @@ namespace MasterChef.Mobile.View
                 var pickImage = await FilePicker.PickAsync(new PickOptions()
                 {
                     FileTypes = FilePickerFileType.Images,
-                    PickerTitle = "Imagem"
+                    PickerTitle = "Image"
                 });
                 if (pickImage != null)
                 {

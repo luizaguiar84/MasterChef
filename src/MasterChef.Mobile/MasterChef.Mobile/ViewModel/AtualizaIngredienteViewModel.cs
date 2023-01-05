@@ -7,9 +7,9 @@ namespace MasterChef.Mobile.ViewModel
 {
     public class AtualizaIngredienteViewModel : BaseViewModel
     {
-        private IngredienteModel model;
+        private IngredientModel model;
 
-        public IngredienteModel Model
+        public IngredientModel Model
         {
             get { return model; }
             set { SetProperty(ref model, value); }
@@ -17,21 +17,21 @@ namespace MasterChef.Mobile.ViewModel
      
         public AtualizaIngredienteViewModel()
         {
-            Model = new IngredienteModel();
+            Model = new IngredientModel();
         }
 
-        public AtualizaIngredienteViewModel(IngredienteModel model)
+        public AtualizaIngredienteViewModel(IngredientModel model)
         {
             IsBusy = false;
 
             Model = model;
         }
 
-        public IngredienteModel AtualizarIngrediente(IngredienteModel model)
+        public IngredientModel AtualizarIngrediente(IngredientModel model)
         {
             if (model != null)
             {
-                var dados = ingredientesService.AtualizarIngrediente(model);
+                var dados = IngredientService.Update(model);
                 return model;
 
             }
@@ -39,12 +39,12 @@ namespace MasterChef.Mobile.ViewModel
         }
  
 
-        public IngredienteModel DeletarIngrediente(IngredienteModel model)
+        public IngredientModel DeletarIngrediente(IngredientModel model)
         {
             if (model != null)
             {
                 var id = Convert.ToInt32(model.Id);
-                var dados = ingredientesService.Deletar(id);
+                var dados = IngredientService.Delete(id);
             }
             return model;
         }

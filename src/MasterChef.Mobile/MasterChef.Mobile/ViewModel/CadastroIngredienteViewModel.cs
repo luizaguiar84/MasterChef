@@ -7,9 +7,9 @@ namespace MasterChef.Mobile.ViewModel
 {
     public   class CadastroIngredienteViewModel : BaseViewModel
     {
-        private IngredienteModel model;
+        private IngredientModel model;
 
-        public IngredienteModel Model
+        public IngredientModel Model
         {
             get { return model; }
             set { SetProperty(ref model, value); }
@@ -22,21 +22,21 @@ namespace MasterChef.Mobile.ViewModel
         public CadastroIngredienteViewModel(int id)
         {
 
-            Model = new IngredienteModel();
+            Model = new IngredientModel();
             Model.RecipeId= id;
         }
 
-        public CadastroIngredienteViewModel(IngredienteModel model)
+        public CadastroIngredienteViewModel(IngredientModel model)
         {
             IsBusy = false;
 
             Model = model;
         }
-        public IngredienteModel CadastrarIngrediente(IngredienteModel model)
+        public IngredientModel CadastrarIngrediente(IngredientModel model)
         {
             if (model != null)
             {
-                var dados = ingredientesService.CadastrerIngrediente(model);
+                var dados = IngredientService.Add(model);
                 return model;
 
             }

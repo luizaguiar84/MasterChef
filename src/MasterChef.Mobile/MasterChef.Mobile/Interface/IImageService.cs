@@ -6,7 +6,7 @@ namespace MasterChef.Mobile.Interface
     public interface IImageService
     {
         byte[] GetImage(string url);
-        bool SaveImage(ImagemModel image);
+        bool SaveImage(ImageModel image);
         List<RecipeModel> MountImage(List<RecipeModel> items);
     }
 }

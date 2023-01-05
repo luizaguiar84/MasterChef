@@ -34,12 +34,12 @@ namespace MasterChef.Mobile.ViewModel
                 {
                     var imagemBytes = System.IO.File.ReadAllBytes(path);
                     var base64 = Convert.ToBase64String(imagemBytes);
-                    var imagem = new ImagemModel() { imagem = base64, nameImage = recipe.Image };
+                    var imagem = new ImageModel() { Image = base64, ImageName = recipe.Image };
                     imageService.SaveImage(imagem);
                 }
 
                 recipe.Photo = null;
-                recipeService.Atualiza(recipe);
+                recipeService.Update(recipe);
 
             }
             return recipe;
@@ -53,12 +53,12 @@ namespace MasterChef.Mobile.ViewModel
                 {
                     var imagemBytes = System.IO.File.ReadAllBytes(path);
                     var base64 = Convert.ToBase64String(imagemBytes);
-                    var imagem = new ImagemModel() { imagem = base64, nameImage = recipe.Image };
+                    var imagem = new ImageModel() { Image = base64, ImageName = recipe.Image };
                     imageService.SaveImage(imagem);
                 }
 
                 recipe.Photo = null;
-                recipeService.Salvar(recipe);
+                recipeService.Save(recipe);
 
             }
             return recipe;

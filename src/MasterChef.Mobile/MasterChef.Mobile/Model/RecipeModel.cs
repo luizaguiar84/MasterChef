@@ -17,7 +17,7 @@ namespace MasterChef.Mobile.Model
         public string WayOfPrepare { get; set; }
 
         [JsonProperty("ingredients")]
-        public ICollection<IngredienteModel> Ingredients { get; set; }
+        public ICollection<IngredientModel> Ingredients { get; set; }
 
         [JsonProperty("image")]
         public string Image { get; set; }

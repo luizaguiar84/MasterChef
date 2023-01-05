@@ -9,8 +9,8 @@ namespace MasterChef.Mobile.ViewModel
 {
     public class IngredientsViewModel : BaseViewModel
     {
-        private ObservableCollection<IngredienteModel> model;
-        public ObservableCollection<IngredienteModel> Model
+        private ObservableCollection<IngredientModel> model;
+        public ObservableCollection<IngredientModel> Model
         {
             get { return model; }
             set
@@ -18,18 +18,18 @@ namespace MasterChef.Mobile.ViewModel
                 SetProperty(ref model, value);
             }
         }
-        private IngredienteModel selectedModel;
-        public IngredienteModel SelectedModel
+        private IngredientModel selectedModel;
+        public IngredientModel SelectedModel
         {
             get { return selectedModel; }
             set { SetProperty(ref selectedModel, value); }
         }
         public IngredientsViewModel(int id)
         {
-            var dados = ingredientesService.GetById(id);
-            Model = new ObservableCollection<IngredienteModel>(dados);
+            var dados = IngredientService.GetById(id);
+            Model = new ObservableCollection<IngredientModel>(dados);
         }
-        public ICommand OpenDetalheCommand => new Command<IngredienteModel>(async (IngredienteModel d) =>
+        public ICommand OpenDetalheCommand => new Command<IngredientModel>(async (IngredientModel d) =>
         {
             var vm = new AtualizaIngredienteViewModel(d);
             await App.Current.MainPage.Navigation.PushAsync(new AtualizaIngredienteView(vm));

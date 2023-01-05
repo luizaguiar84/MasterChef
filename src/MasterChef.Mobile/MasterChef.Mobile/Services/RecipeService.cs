@@ -3,7 +3,6 @@ using MasterChef.Mobile.Model;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 
@@ -11,38 +10,32 @@ namespace MasterChef.Mobile.Services
 {
     public class RecipeService : IRecipeService
     {
-        private IConnectionService service;
-        private IImageService iimagemService;
-        private IIngredientesService ingredientesService;
-        public RecipeService(IConnectionService service, IImageService iimagemService, IIngredientesService ingredientesService)
+        private readonly IConnectionService _service;
+        private readonly IImageService _imageService;
+        private readonly IIngredientService _ingredientService;
+        public RecipeService(
+            IConnectionService service,
+            IImageService imageService,
+            IIngredientService ingredientService)
         {
-            this.iimagemService = iimagemService;
-            this.service = service;
-            this.ingredientesService = ingredientesService;
+            this._imageService = imageService;
+            this._service = service;
+            this._ingredientService = ingredientService;
         }
 
-        public bool Atualiza(RecipeModel recipe)
+        public bool Update(RecipeModel recipe)
         {
             try
             {
-                var client = service.GetClient();
-                var url = service.GetUrl("/api/recipe");
+                using var client = _service.GetClient();
+                var url = _service.GetUrl("/api/recipe");
                 var content = new StringContent(JsonConvert.SerializeObject(recipe), Encoding.UTF8, "application/json");
-                using (var cliente = client)
-                {
-                    cliente.Timeout = new TimeSpan(0, 0, 30);
-                    cliente.DefaultRequestHeaders.Clear();
+                client.Timeout = new TimeSpan(0, 0, 30);
 
-                    var response = cliente.PutAsync(url, content);
-                    if (response.Result.IsSuccessStatusCode)
-                    {
-                        if (response.Result.IsSuccessStatusCode)
-                            return true;
-                        else
-                            return false;
-                    }
-                }
-                return false;
+                var response = client.PutAsync(url, content);
+
+                return response.Result.IsSuccessStatusCode;
+
             }
             catch (Exception ex)
             {
@@ -53,19 +46,13 @@ namespace MasterChef.Mobile.Services
 
         public bool Delete(RecipeModel recipe)
         {
-            var client = service.GetClient();
-            var url = service.GetUrl($"/api/recipes/{recipe.Id}");
-            using (var cliente = client)
-            {
-                var response = cliente.DeleteAsync(url);
-                if (response.Result.IsSuccessStatusCode)
-                {
-                    if (response.Result.IsSuccessStatusCode)
-                        return true;
-                    else
-                        return false;
-                }
-            }
+            using var client = _service.GetClient();
+            var url = _service.GetUrl($"/api/recipe/{recipe.Id}");
+            var response = client.DeleteAsync(url);
+
+            return response.Result.IsSuccessStatusCode;
+
+
             return false;
         }
 
@@ -73,54 +60,40 @@ namespace MasterChef.Mobile.Services
         {
             var models = new ResultDto<RecipeModel>();
 
-            var client = service.GetClient();
-            var url = service.GetUrl("/api/recipe");
-            using (var cliente = client)
-            {
-                cliente.Timeout = new TimeSpan(0, 0, 30);
-                cliente.DefaultRequestHeaders.Clear();
+            using var client = _service.GetClient();
+            var url = _service.GetUrl("/api/recipe");
+            client.Timeout = new TimeSpan(0, 0, 30);
 
-                var response = cliente.GetAsync(url);
-                if (response.Result.IsSuccessStatusCode)
+            var response = client.GetAsync(url);
+            if (response.Result.IsSuccessStatusCode)
+            {
+                try
                 {
-                    try
-                    {
-                        var responseString = response.Result.Content.ReadAsStringAsync();
-                        models = JsonConvert.DeserializeObject<ResultDto<RecipeModel>>(responseString.Result);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw ex;
-                    }
+                    var responseString = response.Result.Content.ReadAsStringAsync();
+                    models = JsonConvert.DeserializeObject<ResultDto<RecipeModel>>(responseString.Result);
                 }
-                models.Items = iimagemService.MountImage(models.Items);
-                models.Items = ingredientesService.MontarIngredientes(models.Items);
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
             }
+            models.Items = _imageService.MountImage(models.Items);
+            models.Items = _ingredientService.MountIngredients(models.Items);
             return models.Items;
         }
 
-        public bool Salvar(RecipeModel recipe)
+        public bool Save(RecipeModel recipe)
         {
             try
             {
-                var client = service.GetClient();
-                var url = service.GetUrl("/api/recipe");
+                using var client = _service.GetClient();
+                var url = _service.GetUrl("/api/recipe");
                 var content = new StringContent(JsonConvert.SerializeObject(recipe), Encoding.UTF8, "application/json");
-                using (var cliente = client)
-                {
-                    cliente.Timeout = new TimeSpan(0, 0, 30);
-                    cliente.DefaultRequestHeaders.Clear();
+                client.Timeout = new TimeSpan(0, 0, 30);
 
-                    var response = cliente.PostAsync(url, content);
-                    if (response.Result.IsSuccessStatusCode)
-                    {
-                        if (response.Result.IsSuccessStatusCode)
-                            return true;
-                        else
-                            return false;
-                    }
-                }
-                return false;
+                var response = client.PostAsync(url, content);
+
+                return response.Result.IsSuccessStatusCode;
             }
             catch (Exception ex)
             {

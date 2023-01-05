@@ -24,7 +24,7 @@
                         <Entry x:Name="txtQuantidade" />
                     </StackLayout>
 
-                    <Button Text="Salvar" Margin="10,10,10,10"  x:Name="btnSalvar" Clicked="btnSalvar_Clicked"/>
+                    <Button Text="Save" Margin="10,10,10,10"  x:Name="btnSalvar" Clicked="btnSalvar_Clicked"/>
                 </StackLayout>
             </Grid>
 

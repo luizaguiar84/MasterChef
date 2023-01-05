@@ -26,7 +26,7 @@
 
 
                         <Button Text="UpLoad" Margin="10,10,10,10" BackgroundColor="Green" x:Name="btnUpLoad" Clicked="btnUpLoad_Clicked"/>
-                        <Button Text="Salvar" Margin="10,10,10,10"  x:Name="btnSalvar" Clicked="btnSalvar_Clicked"/>
+                        <Button Text="Save" Margin="10,10,10,10"  x:Name="btnSalvar" Clicked="btnSalvar_Clicked"/>
                     </StackLayout>
                 </StackLayout>
             </Grid>

@@ -12,66 +12,60 @@ namespace MasterChef.Mobile.Services
 {
     public class ImageService : IImageService
     {
-        private IConnectionService service;
+        private readonly IConnectionService _service;
 
         public ImageService(IConnectionService service)
         {
-            this.service = service;
+            this._service = service;
         }
 
         public byte[] GetImage(string url)
         {
-            var models = new byte[0];
-            var client = service.GetClient();
-            var urlApi = service.GetUrl($"/api/imagem/{url}");
-            using (var cliente = client)
-            {
-                cliente.Timeout = new TimeSpan(0, 0, 30);
-                cliente.DefaultRequestHeaders.Clear();
+            var models = Array.Empty<byte>();
+            using var client = _service.GetClient();
 
-                var response = cliente.GetAsync(urlApi);
-                if (response.Result.IsSuccessStatusCode)
-                {
-                    try
-                    {
-                        var responseString = response.Result.Content.ReadAsStringAsync();
-                        models = JsonConvert.DeserializeObject<byte[]>(responseString.Result);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw ex;
-                    }
+            var urlApi = _service.GetUrl($"/api/imagem/{url}");
+            client.Timeout = new TimeSpan(0, 0, 30);
 
-                }
+            var response = client.GetAsync(urlApi);
+            if (!response.Result.IsSuccessStatusCode) 
                 return models;
+            
+            try
+            {
+                var responseString = response.Result.Content.ReadAsStringAsync();
+                models = JsonConvert.DeserializeObject<byte[]>(responseString.Result);
             }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return models;
         }
 
         public List<RecipeModel> MountImage(List<RecipeModel> items)
         {
             foreach (var item in items)
             {
-                var imagemBytes = GetImage(item.Image);
-                item.Photo = new Image();
-                item.Photo.Source = ImageSource.FromStream(() => { return new MemoryStream(imagemBytes); });
+                var bytes = GetImage(item.Image);
+                item.Photo = new Image
+                {
+                    Source = ImageSource.FromStream(() => new MemoryStream(bytes))
+                };
             }
             return items;
         }
-        public bool SaveImage(ImagemModel image)
+        public bool SaveImage(ImageModel image)
         {
             try
             {
-                var client = service.GetClient();
-                var urlApi = service.GetUrl($"/api/Imagem");
+                using var client = _service.GetClient();
+
+                var urlApi = _service.GetUrl($"/api/Image");
                 var content = new StringContent(JsonConvert.SerializeObject(image), Encoding.UTF8, "application/json");
-                using (var cliente = client)
-                {
-                    var response = cliente.PostAsync(urlApi, content);
-                    if (response.Result.IsSuccessStatusCode)
-                        return true;
-                    else
-                        return false;
-                }
+                var response = client.PostAsync(urlApi, content);
+                
+                return response.Result.IsSuccessStatusCode;
             }
             catch (Exception ex)
             {

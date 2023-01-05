@@ -24,7 +24,7 @@
                         <Entry Text="{Binding Model.Quantity}" x:Name="txtQuantidade" />
                     </StackLayout>
 
-                    <Button Text="Salvar" Margin="10,10,10,10"  x:Name="btnSalvar" Clicked="btnSalvar_Clicked"/>
+                    <Button Text="Save" Margin="10,10,10,10"  x:Name="btnSalvar" Clicked="btnSalvar_Clicked"/>
                     <Button Text="Excluir" Margin="10,10,10,10" BackgroundColor="Red" x:Name="btnExcluir" Clicked="btnExcluir_Clicked"/>
                     <Button Text="Novo" Margin="10,10,10,10" BackgroundColor="Gray" x:Name="btnCadastrar" Clicked="btnCadastrar_Clcked"/>
                 </StackLayout>

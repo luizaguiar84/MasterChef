@@ -24,7 +24,6 @@ namespace MasterChef.Mobile.Services
             using (client)
             {
                 client.Timeout = new TimeSpan(0, 0, 30);
-                client.DefaultRequestHeaders.Clear();
 
                 var userContent = new UserModel()
                 {
@@ -34,14 +33,10 @@ namespace MasterChef.Mobile.Services
 
                 var content = new StringContent(JsonConvert.SerializeObject(userContent), Encoding.UTF8, "application/json");
 
-                var response = client.PostAsync(url, content);
+                var response = client.PostAsync(url, content).Result;
 
-                if (response.Result.IsSuccessStatusCode)
-                {
-                    return true;
-                }
+                return response.IsSuccessStatusCode;
             }
-            return false;
         }
 
         public bool CreateNewUser(string email, string password)
@@ -52,7 +47,6 @@ namespace MasterChef.Mobile.Services
             using (client)
             {
                 client.Timeout = new TimeSpan(0, 0, 30);
-                client.DefaultRequestHeaders.Clear();
 
                 var userContent = new UserModel()
                 {

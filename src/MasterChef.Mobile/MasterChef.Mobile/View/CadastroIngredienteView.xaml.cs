@@ -24,7 +24,7 @@ namespace MasterChef.Mobile.View
         {
             int id = lblId.Text == "" ? 0 : Convert.ToInt32(lblId.Text);
             int recipeId = lblIdRecipe.Text == "" ? 0 : Convert.ToInt32(lblIdRecipe.Text);
-            IngredienteModel model = new IngredienteModel()
+            IngredientModel model = new IngredientModel()
             {
                 Id = id,
                 RecipeId = lblIdRecipe.Text == "" ? 0 : Convert.ToInt32(lblIdRecipe.Text),

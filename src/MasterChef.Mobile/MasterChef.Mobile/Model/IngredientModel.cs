@@ -2,7 +2,7 @@
 
 namespace MasterChef.Mobile.Model
 {
-    public class IngredienteModel
+    public class IngredientModel
     {
         public int? Id { get; set; }
         public string Name { get; set; }
