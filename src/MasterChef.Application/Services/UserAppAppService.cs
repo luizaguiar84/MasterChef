@@ -14,9 +14,9 @@ namespace MasterChef.Application.Services
         {
             _repository = repository;
         }
-        public async Task CreateNewUser(User newUser)
+        public void CreateNewUser(User newUser)
         {
-            await _repository.Add(newUser);
+            _repository.Add(newUser);
 
         }
         public async Task<IList<User>> GetAll()

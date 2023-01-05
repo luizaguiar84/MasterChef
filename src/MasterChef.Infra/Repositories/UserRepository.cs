@@ -17,15 +17,13 @@ namespace MasterChef.Infra.Repositories
         {
             _context = context;
         }
-        public async Task<User> Add(User user)
+        public async Task Add(User user)
         {
             user.CreateDate = DateTime.Now;
             user.LastChange = DateTime.Now;
 
-            var response = await _context.Users.AddAsync(user);
+            await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
-
-            return response.Entity;
 
         }
 
@@ -52,15 +50,9 @@ namespace MasterChef.Infra.Repositories
         }
         public async Task<User> GetByUserNameAndPassword(User user)
         {
-            var response = await _context.Users.FirstOrDefaultAsync(u => u.Username.Equals(user.Username) && u.Password.Equals(user.Password));
+            var response = _context.Users.FirstOrDefault(u => u.Username.Equals(user.Username) && u.Password.Equals(user.Password));
 
             return response;
-        }
-        
-        public async Task<User> GetByExternalId(string externalId)
-        {
-            var user = await _context.Users.FirstOrDefaultAsync(r => r.ExternalId == externalId);
-            return user;
         }
     }
 }

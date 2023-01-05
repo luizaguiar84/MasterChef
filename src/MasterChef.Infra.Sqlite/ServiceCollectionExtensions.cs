@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MasterChef.Infra.Sqlite.Context;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace MasterChef.Infra.Sqlite
 {
@@ -13,7 +12,8 @@ namespace MasterChef.Infra.Sqlite
 			services.AddDbContext<MasterChef.Infra.Context.DatabaseContext, SqliteContext>(options =>
 			{
 				options.EnableSensitiveDataLogging();
-				options.ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryPossibleUnintendedUseOfEqualsWarning));
+				//options.ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning));
+				//options.UseLoggerFactory();
 
 				options.UseSqlite(configuration.ConnectionString, options =>
 				{

@@ -9,15 +9,13 @@ $(".idDetalhes").click(function () {
             'id': id
         },
         success: function (data) {
-            
-            $('#tbody').text("");
-            $('#idModoFazer').text("");
-
 
             $('#modalDetalhes').modal('show');
             $('#idTitulo').text(data.title);
-            $('#idModoFazer').append(data.wayOfPrepare.replace(/\n/g, "<br>"));
+            $('#idModoFazer').text(data.wayOfPrepare);
             $('#idimagem').attr("src", 'img/' + data.image);
+
+            $('#tbody').text("");
 
             var ingredients = data.ingredients;
             $.each(ingredients, function (key, value) {
@@ -38,7 +36,7 @@ $(".deletarIdIngrediente").click(function () {
 
     $.ajax({
         type: "Get",
-        url: "/Ingredient/GetById",
+        url: "/Ingredient/BuscarPorReceitaId",
         data: {
             'id': id
         },

@@ -2,7 +2,7 @@ namespace MasterChef.Infra.Enums;
 
 public enum Endpoints
 {
-    Recipe,
+    Recipes,
     Ingredient,
     Token
 }

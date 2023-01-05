@@ -16,7 +16,7 @@ namespace MasterChef.Infra.Sqlite.Migrations
 
             migrationBuilder.RenameColumn(
                 name: "Picture",
-                table: "Recipe",
+                table: "Recipes",
                 newName: "Image");
 
             migrationBuilder.AlterColumn<DateTime>(
@@ -37,7 +37,7 @@ namespace MasterChef.Infra.Sqlite.Migrations
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "LastChange",
-                table: "Recipe",
+                table: "Recipes",
                 type: "TEXT",
                 nullable: true,
                 oldClrType: typeof(DateTimeOffset),
@@ -45,7 +45,7 @@ namespace MasterChef.Infra.Sqlite.Migrations
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "CreateDate",
-                table: "Recipe",
+                table: "Recipes",
                 type: "TEXT",
                 nullable: true,
                 oldClrType: typeof(DateTimeOffset),
@@ -83,7 +83,7 @@ namespace MasterChef.Infra.Sqlite.Migrations
         {
             migrationBuilder.RenameColumn(
                 name: "Image",
-                table: "Recipe",
+                table: "Recipes",
                 newName: "Picture");
 
             migrationBuilder.AlterColumn<DateTimeOffset>(
@@ -108,7 +108,7 @@ namespace MasterChef.Infra.Sqlite.Migrations
 
             migrationBuilder.AlterColumn<DateTimeOffset>(
                 name: "LastChange",
-                table: "Recipe",
+                table: "Recipes",
                 type: "TEXT",
                 nullable: false,
                 defaultValue: new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
@@ -118,7 +118,7 @@ namespace MasterChef.Infra.Sqlite.Migrations
 
             migrationBuilder.AlterColumn<DateTimeOffset>(
                 name: "CreateDate",
-                table: "Recipe",
+                table: "Recipes",
                 type: "TEXT",
                 nullable: false,
                 defaultValue: new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
@@ -172,7 +172,7 @@ namespace MasterChef.Infra.Sqlite.Migrations
                     table.ForeignKey(
                         name: "FK_Tag_Recipes_RecipeId",
                         column: x => x.RecipeId,
-                        principalTable: "Recipe",
+                        principalTable: "Recipes",
                         principalColumn: "Id");
                 });
 
