@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
+             x:Class="MasterChef.Mobile.View.CadastroRecipeView">
+    <ScrollView>
+        <StackLayout>
+            <Grid >
+                <StackLayout HeightRequest="1200">
+
+                    <Label Text="Título" Style="{StaticResource TeamNameLabel}"/>
+                    <Entry Text="{Binding Model.Title}" x:Name="txtTitulo" Margin="10,0,0,10" Style="{StaticResource EntryForm}"/>
+
+                    <Label Text="Descrição" Style="{StaticResource TeamNameLabel}"/>
+                    <Entry Text="{Binding Model.Description}" x:Name="txtDescricao" Margin="10,0,0,10" Style="{StaticResource EntryForm}"/>
+
+                    <Label Text="Modo de preparo" Style="{StaticResource TeamNameLabel}"/>
+                    <Editor Text="{Binding Model.WayOfPrepare}" x:Name="edModoPreparo" Margin="10,0,0,10" Style="{StaticResource EntryForm}"/>
+
+
+                    <StackLayout >
+
+                        <Image x:Name="imgReceita"></Image>
+                        <Label x:Name="lblReceita" Style="{StaticResource TeamNameLabel}"></Label>
+                        <Label x:Name="lblFullPath" IsVisible="false"></Label>
+
+
+                        <Button Text="UpLoad" Margin="10,10,10,10" BackgroundColor="Green" x:Name="btnUpLoad" Clicked="btnUpLoad_Clicked"/>
+                        <Button Text="Salvar" Margin="10,10,10,10"  x:Name="btnSalvar" Clicked="btnSalvar_Clicked"/>
+                    </StackLayout>
+                </StackLayout>
+            </Grid>
+
+        </StackLayout>
+    </ScrollView>
+</ContentPage>
