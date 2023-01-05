@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace MasterChef.Mobile.Interface
 {
-    public interface IImagemService
+    public interface IImageService
     {
         byte[] GetImage(string url);
-        bool SaveImage(ImagemModel imagem);
-        List<RecipeModel> MontarImagem(List<RecipeModel> items);
+        bool SaveImage(ImagemModel image);
+        List<RecipeModel> MountImage(List<RecipeModel> items);
     }
 }

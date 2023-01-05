@@ -12,9 +12,9 @@ namespace MasterChef.Mobile.Services
     public class RecipeService : IRecipeService
     {
         private IConnectionService service;
-        private IImagemService iimagemService;
+        private IImageService iimagemService;
         private IIngredientesService ingredientesService;
-        public RecipeService(IConnectionService service, IImagemService iimagemService, IIngredientesService ingredientesService)
+        public RecipeService(IConnectionService service, IImageService iimagemService, IIngredientesService ingredientesService)
         {
             this.iimagemService = iimagemService;
             this.service = service;
@@ -26,7 +26,7 @@ namespace MasterChef.Mobile.Services
             try
             {
                 var client = service.GetClient();
-                var url = service.GetUrl("/api/recipes");
+                var url = service.GetUrl("/api/recipe");
                 var content = new StringContent(JsonConvert.SerializeObject(recipe), Encoding.UTF8, "application/json");
                 using (var cliente = client)
                 {
@@ -71,10 +71,10 @@ namespace MasterChef.Mobile.Services
 
         public List<RecipeModel> GetAll()
         {
-            var models = new List<RecipeModel>();
+            var models = new ResultDto<RecipeModel>();
 
             var client = service.GetClient();
-            var url = service.GetUrl("/api/recipes");
+            var url = service.GetUrl("/api/recipe");
             using (var cliente = client)
             {
                 cliente.Timeout = new TimeSpan(0, 0, 30);
@@ -86,17 +86,17 @@ namespace MasterChef.Mobile.Services
                     try
                     {
                         var responseString = response.Result.Content.ReadAsStringAsync();
-                        models = JsonConvert.DeserializeObject<IEnumerable<RecipeModel>>(responseString.Result).ToList();
+                        models = JsonConvert.DeserializeObject<ResultDto<RecipeModel>>(responseString.Result);
                     }
                     catch (Exception ex)
                     {
                         throw ex;
                     }
                 }
-                models = iimagemService.MontarImagem(models);
-                models = ingredientesService.MontarIngredientes(models);
+                models.Items = iimagemService.MountImage(models.Items);
+                models.Items = ingredientesService.MontarIngredientes(models.Items);
             }
-            return models;
+            return models.Items;
         }
 
         public bool Salvar(RecipeModel recipe)
@@ -104,7 +104,7 @@ namespace MasterChef.Mobile.Services
             try
             {
                 var client = service.GetClient();
-                var url = service.GetUrl("/api/recipes");
+                var url = service.GetUrl("/api/recipe");
                 var content = new StringContent(JsonConvert.SerializeObject(recipe), Encoding.UTF8, "application/json");
                 using (var cliente = client)
                 {

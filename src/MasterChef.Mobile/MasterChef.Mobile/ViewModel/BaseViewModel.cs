@@ -1,4 +1,4 @@
-﻿using MasterChef.Mobile.Initillizer;
+﻿using MasterChef.Mobile.Initializer;
 using MasterChef.Mobile.Interface;
 using MasterChef.Mobile.Model;
 using MasterChef.Mobile.Services;
@@ -13,14 +13,14 @@ namespace MasterChef.Mobile.ViewModel
     public class BaseViewModel : INotifyPropertyChanged
     {
         public IRecipeService recipeService;
-        public IImagemService imageService;
+        public IImageService imageService;
         public IIngredientesService ingredientesService;
         public BaseViewModel()
         {
             var initializer = new ContainerInitializer();
-            recipeService = initializer.recipeService;
-            imageService = initializer.imagemService;
-            ingredientesService= initializer.ingredientesService;
+            recipeService = initializer.RecipeService;
+            imageService = initializer.ImageService;
+            ingredientesService= initializer.IngredientsService;
         }
         public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
         public bool IsNotBusy { get => !isBusy; }

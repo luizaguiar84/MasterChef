@@ -4,8 +4,8 @@ namespace MasterChef.Mobile.Interface
 {
     public interface IConnectionService
     {
-        HttpClient client { get; set; }
-        string url { get; set; }
+        HttpClient Client { get; set; }
+        string Url { get; set; }
         HttpClient GetClient();
         string GetUrl(string partialUrl);
         HttpClientHandler GetInsecureHandler();

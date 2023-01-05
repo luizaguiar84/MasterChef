@@ -2,34 +2,34 @@
 using MasterChef.Mobile.Services;
 using SimpleInjector;
 
-namespace MasterChef.Mobile.Initillizer
+namespace MasterChef.Mobile.Initializer
 {
     public class ContainerInitializer
     {
-        public  IConnectionService service { get; set; }
-        public  IRecipeService recipeService { get; set; }
-        public  IImagemService imagemService { get; set; }
-        public  IIngredientesService ingredientesService { get; set; }
+        public  IConnectionService Service { get; set; }
+        public  IRecipeService RecipeService { get; set; }
+        public  IImageService ImageService { get; set; }
+        public  IIngredientesService IngredientsService { get; set; }
         public IUserService UserService { get; set; }
 
         public ContainerInitializer()
         {
-            InicializarContainers();
+            InitializeContainers();
         }
 
-        public void InicializarContainers()
+        public void InitializeContainers()
         {
             var container = new Container();
             container.Register<IConnectionService, ConnectionService>(Lifestyle.Transient);
             container.Register<IRecipeService, RecipeService>(Lifestyle.Transient);
-            container.Register<IImagemService, ImagemService>(Lifestyle.Transient);
+            container.Register<IImageService, ImageService>(Lifestyle.Transient);
             container.Register<IIngredientesService, IngredienteService>(Lifestyle.Transient);
             container.Register<IUserService, UserService>(Lifestyle.Transient);
             container.Verify();
-            service = container.GetInstance<IConnectionService>();
-            recipeService = container.GetInstance<IRecipeService>();
-            imagemService = container.GetInstance<IImagemService>();
-            ingredientesService = container.GetInstance<IIngredientesService>();
+            Service = container.GetInstance<IConnectionService>();
+            RecipeService = container.GetInstance<IRecipeService>();
+            ImageService = container.GetInstance<IImageService>();
+            IngredientsService = container.GetInstance<IIngredientesService>();
             UserService = container.GetInstance<IUserService>();
         }
     }

@@ -47,7 +47,7 @@ namespace MasterChef.Mobile.Services
             }
         }
 
-        public List<RecipeModel> MontarImagem(List<RecipeModel> items)
+        public List<RecipeModel> MountImage(List<RecipeModel> items)
         {
             foreach (var item in items)
             {
@@ -57,13 +57,13 @@ namespace MasterChef.Mobile.Services
             }
             return items;
         }
-        public bool SaveImage(ImagemModel imagem)
+        public bool SaveImage(ImagemModel image)
         {
             try
             {
                 var client = service.GetClient();
                 var urlApi = service.GetUrl($"/api/Imagem");
-                var content = new StringContent(JsonConvert.SerializeObject(imagem), Encoding.UTF8, "application/json");
+                var content = new StringContent(JsonConvert.SerializeObject(image), Encoding.UTF8, "application/json");
                 using (var cliente = client)
                 {
                     var response = cliente.PostAsync(urlApi, content);

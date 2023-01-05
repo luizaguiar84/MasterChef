@@ -98,9 +98,9 @@ namespace MasterChef.Mobile.Services
 
         public List<IngredienteModel> GetById(int id)
         {
-            var models = new List<IngredienteModel>();
+            var models = new ResultDto<IngredienteModel>();
             var client = service.GetClient();
-            var url = service.GetUrl($"/api/Ingredient/{id}");
+            var url = service.GetUrl($"/api/Ingredient/getbyrecipeId/{id}");
             using (var cliente = client)
             {
                 cliente.Timeout = new TimeSpan(0, 0, 30);
@@ -112,7 +112,7 @@ namespace MasterChef.Mobile.Services
                     try
                     {
                         var responseString = response.Result.Content.ReadAsStringAsync();
-                        models = JsonConvert.DeserializeObject<IEnumerable<IngredienteModel>>(responseString.Result).ToList();
+                        models = JsonConvert.DeserializeObject<ResultDto<IngredienteModel>>(responseString.Result);
                     }
                     catch (Exception ex)
                     {
@@ -120,7 +120,7 @@ namespace MasterChef.Mobile.Services
                     }
                 }
             }
-            return models;
+            return models.Items;
         }
 
         public List<RecipeModel> MontarIngredientes(List<RecipeModel> recipe)

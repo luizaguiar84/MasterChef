@@ -5,12 +5,12 @@ namespace MasterChef.Mobile.Services
 {
     public class ConnectionService : IConnectionService
     {
-        public HttpClient client { get; set; }
-        public string url { get; set; }
+        public HttpClient Client { get; set; }
+        public string Url { get; set; }
 
         public ConnectionService()
         {
-            client = new HttpClient();
+            Client = new HttpClient();
         }
         public HttpClient GetClient()
         {

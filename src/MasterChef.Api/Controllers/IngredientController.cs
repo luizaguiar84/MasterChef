@@ -17,7 +17,7 @@ namespace MasterChef.Api.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     [EnableCors("Default")]
     public class IngredientController : ControllerBase
     {

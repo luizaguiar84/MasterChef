@@ -1,4 +1,4 @@
-﻿using MasterChef.Mobile.Initillizer;
+﻿using MasterChef.Mobile.Initializer;
 using MasterChef.Mobile.Services;
 using MasterChef.Mobile.View;
 using System;

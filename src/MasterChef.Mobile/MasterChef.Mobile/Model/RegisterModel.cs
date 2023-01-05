@@ -1,4 +1,4 @@
-﻿using MasterChef.Mobile.Initillizer;
+﻿using MasterChef.Mobile.Initializer;
 using System;
 using System.ComponentModel;
 using System.Windows.Input;
