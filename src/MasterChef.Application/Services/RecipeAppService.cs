@@ -101,7 +101,7 @@ public class RecipeAppService : IRecipeAppService
         var response =
             await _cache.GetOrCreateAsync(cacheKey, (entry) =>
             {
-                entry.AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(20);
+                entry.AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(2);
                 return _recipeRepository.GetAll(query);
             });
 
