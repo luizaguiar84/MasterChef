@@ -1,4 +1,4 @@
-﻿@model MasterChef.UI.Models.IngredientModel
+﻿@model MasterChef.Domain.Models.IngredientModel
 
 
 <form asp-controller="Ingredient" asp-action="Delete" method="post">
@@ -7,7 +7,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Desja remover esse item?</h5>
+                    <h5 class="modal-title">Deseja remover esse item?</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -16,7 +16,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cancelar</button>
                     <input type="submit" class="btn btn-danger" value="Excluir" />
                 </div>
             </div>

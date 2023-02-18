@@ -1,10 +1,11 @@
 ﻿using FluentValidation;
 using MasterChef.Domain.Entities;
+using MasterChef.Dto.Dto;
 using static System.String;
 
 namespace MasterChef.Application.Validations
 {
-    public class RecipeValidations : AbstractValidator<Recipe>
+    public class RecipeValidations : AbstractValidator<RecipeDto>
     {
         public RecipeValidations()
         {

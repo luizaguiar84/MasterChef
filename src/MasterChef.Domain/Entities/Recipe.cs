@@ -1,3 +1,4 @@
+#nullable enable
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -19,7 +20,6 @@ public class Recipe : BaseEntity
     public ICollection<Ingredient> Ingredients { get; set; }
     
     [Display(Name = "Imagem")]
-    public string Image { get; set; }
-
+    public string? Image { get; set; }
+    public int? UserId { get; set; }
 }
-

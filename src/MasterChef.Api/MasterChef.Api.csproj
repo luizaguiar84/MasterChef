@@ -4,6 +4,11 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DocumentationFile>bin\Debug\MasterChef.Api.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,6 +28,7 @@
     <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.25.1" />
     <PackageReference Include="FluentValidation" Version="11.4.0" />
   </ItemGroup>
@@ -30,9 +36,14 @@
   <ItemGroup>
     <ProjectReference Include="..\MasterChef.Application\MasterChef.Application.csproj" />
     <ProjectReference Include="..\MasterChef.Domain\MasterChef.Domain.csproj" />
-    <ProjectReference Include="..\MasterChef.Infra.Postgres\MasterChef.Infra.Postgres.csproj" />
     <ProjectReference Include="..\MasterChef.Infra.Sqlite\MasterChef.Infra.Sqlite.csproj" />
     <ProjectReference Include="..\MasterChef.Infra.SqlServer\MasterChef.Infra.SqlServer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\.dockerignore">
+      <Link>.dockerignore</Link>
+    </Content>
   </ItemGroup>
     
 </Project>

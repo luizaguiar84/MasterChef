@@ -1,14 +1,16 @@
 ﻿using MasterChef.Domain.Entities;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using MasterChef.Dto.Dto;
+using MasterChef.Dto.Resources;
 
 namespace MasterChef.Infra.Interfaces
 {
     public interface IRecipeRepository
     {
-        Task<Recipe> Add(Recipe newRecipe);
-        Task<IList<Recipe>> GetAll();
-        Task<Recipe> GetById(int id);
-        Task Update(Recipe entity);
+        Task<Recipe> AddAsync(Recipe recipe);
+        Task<ResultDto<Recipe>> GetAll(RecipeRequestDto query);
+        Task<Recipe> GetByIdAsync(int id);
+        void Update(Recipe entity);
+        Task<ResultDto<Recipe>> GetAllRecipesByUserId(RecipeRequestDto key, string id);
     }
 }
