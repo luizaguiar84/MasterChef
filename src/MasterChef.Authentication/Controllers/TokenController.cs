@@ -3,7 +3,7 @@ using MasterChef.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MasterChef.Api.Controllers
+namespace MasterChef.Authentication.Controllers
 {
     /// <summary>
     /// Token

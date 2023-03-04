@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterChef.Mobile.iOS", "sr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mobile", "Mobile", "{6B873F85-4FDF-466F-A193-0A1883169BCA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterChef.Authentication", "src\MasterChef.Authentication\MasterChef.Authentication.csproj", "{8B72B3DD-DFA2-4E8D-A248-D21B1F78D6D7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -205,6 +207,18 @@ Global
 		{56AD3564-B59E-437E-9523-9233AAD1A39A}.Release|iPhone.Build.0 = Release|iPhone
 		{56AD3564-B59E-437E-9523-9233AAD1A39A}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
 		{56AD3564-B59E-437E-9523-9233AAD1A39A}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
+		{8B72B3DD-DFA2-4E8D-A248-D21B1F78D6D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B72B3DD-DFA2-4E8D-A248-D21B1F78D6D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B72B3DD-DFA2-4E8D-A248-D21B1F78D6D7}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{8B72B3DD-DFA2-4E8D-A248-D21B1F78D6D7}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{8B72B3DD-DFA2-4E8D-A248-D21B1F78D6D7}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{8B72B3DD-DFA2-4E8D-A248-D21B1F78D6D7}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{8B72B3DD-DFA2-4E8D-A248-D21B1F78D6D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B72B3DD-DFA2-4E8D-A248-D21B1F78D6D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B72B3DD-DFA2-4E8D-A248-D21B1F78D6D7}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{8B72B3DD-DFA2-4E8D-A248-D21B1F78D6D7}.Release|iPhone.Build.0 = Release|Any CPU
+		{8B72B3DD-DFA2-4E8D-A248-D21B1F78D6D7}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{8B72B3DD-DFA2-4E8D-A248-D21B1F78D6D7}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

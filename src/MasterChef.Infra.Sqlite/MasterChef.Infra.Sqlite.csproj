@@ -13,8 +13,4 @@
     <ProjectReference Include="..\MasterChef.Application\MasterChef.Application.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Migrations" />
-  </ItemGroup>
-
 </Project>
