@@ -1,11 +1,14 @@
+using System.Reflection;
 using MasterChef.Application.Interfaces;
 using MasterChef.Application.Services;
 using MasterChef.Infra;
 using MasterChef.Infra.Enums;
+using MasterChef.Infra.Helpers.ExtensionMethods;
 using MasterChef.Infra.Interfaces;
 using MasterChef.Infra.Repositories;
 using MasterChef.Infra.Sqlite;
 using MasterChef.Infra.SqlServer;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +35,11 @@ switch (databaseConfiguration.DatabaseType)
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Configuration.AddSerilogApi();
+builder.Host.UseSerilog(Log.Logger);
+
+Console.Title = Assembly.GetEntryAssembly().GetName().Name;
 
 var app = builder.Build();
 
