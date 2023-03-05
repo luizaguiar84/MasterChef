@@ -36,7 +36,12 @@ switch (databaseConfiguration.DatabaseType)
 }
 
 builder.Configuration.AddSerilogApi();
-builder.Host.UseSerilog(Log.Logger);
+
+builder.Services.AddElasticsearch(builder.Configuration);
+
+builder.Logging.ClearProviders();
+
+builder.Host.UseSerilog(Log.Logger, true);
 
 Console.Title = Assembly.GetEntryAssembly().GetName().Name;
 

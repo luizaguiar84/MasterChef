@@ -6,6 +6,8 @@ using Serilog.Exceptions;
 using Serilog.Filters;
 using Serilog.Sinks.SystemConsole.Themes;
 using System.Reflection;
+using Elastic.CommonSchema.Serilog;
+using Serilog.Sinks.Elasticsearch;
 
 namespace MasterChef.Infra.Helpers.ExtensionMethods
 {
@@ -33,6 +35,15 @@ namespace MasterChef.Infra.Helpers.ExtensionMethods
                     rollingInterval: RollingInterval.Day,
                     outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u4}] [{HttpContextId}] {SourceContext} {Message}{NewLine}{Exception}"
                     ))
+                .WriteTo.Async(writeTo => writeTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(configuration["ElasticsearchSettings:uri"]))
+                {
+                    TypeName = null,
+                    AutoRegisterTemplate = true,
+                    IndexFormat = configuration["ElasticsearchSettings:defaultIndex"],
+                    BatchAction = ElasticOpType.Create,
+                    CustomFormatter = new EcsTextFormatter(),
+                    ModifyConnectionSettings = x => x.BasicAuthentication(configuration["ElasticsearchSettings:username"], configuration["ElasticsearchSettings:password"])
+                }))
                 .CreateLogger();
         }
 
