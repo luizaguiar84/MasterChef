@@ -1,11 +1,6 @@
 # Projeto MasterChef
 
-
 &nbsp;
-## Inicialização do projeto:
-
-&nbsp;
-
 ## Importante:
 > Antes de iniciar o projeto, ir na pasta 
 > ***\container_files\ElasticStack*** e subir os containers do elastic Search / Kibana com o seguinte comando:
@@ -13,11 +8,9 @@
 ```bash
 docker-compose up
 ```
-
 &nbsp;
 
----
-
+## Inicialização do projeto:
 &nbsp;
 
 Para iniciar o projeto, ir em **solução**, **propriedades** e ativar ***"Varios Projetos de inicialização"***
