@@ -1,7 +1,5 @@
 # Projeto MasterChef
 
-## Projeto de final do curso de desenvolvimento WEB do MBA FIAP
-
 
 &nbsp;
 ## Inicialização do projeto:
