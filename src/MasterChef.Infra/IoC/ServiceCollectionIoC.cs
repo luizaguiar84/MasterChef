@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using MasterChef.Domain;
+using MasterChef.Infra.Clients;
+using MasterChef.Infra.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -34,6 +36,7 @@ namespace MasterChef.Infra.IoC
             services.AddControllersWithViews();
             services.AddClientDependency();
 
+            
             services.AddMemoryCache();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

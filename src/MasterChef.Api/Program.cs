@@ -1,4 +1,5 @@
 using System.Reflection;
+using Elastic.Apm.AspNetCore;
 using MasterChef.Api.Controllers.Config;
 using MasterChef.Application;
 using MasterChef.Infra;
@@ -56,6 +57,8 @@ if (app.Environment.IsDevelopment())
         s.DisplayRequestDuration();
     });
 }
+
+app.UseElasticApm(builder.Configuration);
 
 app.UseResponseCompression();
 

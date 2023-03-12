@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using MasterChef.Infra.Interfaces;
 using RestSharp;
 
@@ -6,7 +7,7 @@ namespace MasterChef.Infra.Clients
 {
     public class RestRequestClient : IRestRequestClient
     {
-        public RequestClientFactory RequestFactory { get; set; }
+        private RequestClientFactory RequestFactory { get; set; }
 
         public RestRequestClient()
         {
@@ -62,6 +63,5 @@ namespace MasterChef.Infra.Clients
 
             return await client.DeleteAsync(request);
         }
-
     }
 }
