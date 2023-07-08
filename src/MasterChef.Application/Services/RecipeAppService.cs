@@ -17,7 +17,6 @@ namespace MasterChef.Application.Services;
 
 public class RecipeAppService : IRecipeAppService
 {
-    private readonly IIngredientAppService _ingredientAppService;
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
@@ -30,7 +29,6 @@ public class RecipeAppService : IRecipeAppService
         IValidator<RecipeDto> validation,
         IEventService eventService,
         IRecipeRepository recipeRepository,
-        IIngredientAppService ingredientAppService,
         IUserRepository userRepository,
         IMapper mapper,
         IUnitOfWork unitOfWork,
@@ -39,7 +37,6 @@ public class RecipeAppService : IRecipeAppService
         _validation = validation;
         _eventService = eventService;
         _recipeRepository = recipeRepository;
-        _ingredientAppService = ingredientAppService;
         _userRepository = userRepository;
         _mapper = mapper;
         _unitOfWork = unitOfWork;

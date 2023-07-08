@@ -38,7 +38,8 @@ switch (databaseConfiguration.DatabaseType)
 
 builder.Configuration.AddSerilogApi();
 
-builder.Services.AddElasticsearch(builder.Configuration);
+if (Convert.ToBoolean(builder.Configuration["useElasticSearch"]))
+    builder.Services.AddElasticsearch(builder.Configuration);
 
 builder.Logging.ClearProviders();
 
@@ -52,13 +53,11 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(s =>
-    {
-        s.DisplayRequestDuration();
-    });
+    app.UseSwaggerUI(s => { s.DisplayRequestDuration(); });
 }
 
-app.UseElasticApm(builder.Configuration);
+if (Convert.ToBoolean(builder.Configuration["useElasticSearch"]))
+    app.UseElasticApm(builder.Configuration);
 
 app.UseResponseCompression();
 
