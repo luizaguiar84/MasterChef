@@ -55,6 +55,20 @@ public class RecipeAppServiceTests
         
         Assert.NotNull(recipe);
     }
+    [Fact]
+    public async Task GetRecipeByIdWithInvalidId()
+    {
+        var id = 1;
+        
+        var recipeResponse = new Recipe(){Id = id};
+
+        _recipeRepository.Setup(r => r.GetByIdAsync(id))
+            .ReturnsAsync(recipeResponse);
+
+        var recipe = await _service.GetById(id + 1);
+        
+        Assert.Null(recipe);
+    }
     
     [Fact]
     public async Task InactivateRecipes()
