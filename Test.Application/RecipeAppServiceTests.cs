@@ -51,9 +51,9 @@ public class RecipeAppServiceTests
         _recipeRepository.Setup(r => r.GetByIdAsync(id))
             .ReturnsAsync(recipeResponse);
 
-        var x = await _service.GetById(id);
+        var recipe = await _service.GetById(id);
         
-        Assert.NotNull(x);
+        Assert.NotNull(recipe);
     }
     
     [Fact]
