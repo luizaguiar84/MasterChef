@@ -61,14 +61,14 @@ public class RecipeAppServiceTests
     {
         var id = 1;
 
-        var ActiveRecipe = new Recipe()
+        var activeRecipe = new Recipe()
         {
             Active = true,
             Id = id
         };
 
         _recipeRepository.Setup(r => r.GetByIdAsync(id))
-            .ReturnsAsync(ActiveRecipe);
+            .ReturnsAsync(activeRecipe);
             
         var recipe = await _service.Inactivate(id);
         
