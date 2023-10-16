@@ -12,15 +12,18 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\MasterChef.Application\MasterChef.Application.csproj" />
       <ProjectReference Include="..\MasterChef.Infra.Sqlite\MasterChef.Infra.Sqlite.csproj" />
       <ProjectReference Include="..\MasterChef.Infra.SqlServer\MasterChef.Infra.SqlServer.csproj" />
+    </ItemGroup>
+
+
+
+
+    <ItemGroup>
+      <Content Include="..\..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
     </ItemGroup>
 
 </Project>

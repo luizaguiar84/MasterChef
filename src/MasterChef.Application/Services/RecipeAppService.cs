@@ -32,7 +32,8 @@ public class RecipeAppService : IRecipeAppService
         IUserRepository userRepository,
         IMapper mapper,
         IUnitOfWork unitOfWork,
-        IMemoryCache cache)
+        IMemoryCache cache
+        )
     {
         _validation = validation;
         _eventService = eventService;

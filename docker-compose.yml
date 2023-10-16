@@ -1,0 +1,53 @@
+﻿version: '3'
+
+services:
+  masterchef.ui:
+    image: masterchef.ui
+    container_name: masterchef.ui
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+    build:
+      context: .
+      dockerfile: src/MasterChef.UI/Dockerfile
+    ports:
+      - "7000:80"
+      - "7001:443"
+    depends_on:
+      - masterchef.api
+      - masterchef.authentication
+    networks:
+      - local
+  masterchef.api:
+    image: masterchef.api
+    container_name: masterchef.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+    build:
+      context: .
+      dockerfile: src/MasterChef.Api/Dockerfile
+    ports:
+      - "5000:80"
+      - "5001:443"
+    depends_on:
+      - masterchef.authentication
+    networks:
+      - local
+  masterchef.authentication:
+    image: masterchef.authentication
+    container_name: masterchef.authentication
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+    build:
+      context: .
+      dockerfile: src/MasterChef.Authentication/Dockerfile
+    ports:
+      - "6000:80"
+      - "6001:443"
+    networks:
+      - local
+networks:
+  local:
+    driver: bridge

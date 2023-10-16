@@ -3,11 +3,10 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:6.0-focal AS build
+RUN dotnet dev-certs https
 WORKDIR /src
-COPY ["src/MasterChef.UI/MasterChef.UI.csproj", "src/MasterChef.UI/"]
-COPY ["src/MasterChef.Infra/MasterChef.Infra.csproj", "src/MasterChef.Infra/"]
-COPY ["src/MasterChef.Domain/MasterChef.Domain.csproj", "src/MasterChef.Domain/"]
+COPY . .
 RUN dotnet restore "src/MasterChef.UI/MasterChef.UI.csproj"
 COPY . .
 WORKDIR "/src/src/MasterChef.UI"
@@ -18,5 +17,6 @@ RUN dotnet publish "MasterChef.UI.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
+COPY --from=publish /root/.dotnet/corefx/cryptography/x509stores/my/* /root/.dotnet/corefx/cryptography/x509stores/my/
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "MasterChef.UI.dll"]
